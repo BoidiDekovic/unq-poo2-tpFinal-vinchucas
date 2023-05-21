@@ -10,10 +10,11 @@ public class Usuario {
 	private EstadoUsuario estado;
 	private List<Muestra> muestras;
 	
-	public Usuario(EstadoUsuario estado) {
+	public Usuario() {
 		super();
-		this.estado = estado;
+		this.estado = new UsuarioBasico();
 		this.muestras = new ArrayList<Muestra>();
 	}
 
+	
 }
