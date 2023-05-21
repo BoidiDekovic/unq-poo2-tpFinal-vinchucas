@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Muestra.Muestra;
+import ZonaDeCobertura.Distancia;
+import ZonaDeCobertura.ZonaDeCobertura;
 
 public class Sistema {
 	
@@ -16,7 +18,10 @@ public class Sistema {
 	}
 	
 
-	
+	public List<Muestra>muestraDentroDe(Distancia distancia , Muestra muestra ) {
+		
+		return
+	}
 	
 	
 }

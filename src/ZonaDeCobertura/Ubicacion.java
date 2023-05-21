@@ -17,22 +17,26 @@ public class Ubicacion {
 
 	private List<Ubicacion> ubicacionesAMenosDistanciaDe(Distancia d, List<Ubicacion> lis){
 		
+		return
 	}
 	
-	private List<Muestra> muestrasAMenosDistanciaDe(Distancia d, Muestra m){
+	private List<Muestra> muestrasAMenosDistanciaDe(Distancia distancia, Muestra muestra){
 		
+		return
 	}
 	
-	private Distancia calcularDistanciaMetros(Ubicacion u) {
+	private Distancia calcularDistanciaMetros(Ubicacion ubicacion) {
 		
+		return
 	}
 	
-	private Distancia calcularDistanciaKilometros(Ubicacion u) {
+	private Distancia calcularDistanciaKilometros(Ubicacion ubicacion) {
 		
+		return
 	}
 	
-	private List<Ubicacion> ubicacionAMenosDe(Distancia d, List<Ubicacion> lis){
-		
+	private List<Ubicacion> ubicacionAMenosDe(Distancia distancia, List<Ubicacion> ubicaciones){
+		return
 	}
 	
 	
