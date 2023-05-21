@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import Sistema.Sistema;
+import ZonaDeCobertura.Ubicacion;
+
 public class Muestra {
 
 	private Sistema sistema;
