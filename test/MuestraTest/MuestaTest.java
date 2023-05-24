@@ -2,7 +2,7 @@ package MuestraTest;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -90,8 +90,13 @@ class MuestaTest {
 	void testCuandoUnaMuestraRecibeUnaOpinion() {
 		Opinion opinion = mock(Opinion.class);
 		muestra.agregarOpinion(opinion);
-		assertEquals(1, muestra.getOpiniones().size());
-		assertTrue(muestra.getOpiniones().contains(opinion));
+//		assertEquals(1, muestra.getOpiniones().size());
+//		assertTrue(muestra.getOpiniones().contains(opinion));
+		verify(estadoMuestra, times(1)).agregarOpinion(opinion, muestra);
 	}
+	
+	
+	
+	
 
 }

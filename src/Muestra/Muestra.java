@@ -65,7 +65,7 @@ public class Muestra {
 	}
 
 	public void agregarOpinion(Opinion opinion) {
-		this.opiniones.add(opinion);
+		this.estadoMuestra.agregarOpinion(opinion, this);
 	}
 	
 	
