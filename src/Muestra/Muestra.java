@@ -35,6 +35,44 @@ public class Muestra {
 		this.estadoMuestra = estadoMuestra;
 		this.opiniones = new ArrayList<Opinion>();
 	}
+
+	public TipoOpinion getPosibleVinchuca() {
+		return posibleVinchuca;
+	}
+
+	public LocalDate getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public LocalDate getFechaUltimaVotacion() {
+		return fechaUltimaVotacion;
+	}
+
+	public List<Opinion> getOpiniones() {
+		return opiniones;
+	}
+
+	public Ubicacion getUbicacion() {
+		return ubicacion;
+	}
+
+	public Usuario getUsuarioAutor() {
+		return usuarioAutor;
+	}
+
+	public EstadoMuestra getEstadoMuestra() {
+		return estadoMuestra;
+	}
+
+	public void agregarOpinion(Opinion opinion) {
+		this.opiniones.add(opinion);
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
