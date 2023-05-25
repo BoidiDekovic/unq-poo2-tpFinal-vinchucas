@@ -11,7 +11,7 @@ import ZonaDeCobertura.Ubicacion;
 public class Muestra {
 
 	private Sistema sistema;
-	private TipoOpinion posibleVinchuca ;
+	private TipoOpinion vinchucaSegunAutor ;
 	private String foto;
 	private LocalDate fechaCreacion;
 	private LocalDate fechaUltimaVotacion ;
@@ -22,11 +22,11 @@ public class Muestra {
 	
 	
 	
-	public Muestra(Sistema sistema, TipoOpinion posibleVinchuca, String foto, LocalDate fechaCreacion,
+	public Muestra(Sistema sistema, TipoOpinion vinchucaSegunAutor, String foto, LocalDate fechaCreacion,
 			LocalDate fechaUltimaVotacion, Ubicacion ubicacion, Usuario usuarioAutor, EstadoMuestra estadoMuestra) {
 		super();
 		this.sistema = sistema;
-		this.posibleVinchuca = posibleVinchuca;
+		this.vinchucaSegunAutor = vinchucaSegunAutor;
 		this.foto = foto;
 		this.fechaCreacion = fechaCreacion;
 		this.fechaUltimaVotacion = fechaUltimaVotacion;
@@ -36,8 +36,8 @@ public class Muestra {
 		this.opiniones = new ArrayList<Opinion>();
 	}
 
-	public TipoOpinion getPosibleVinchuca() {
-		return posibleVinchuca;
+	public TipoOpinion getVinchucaSegunAutor() {
+		return vinchucaSegunAutor;
 	}
 
 	public LocalDate getFechaCreacion() {
@@ -66,6 +66,19 @@ public class Muestra {
 
 	public void agregarOpinion(Opinion opinion) {
 		this.estadoMuestra.agregarOpinion(opinion, this);
+	}
+	
+	public void agregarOpinionAMuestraNoVerificada(Opinion opinion) {
+		this.opiniones.add(opinion);
+	}
+
+	public void resultadoActual() {
+		this.estadoMuestra.resultadoActual(this);
+	}
+
+	public void calcularVerificacion() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

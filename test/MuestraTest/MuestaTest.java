@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import Muestra.EstadoMuestra;
 import Muestra.Muestra;
+import Muestra.MuestraNoVerificada;
+import Muestra.MuestraVerificada;
 import Muestra.Opinion;
 import Muestra.TipoOpinion;
 import Sistema.Sistema;
@@ -27,7 +29,7 @@ class MuestaTest {
 	private Sistema sistema;
 	private TipoOpinion posibleVinchuca;
 	private Usuario usuarioAutor;
-	private EstadoMuestra estadoMuestra;
+	private MuestraNoVerificada estadoMuestraNoVerificada;
 	private Ubicacion ubicacion;
 
 	@BeforeEach
@@ -40,11 +42,11 @@ class MuestaTest {
 		sistema = mock(Sistema.class);
 		posibleVinchuca = TipoOpinion.VINCHUCAGUASAYANA;
 		usuarioAutor = mock(Usuario.class);
-		estadoMuestra = mock(EstadoMuestra.class);
+		estadoMuestraNoVerificada = mock(MuestraNoVerificada.class);
 		ubicacion = mock(Ubicacion.class);
 		
 		// SUT
-		muestra = new Muestra(sistema, posibleVinchuca, foto, fechaCreacion, fechaUltimaVotacion, ubicacion, usuarioAutor, estadoMuestra);
+		muestra = new Muestra(sistema, posibleVinchuca, foto, fechaCreacion, fechaUltimaVotacion, ubicacion, usuarioAutor, estadoMuestraNoVerificada);
 
 	}
 	
@@ -59,44 +61,71 @@ class MuestaTest {
 	}
 	
 	@Test
-	void testCuandoUnaMuestraIniciaNoTieneOpiniones() {
+	public void testCuandoUnaMuestraIniciaNoTieneOpiniones() {
 		assertTrue(muestra.getOpiniones().isEmpty());
 	}
 	
 	@Test
-	void testCuandoUnaMuestraTieneUbicacion() {
+	public void testCuandoUnaMuestraTieneUbicacion() {
 		assertEquals(ubicacion, muestra.getUbicacion());
 	}
 	
 	@Test
-	void testCuandoUnaMuestraTieneUnaPosibleVinchuca() {
-		assertEquals(posibleVinchuca, muestra.getPosibleVinchuca());
+	public void testCuandoUnaMuestraTieneUnaPosibleVinchuca() {
+		assertEquals(posibleVinchuca, muestra.getVinchucaSegunAutor());
 	}
 	
 	@Test
-	void testCuandoUnaMuestraTieneUnEstadoMuestra() {
-		assertEquals(estadoMuestra, muestra.getEstadoMuestra());
+	public void testCuandoUnaMuestraTieneUnEstadoMuestra() {
+		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
 	}
 	
 	@Test
-	void testCuandoUnaMuestraTieneUnaUbicacion() {
+	public void testCuandoUnaMuestraTieneUnaUbicacion() {
 		assertEquals(ubicacion, muestra.getUbicacion());
 	}
 	
 	
-	
-	
 	@Test
-	void testCuandoUnaMuestraRecibeUnaOpinion() {
+	public void testCuandoUnaMuestraRecibeUnaOpinion() {
 		Opinion opinion = mock(Opinion.class);
 		muestra.agregarOpinion(opinion);
 //		assertEquals(1, muestra.getOpiniones().size());
 //		assertTrue(muestra.getOpiniones().contains(opinion));
-		verify(estadoMuestra, times(1)).agregarOpinion(opinion, muestra);
+		verify(estadoMuestraNoVerificada, times(1)).agregarOpinion(opinion, muestra);
 	}
 	
+	@Test
+	public void testUnaMuestraTieneSuResultadoActual() {
+		muestra.resultadoActual();
+		verify(estadoMuestraNoVerificada, times(1)).resultadoActual(muestra);
+	}
+	
+	@Test
+	public void testCalcularVerificacionDeMuestraCuandoNoEstaVerificada() {
+		
+		assertTrue(muestra.getOpiniones().isEmpty());
+		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+		
+		muestra.calcularVerificacion();
+		
+		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+	}
+	
+//	Agregarlo en los test de estado
+//	@Test
+//	public void testCalcularVerificacionDeMuestraCuandoEstaVerificada() {
+//		
+//		assertTrue(muestra.getOpiniones().isEmpty());
+//		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+//		
+//		muestra.agregarOpinion(null);
+//		
+//		muestra.calcularVerificacion();
+//		
+//		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+//	}
 	
 	
 	
-
 }
