@@ -18,6 +18,7 @@ import Muestra.Opinion;
 import Muestra.TipoOpinion;
 import Sistema.Sistema;
 import Usuario.Usuario;
+import Usuario.UsuarioBasico;
 import Usuario.UsuarioExperto;
 import ZonaDeCobertura.Ubicacion;
 
@@ -103,7 +104,7 @@ class MuestaTest {
 	}
 	
 	@Test
-	public void testCalcularVerificacionDeMuestraCuandoNoEstaVerificada() {
+	public void testCuandoCalculoLaVerificacionYNoHayOpinionesLaMuestraNoEstaVerificada() {
 		
 		assertTrue(muestra.getOpiniones().isEmpty());
 		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
@@ -114,7 +115,7 @@ class MuestaTest {
 	}
 	
 	@Test
-	public void testCalcularVerificacionDeMuestraCambiaElEstadoDeMuestraAVerificada() {
+	public void testCuandoCalculoLaVerificacionYHayDosExpertosLaMuestraEstaVerificada() {
 		
 		Opinion opinion1 = mock(Opinion.class);
 		Opinion opinion2 = mock(Opinion.class);
@@ -135,8 +136,61 @@ class MuestaTest {
 		
 		muestra.calcularVerificacion();
 		
-		assertTrue(muestra.getEstadoMuestra().getClass() == MuestraVerificada.class);
+		assertTrue(muestra.getEstadoMuestra() instanceof MuestraVerificada);
 	}
+	
+	@Test
+	public void testCuandoCalculoLaVerificacionYNoHayUsuariosExpertosLaMuestraNoEstaVerificada() {
+		
+		Opinion opinion1 = mock(Opinion.class);
+		Opinion opinion2 = mock(Opinion.class);
+		UsuarioBasico estado1 = mock(UsuarioBasico.class);
+		
+		when(opinion1.getEstadoAutor()).thenReturn(estado1);
+		when(opinion2.getEstadoAutor()).thenReturn(estado1);
+		when(opinion1.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		when(estadoMuestraNoVerificada.resultadoActual(muestra)).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		when(estado1.esExperto()).thenReturn(false);
+		
+		assertTrue(muestra.getOpiniones().isEmpty());
+		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+		
+		muestra.agregarOpinionAMuestraNoVerificada(opinion1);
+		muestra.agregarOpinionAMuestraNoVerificada(opinion2);
+		
+		muestra.calcularVerificacion();
+		
+		assertTrue(muestra.getEstadoMuestra() instanceof MuestraNoVerificada);
+	}
+	
+	@Test
+	public void testCuandoCalculoLaVerificacionYElResultadoEsEmpateLaMuestraNoEstaVerificada() {
+		
+		Opinion opinion1 = mock(Opinion.class);
+		Opinion opinion2 = mock(Opinion.class);
+		UsuarioExperto estado1 = mock(UsuarioExperto.class);
+		
+		when(opinion1.getEstadoAutor()).thenReturn(estado1);
+		when(opinion2.getEstadoAutor()).thenReturn(estado1);
+		when(opinion1.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
+		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		when(estadoMuestraNoVerificada.resultadoActual(muestra)).thenReturn(TipoOpinion.NODEFINIDO);
+		when(estado1.esExperto()).thenReturn(true);
+		
+		assertTrue(muestra.getOpiniones().isEmpty());
+		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+		
+		muestra.agregarOpinionAMuestraNoVerificada(opinion1);
+		muestra.agregarOpinionAMuestraNoVerificada(opinion2);
+		
+		muestra.calcularVerificacion();
+		
+		assertTrue(muestra.getEstadoMuestra() instanceof MuestraNoVerificada);
+	}
+	
+	
+	
 	
 	
 	
