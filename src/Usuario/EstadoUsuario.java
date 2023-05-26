@@ -9,4 +9,6 @@ public interface EstadoUsuario {
 	
 	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion);
 
+	public boolean esExperto();
+
 }

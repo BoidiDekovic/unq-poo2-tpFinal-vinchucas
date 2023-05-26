@@ -17,4 +17,9 @@ public class UsuarioExperto implements EstadoUsuario {
 
 	}
 
+	@Override
+	public boolean esExperto() {
+		return true;
+	}
+
 }

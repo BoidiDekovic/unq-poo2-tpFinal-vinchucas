@@ -125,6 +125,7 @@ class MuestaTest {
 		when(opinion1.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(estadoMuestraNoVerificada.resultadoActual(muestra)).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		when(estado1.esExperto()).thenReturn(true);
 		
 		assertTrue(muestra.getOpiniones().isEmpty());
 		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());

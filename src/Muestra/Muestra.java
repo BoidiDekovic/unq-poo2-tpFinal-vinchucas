@@ -95,7 +95,7 @@ public class Muestra {
 			return false;
 		} else {
 			System.out.println(this.opiniones);
-			return this.opiniones.stream().filter(o -> o.getEstadoAutor().getClass() == UsuarioExperto.class)
+			return this.opiniones.stream().filter(o -> o.getEstadoAutor().esExperto())
 					  					  .map(o -> o.getTipoOpinion()).collect(Collectors.groupingBy(o -> o, Collectors.counting()))
 					  					  .entrySet().stream().anyMatch(to -> to.getValue() == 2);
 		}
