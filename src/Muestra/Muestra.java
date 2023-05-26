@@ -85,12 +85,12 @@ public class Muestra {
 	}
 
 	public void calcularVerificacion() {
-		if (this.resultadoActual() != TipoOpinion.NODEFINIDO && this.esMuestraQueCoincidenDosExpertosEnOpinion()) {
+		if (this.resultadoActual() != TipoOpinion.NODEFINIDO && this.esMuestraQueCoincidenDosOpinionesDeExpertos()) {
 			this.setEstadoMuestra(new MuestraVerificada());
 		}
 	}
 	
-	private boolean esMuestraQueCoincidenDosExpertosEnOpinion() {
+	private boolean esMuestraQueCoincidenDosOpinionesDeExpertos() {
 		if (this.opiniones.isEmpty()) {
 			return false;
 		} else {
