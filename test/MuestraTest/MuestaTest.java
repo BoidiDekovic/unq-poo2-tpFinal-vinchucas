@@ -18,6 +18,7 @@ import Muestra.Opinion;
 import Muestra.TipoOpinion;
 import Sistema.Sistema;
 import Usuario.Usuario;
+import Usuario.UsuarioExperto;
 import ZonaDeCobertura.Ubicacion;
 
 class MuestaTest {	
@@ -112,19 +113,29 @@ class MuestaTest {
 		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
 	}
 	
-//	Agregarlo en los test de estado
-//	@Test
-//	public void testCalcularVerificacionDeMuestraCuandoEstaVerificada() {
-//		
-//		assertTrue(muestra.getOpiniones().isEmpty());
-//		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
-//		
-//		muestra.agregarOpinion(null);
-//		
-//		muestra.calcularVerificacion();
-//		
-//		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
-//	}
+	@Test
+	public void testCalcularVerificacionDeMuestraCambiaElEstadoDeMuestraAVerificada() {
+		
+		Opinion opinion1 = mock(Opinion.class);
+		Opinion opinion2 = mock(Opinion.class);
+		UsuarioExperto estado1 = mock(UsuarioExperto.class);
+		
+		when(opinion1.getEstadoAutor()).thenReturn(estado1);
+		when(opinion2.getEstadoAutor()).thenReturn(estado1);
+		when(opinion1.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		when(estadoMuestraNoVerificada.resultadoActual(muestra)).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		
+		assertTrue(muestra.getOpiniones().isEmpty());
+		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+		
+		muestra.agregarOpinionAMuestraNoVerificada(opinion1);
+		muestra.agregarOpinionAMuestraNoVerificada(opinion2);
+		
+		muestra.calcularVerificacion();
+		
+		assertTrue(muestra.getEstadoMuestra().getClass() == MuestraVerificada.class);
+	}
 	
 	
 	

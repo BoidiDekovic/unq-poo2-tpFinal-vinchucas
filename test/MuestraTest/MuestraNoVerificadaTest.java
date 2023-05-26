@@ -62,8 +62,7 @@ public class MuestraNoVerificadaTest {
 		verify(muestra, atLeast(1)).getOpiniones(); 
 	}
 	
-	@Test 
-	
+	@Test
 	public void testElResultadoActualEnCasoDeEmpateDeVotos(){
 		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);

@@ -2,10 +2,14 @@ package Muestra;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import Sistema.Sistema;
 import Usuario.Usuario;
+import Usuario.UsuarioExperto;
 import ZonaDeCobertura.Ubicacion;
 
 public class Muestra {
@@ -64,6 +68,10 @@ public class Muestra {
 		return estadoMuestra;
 	}
 
+	private void setEstadoMuestra(EstadoMuestra estadoMuestra) {
+		this.estadoMuestra = estadoMuestra;
+	}
+
 	public void agregarOpinion(Opinion opinion) {
 		this.estadoMuestra.agregarOpinion(opinion, this);
 	}
@@ -72,16 +80,26 @@ public class Muestra {
 		this.opiniones.add(opinion);
 	}
 
-	public void resultadoActual() {
-		this.estadoMuestra.resultadoActual(this);
+	public TipoOpinion resultadoActual() {
+		return this.estadoMuestra.resultadoActual(this);
 	}
 
 	public void calcularVerificacion() {
-		// TODO Auto-generated method stub
-		
+		if (this.resultadoActual() != TipoOpinion.NODEFINIDO && this.esMuestraQueCoincidenDosExpertosEnOpinion()) {
+			this.setEstadoMuestra(new MuestraVerificada());
+		}
 	}
 	
-	
+	private boolean esMuestraQueCoincidenDosExpertosEnOpinion() {
+		if (this.opiniones.isEmpty()) {
+			return false;
+		} else {
+			System.out.println(this.opiniones);
+			return this.opiniones.stream().filter(o -> o.getEstadoAutor().getClass() == UsuarioExperto.class)
+					  					  .map(o -> o.getTipoOpinion()).collect(Collectors.groupingBy(o -> o, Collectors.counting()))
+					  					  .entrySet().stream().anyMatch(to -> to.getValue() == 2);
+		}
+	}
 	
 	
 	
