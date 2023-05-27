@@ -3,13 +3,9 @@ package Usuario;
 import Muestra.Muestra;
 import Muestra.TipoOpinion;
 
-public class UsuarioBasico implements EstadoUsuario {
+public class UsuarioBasico extends EstadoUsuario {
 
-	@Override
-	public void enviarMuestra(Muestra muestra) {
-		// TODO Auto-generated method stub
 
-	}
 
 	@Override
 	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion) {
@@ -21,5 +17,7 @@ public class UsuarioBasico implements EstadoUsuario {
 	public boolean esExperto() {
 		return false;
 	}
+
+
 
 }

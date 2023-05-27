@@ -20,7 +20,20 @@ public class Sistema {
 
 	public List<Muestra>muestraDentroDe(Distancia distancia , Muestra muestra ) {
 		
-		return
+	 return muestras;  
+	 	/// completar 
+	}
+
+
+	public void notificarVerifiacionMuestra(Muestra muestra) {
+		this.muestras.add(muestra);
+		 /// completar 
+	}
+
+
+	public void agregarMuestra(Muestra muestra) {
+		this.muestras.add(muestra);
+		
 	}
 	
 	

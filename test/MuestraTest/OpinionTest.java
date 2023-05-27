@@ -3,6 +3,8 @@ package MuestraTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,11 +16,13 @@ public class OpinionTest {
 
 	private Opinion opinion;
 	private EstadoUsuario estadoUsuario;
+	private LocalDate fecha ;
 	
 	@BeforeEach
 	public void setUp() {
 		estadoUsuario = mock(EstadoUsuario.class);
-		opinion = new Opinion(TipoOpinion.VINCHUCAGUASAYANA, estadoUsuario);
+		fecha = LocalDate.of(2023,2,18);
+		opinion = new Opinion(TipoOpinion.VINCHUCAGUASAYANA, estadoUsuario,fecha);
 	}
 	
 	@Test
@@ -31,4 +35,10 @@ public class OpinionTest {
 		assertEquals(TipoOpinion.VINCHUCAGUASAYANA, opinion.getTipoOpinion());
 	}
 	
+	@Test 
+	public void testUnaOpinionTieneLaFechaDeEnvioEsperada(){
+		
+		assertEquals(fecha, opinion.getFechaDeEnvio());
+	}
+
 }

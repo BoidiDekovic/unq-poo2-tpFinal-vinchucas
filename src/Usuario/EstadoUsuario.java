@@ -3,12 +3,22 @@ package Usuario;
 import Muestra.Muestra;
 import Muestra.TipoOpinion;
 
-public interface EstadoUsuario {
+public abstract class EstadoUsuario {
 	
-	public void enviarMuestra(Muestra muestra);
 	
-	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion);
+	public abstract void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion);
 
-	public boolean esExperto();
+	public abstract boolean esExperto();
+
+	public void agregarYEnviar(Muestra muestra, Usuario usuario) {
+		usuario.agregarMuestra(muestra);
+		muestra.enviarASistema();
+		
+	
+	}
+
+	
+
+	
 
 }

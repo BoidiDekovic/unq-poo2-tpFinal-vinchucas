@@ -1,4 +1,4 @@
-package Muestra;
+ package Muestra;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -87,7 +87,9 @@ public class Muestra {
 	public void calcularVerificacion() {
 		if (this.resultadoActual() != TipoOpinion.NODEFINIDO && this.esMuestraQueCoincidenDosExpertosEnOpinion()) {
 			this.setEstadoMuestra(new MuestraVerificada());
+			this.sistema.notificarVerifiacionMuestra(this);
 		}
+	
 	}
 	
 	private boolean esMuestraQueCoincidenDosExpertosEnOpinion() {
@@ -98,6 +100,11 @@ public class Muestra {
 					  					  .map(o -> o.getTipoOpinion()).collect(Collectors.groupingBy(o -> o, Collectors.counting()))
 					  					  .entrySet().stream().anyMatch(to -> to.getValue() == 2);
 		}
+	}
+
+	public void enviarASistema() {
+		this.sistema.agregarMuestra(this);
+		
 	}
 	
 	
