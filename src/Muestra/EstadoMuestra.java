@@ -12,14 +12,14 @@ public abstract class EstadoMuestra {
 	
 	public TipoOpinion resultadoActual(Muestra muestra) {
 		List<Opinion> opiniones = muestra.getOpiniones();
-		if(opiniones.isEmpty()) {
+		if(opiniones.isEmpty()) { //Caso opiones vacias
 			return muestra.getVinchucaSegunAutor();
 		}
-		else if(opiniones.stream().anyMatch(o -> o.getEstadoAutor().esExperto())) {
+		else if(opiniones.stream().anyMatch(o -> o.getEstadoAutor().esExperto())) { //filtra expertos y calcula resultado
 			return resultadoEntre(opiniones.stream().filter(o-> o.getEstadoAutor().esExperto()).toList());
 		}
 		else {
-			return resultadoEntre(opiniones);
+			return resultadoEntre(opiniones); //Calcula el resultado con basicos
 		}
 
 	}
@@ -37,7 +37,7 @@ public abstract class EstadoMuestra {
 					                   return TipoOpinion.NODEFINIDO;
 			   }
 			   
-			   return (TipoOpinion) mapOpiniones.entrySet().stream()
+			   return (TipoOpinion) mapOpiniones.entrySet().stream() //Agarra la opinion con maximo de votos
 					                                       .max(Comparator.comparing((Map.Entry::getValue)))
 					                                       .get().getKey();
 	}

@@ -23,9 +23,6 @@ public class ZonaDeCobertura {
 		this.observadores = new ArrayList <Observer>();
 	}
 	
-	
-	
-	
 	public void notificar(String s , Ubicacion u , Muestra m) {
 		
 	}
@@ -45,6 +42,16 @@ public class ZonaDeCobertura {
 	public void  notificaVerificacionMuestra(Muestra muestra) {
 		
 	}
+
+	public Ubicacion getEpicentro() {
+		return epicentro;
+	}
+
+	public List<Muestra> getMuestras() {
+		return muestras;
+	}
+	
+	
 	
 	
 	

@@ -87,7 +87,7 @@ public class Muestra {
 	public void calcularVerificacion() {
 		if (this.resultadoActual() != TipoOpinion.NODEFINIDO && this.esMuestraQueCoincidenDosExpertosEnOpinion()) {
 			this.setEstadoMuestra(new MuestraVerificada());
-			this.sistema.notificarVerifiacionMuestra(this);
+			this.sistema.notificarVerificacionMuestraAZonas(this);
 		}
 	
 	}
