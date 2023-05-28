@@ -2,6 +2,7 @@ package ZonaDeCobertura;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
 import Muestra.Muestra;
 
@@ -11,7 +12,7 @@ public class ZonaDeCobertura {
 	private String nombre;
 	private Ubicacion epicentro ;
 	private List<Muestra> muestras;
-	private List<Observadores> observadores;
+	private List<Observer> observadores;
 	
 	
 	public ZonaDeCobertura(String nombre, Ubicacion epicentro) {
@@ -19,7 +20,7 @@ public class ZonaDeCobertura {
 		this.nombre = nombre;
 		this.epicentro = epicentro;
 		this.muestras = new ArrayList<Muestra>();
-		this.observadores = new ArrayList <Observadores>();
+		this.observadores = new ArrayList <Observer>();
 	}
 	
 	
@@ -29,11 +30,11 @@ public class ZonaDeCobertura {
 		
 	}
 	
-	public void agregarObservador(Observador ob) {
+	public void agregarObservador(Observer ob) {
 	
 	}
 	
-	public void sacarObservador(Observador ob) {
+	public void sacarObservador(Observer ob) {
 		
 	}
 	

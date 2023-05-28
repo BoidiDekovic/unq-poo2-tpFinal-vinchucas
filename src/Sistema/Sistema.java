@@ -11,20 +11,13 @@ public class Sistema {
 	
 	private List<Muestra>  muestras; 
 	private List<ZonaDeCobertura> zonasDeCobertura;
+	
 	public Sistema() {
 		super();
 		this.muestras = new ArrayList<Muestra>();
 		this.zonasDeCobertura = new ArrayList<ZonaDeCobertura>();
 	}
 	
-
-	public List<Muestra>muestraDentroDe(Distancia distancia , Muestra muestra ) {
-		
-	 return muestras;  
-	 	/// completar 
-	}
-
-
 	public void notificarVerifiacionMuestra(Muestra muestra) {
 		this.muestras.add(muestra);
 		 /// completar 
@@ -34,6 +27,9 @@ public class Sistema {
 	public void agregarMuestra(Muestra muestra) {
 		this.muestras.add(muestra);
 		
+	}
+	public List<Muestra> muestrasAMenosDistanciaDe(Distancia distancia, Muestra muestra){
+		return null;
 	}
 	
 	

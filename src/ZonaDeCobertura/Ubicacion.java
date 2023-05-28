@@ -1,5 +1,6 @@
 package ZonaDeCobertura;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import Muestra.Muestra;
@@ -15,30 +16,43 @@ public class Ubicacion {
 		this.latitud = latitud;
 	}
 
-	private List<Ubicacion> ubicacionesAMenosDistanciaDe(Distancia d, List<Ubicacion> lis){
+	public double getLongitud() {
+		return longitud;
+	}
+
+	public double getLatitud() {
+		return latitud;
+	}
+
+	public Distancia calcularDistanciaMetrosA(Ubicacion ubicacion) {
 		
-		return
+		 Distancia distancia = new Distancia(Unidad.METRO,0);
+		 distancia.calcularDistanciaEntreUbicacionesEnMetros(this, ubicacion);
+      return distancia;
 	}
 	
-	private List<Muestra> muestrasAMenosDistanciaDe(Distancia distancia, Muestra muestra){
+	public Distancia calcularDistanciaKilometrosA(Ubicacion ubicacion) {
+	   
+	 Distancia distancia = new Distancia(Unidad.KILOMETRO,0);
+	 distancia.calcularDistanciaEntreUbicacionesEnKilometros(this, ubicacion);
+	  
+	 return distancia;
+	    
+	}
+
+
+	public List<Ubicacion> ubicacionesAMenosDe(Distancia distancia, List<Ubicacion> ubicaciones){
 		
-		return
+		return ubicaciones.stream().filter(u -> this.esUbicacionAMenosDe(u, distancia)).toList();
 	}
 	
-	private Distancia calcularDistanciaMetros(Ubicacion ubicacion) {
-		
-		return
+	public boolean esUbicacionAMenosDe(Ubicacion ubicacion , Distancia distancia) {
+		if(distancia.getUnidad() == Unidad.KILOMETRO ) {
+			 return this.calcularDistanciaKilometrosA(ubicacion).getCantidad() <  distancia.getCantidad();
+		}else {
+			return  this.calcularDistanciaMetrosA(ubicacion).getCantidad() < distancia.getCantidad();
+		}
 	}
-	
-	private Distancia calcularDistanciaKilometros(Ubicacion ubicacion) {
-		
-		return
-	}
-	
-	private List<Ubicacion> ubicacionAMenosDe(Distancia distancia, List<Ubicacion> ubicaciones){
-		return
-	}
-	
 	
 	
 }
