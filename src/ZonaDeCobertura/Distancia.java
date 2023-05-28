@@ -38,7 +38,6 @@ public class Distancia {
 		this.calcularDistanciaEntreUbicacionesEnKilometros(ubicacion,ubicacion2);
 		this.setCantidad(this.getCantidad()*1000);
 		this.setUnidad(Unidad.METRO);
-		
 	}
 	
 	public void calcularDistanciaEntreUbicacionesEnKilometros(Ubicacion ubicacion , Ubicacion ubicacion2) {
@@ -50,7 +49,8 @@ public class Distancia {
 
 	private double limitadorDeDecimales(double numero) {
 		DecimalFormat decimalFormat = new DecimalFormat("#.00"); // Establece dos decimales
-        String formattedNumber = decimalFormat.format(numero); //  limita a dos decimales
+        String formattedNumero = decimalFormat.format(numero); //  limita a dos decimales
+        String formattedNumber = formattedNumero.replace(',', '.'); //Cambia la coma por el punto en el string
         double resultado = Double.parseDouble(formattedNumber); // transforma el string a double
 		return resultado;
 	}

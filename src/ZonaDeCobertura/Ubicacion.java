@@ -1,9 +1,7 @@
 package ZonaDeCobertura;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
-import Muestra.Muestra;
 
 public class Ubicacion {
 	

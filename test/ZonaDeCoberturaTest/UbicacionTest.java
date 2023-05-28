@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +23,8 @@ class UbicacionTest {
 		
 		ubicacion = new Ubicacion(10,10);
 		ubicacion2 = new Ubicacion(30,30);
-		distancia = mock(Distancia.class);	
+		distancia = mock(Distancia.class);
+		
 		}
 
 	@Test
@@ -76,6 +80,68 @@ class UbicacionTest {
 		when(distancia.getUnidad()).thenReturn(Unidad.KILOMETRO);
 		when(distancia.getCantidad()).thenReturn(10.0);
 		assertFalse(ubicacion.esUbicacionAMenosDe(ubicacion2, distancia));
+	}
+	
+	@Test
+	public void testCuandoCalculoQueUbicacionesEstanDentroDeLaDistanciaEnMetrosUnaSolaCumple() {
+		Ubicacion ubicacion3, ubicacion4, ubicacion5;
+		ubicacion3 = new Ubicacion(50, 70);
+		ubicacion4 = new Ubicacion(20, 60);
+		ubicacion5 = new Ubicacion(40, 20);
+		when(distancia.getUnidad()).thenReturn(Unidad.METRO);
+		when(distancia.getCantidad()).thenReturn(30000.0);
+		
+		List<Ubicacion> ubicaciones = Arrays.asList(ubicacion2, ubicacion3, ubicacion4, ubicacion5);
+		List<Ubicacion> resultado = ubicacion.ubicacionesAMenosDe(distancia, ubicaciones);
+		
+		assertEquals(1, resultado.size());
+		assertTrue(resultado.contains(ubicacion2));
+	}
+	
+	@Test
+	public void testCuandoCalculoQueUbicacionesEstanDentroDeLaDistanciaEnKMUnaSolaCumple() {
+		Ubicacion ubicacion3, ubicacion4, ubicacion5;
+		ubicacion3 = new Ubicacion(50, 70);
+		ubicacion4 = new Ubicacion(20, 60);
+		ubicacion5 = new Ubicacion(40, 20);
+		when(distancia.getUnidad()).thenReturn(Unidad.KILOMETRO);
+		when(distancia.getCantidad()).thenReturn(30.0);
+		
+		List<Ubicacion> ubicaciones = Arrays.asList(ubicacion2, ubicacion3, ubicacion4, ubicacion5);
+		List<Ubicacion> resultado = ubicacion.ubicacionesAMenosDe(distancia, ubicaciones);
+		
+		assertEquals(1, resultado.size());
+		assertTrue(resultado.contains(ubicacion2));
+	}
+	
+	@Test
+	public void testCuandoCalculoQueUbicacionesEstanDentroDeLaDistanciaEnMetrosNingunaCumple() {
+		Ubicacion ubicacion3, ubicacion4, ubicacion5;
+		ubicacion3 = new Ubicacion(50, 70);
+		ubicacion4 = new Ubicacion(20, 60);
+		ubicacion5 = new Ubicacion(40, 20);
+		when(distancia.getUnidad()).thenReturn(Unidad.METRO);
+		when(distancia.getCantidad()).thenReturn(30000.0);
+		
+		List<Ubicacion> ubicaciones = Arrays.asList(ubicacion3, ubicacion4, ubicacion5);
+		List<Ubicacion> resultado = ubicacion.ubicacionesAMenosDe(distancia, ubicaciones);
+		
+		assertTrue(resultado.isEmpty());
+	}
+	
+	@Test
+	public void testCuandoCalculoQueUbicacionesEstanDentroDeLaDistanciaEnKMNingunaCumple() {
+		Ubicacion ubicacion3, ubicacion4, ubicacion5;
+		ubicacion3 = new Ubicacion(50, 70);
+		ubicacion4 = new Ubicacion(20, 60);
+		ubicacion5 = new Ubicacion(40, 20);
+		when(distancia.getUnidad()).thenReturn(Unidad.KILOMETRO);
+		when(distancia.getCantidad()).thenReturn(30.0);
+		
+		List<Ubicacion> ubicaciones = Arrays.asList(ubicacion3, ubicacion4, ubicacion5);
+		List<Ubicacion> resultado = ubicacion.ubicacionesAMenosDe(distancia, ubicaciones);
+		
+		assertTrue(resultado.isEmpty());
 	}
 	
 	
