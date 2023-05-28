@@ -102,7 +102,7 @@ public class Muestra {
 		}
 	}
 
-	public void enviarASistema() {
+	public void enviarseASistema() {
 		this.sistema.agregarMuestra(this);
 		
 	}

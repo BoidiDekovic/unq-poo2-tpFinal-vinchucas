@@ -189,6 +189,12 @@ class MuestaTest {
 		assertTrue(muestra.getEstadoMuestra() instanceof MuestraNoVerificada);
 	}
 	
+	@Test
+	public void testCuandoSeLeEnviaAlSistemaUnaMuestraLoAgregaASuListaDeMuestras() {
+		muestra.enviarseASistema();
+		verify(sistema, times(1)).agregarMuestra(muestra);
+	}
+	
 	
 	
 	

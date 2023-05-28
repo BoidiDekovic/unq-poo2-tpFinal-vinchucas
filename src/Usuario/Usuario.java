@@ -10,9 +10,9 @@ import Muestra.TipoOpinion;
 
 public class Usuario {
 	
-	private EstadoUsuario estado;
-	private List<Muestra> muestras;
-	private List<Opinion> opinionesEnviadas;
+	protected EstadoUsuario estado;
+	protected List<Muestra> muestras;
+	protected List<Opinion> opinionesEnviadas;
 	
 	public Usuario() {	
 		super();
@@ -26,9 +26,7 @@ public class Usuario {
 	}
 	
 	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion) {
-		Opinion nuevaOpinion = new Opinion(tipoOpinion,this.estado , LocalDate.now());
-		muestra.agregarOpinion(nuevaOpinion);
-		this.opinionesEnviadas.add(nuevaOpinion);
+		this.estado.opinarSobreMuestra(muestra, tipoOpinion, this);
 	}
 
 	public List<Muestra> getMuestras() {
@@ -68,12 +66,24 @@ public class Usuario {
 	}
 	
 	public void calcularCategoria() {
-		if(this.muestrasEnviadasEnLosUltimosTreintaDias().size() > 10 
-			&& this.opinionesEnviadasEnLosUltimosTreintaDias().size() >20) {
+		if(tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias() 
+			&& tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias()) {
 			this.setEstado(new UsuarioExperto());
 		}else {
 			this.setEstado(new UsuarioBasico());
 		}	
+	}
+
+	public boolean tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias() {
+		return this.opinionesEnviadasEnLosUltimosTreintaDias().size() >20;
+	}
+
+	public boolean tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias() {
+		return this.muestrasEnviadasEnLosUltimosTreintaDias().size() > 10;
+	}
+	
+	public void agregarOpinionEnviada(Opinion opinion) {
+		this.opinionesEnviadas.add(opinion);
 	}
 
 	
