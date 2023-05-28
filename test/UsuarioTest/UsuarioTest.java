@@ -1,5 +1,6 @@
 package UsuarioTest;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -98,42 +99,13 @@ class UsuarioTest {
 	
 	@Test
 	public void testTieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDiasDaFalsoPorMuestrasAntiguas() {
-		Muestra muestra1, muestra2, muestra3, muestra4, muestra5, muestra6, muestra7, muestra8, muestra9, muestra10, muestra11;
-		muestra1 = mock(Muestra.class);
-		muestra2 = mock(Muestra.class);
-		muestra3 = mock(Muestra.class);
-		muestra4 = mock(Muestra.class);
-		muestra5 = mock(Muestra.class);
-		muestra6 = mock(Muestra.class);
-		muestra7 = mock(Muestra.class);
-		muestra8 = mock(Muestra.class);
-		muestra9 = mock(Muestra.class);
-		muestra10 = mock(Muestra.class);
-		muestra11 = mock(Muestra.class);
-		
-		usuario.agregarMuestra(muestra1);
-		usuario.agregarMuestra(muestra2);
-		usuario.agregarMuestra(muestra3);
-		usuario.agregarMuestra(muestra4);
-		usuario.agregarMuestra(muestra5);
-		usuario.agregarMuestra(muestra6);
-		usuario.agregarMuestra(muestra7);
-		usuario.agregarMuestra(muestra8);
-		usuario.agregarMuestra(muestra9);
-		usuario.agregarMuestra(muestra10);
+		Muestra muestra11 = mock(Muestra.class);
 		usuario.agregarMuestra(muestra11);
-		
-		when(muestra1.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra2.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra3.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra4.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra5.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra6.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra7.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra8.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra9.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra10.getFechaCreacion()).thenReturn(LocalDate.now());
+	
 		when(muestra11.getFechaCreacion()).thenReturn(LocalDate.of(2023, 02, 18));
+		List<Muestra> muestras = this.listaDeMuestrasMockCreadas(10);
+		this.setFechasAMuestrasMock(LocalDate.now(), muestras);
+		this.agregarMuestrasMockEnviadasAUsuario(muestras,usuario);
 		
 		assertTrue(usuario.getMuestras().size() > 10);
 		assertFalse(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias());
@@ -141,43 +113,10 @@ class UsuarioTest {
 	
 	@Test
 	public void testTieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDiasDaVerdadero() {
-		Muestra muestra1, muestra2, muestra3, muestra4, muestra5, muestra6, muestra7, muestra8, muestra9, muestra10, muestra11;
-		muestra1 = mock(Muestra.class);
-		muestra2 = mock(Muestra.class);
-		muestra3 = mock(Muestra.class);
-		muestra4 = mock(Muestra.class);
-		muestra5 = mock(Muestra.class);
-		muestra6 = mock(Muestra.class);
-		muestra7 = mock(Muestra.class);
-		muestra8 = mock(Muestra.class);
-		muestra9 = mock(Muestra.class);
-		muestra10 = mock(Muestra.class);
-		muestra11 = mock(Muestra.class);
 		
-		usuario.agregarMuestra(muestra1);
-		usuario.agregarMuestra(muestra2);
-		usuario.agregarMuestra(muestra3);
-		usuario.agregarMuestra(muestra4);
-		usuario.agregarMuestra(muestra5);
-		usuario.agregarMuestra(muestra6);
-		usuario.agregarMuestra(muestra7);
-		usuario.agregarMuestra(muestra8);
-		usuario.agregarMuestra(muestra9);
-		usuario.agregarMuestra(muestra10);
-		usuario.agregarMuestra(muestra11);
-		
-		when(muestra1.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra2.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra3.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra4.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra5.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra6.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra7.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra8.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra9.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra10.getFechaCreacion()).thenReturn(LocalDate.now());
-		when(muestra11.getFechaCreacion()).thenReturn(LocalDate.now());
-		
+		List<Muestra> muestras = this.listaDeMuestrasMockCreadas(11);
+		this.setFechasAMuestrasMock(LocalDate.now(), muestras);
+		this.agregarMuestrasMockEnviadasAUsuario(muestras,usuario);
 		assertTrue(usuario.getMuestras().size() > 10);
 		assertTrue(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias());
 	}
@@ -227,12 +166,78 @@ class UsuarioTest {
 			usuario.agregarOpinionEnviada(opinion);
 		}
 	}
-	
-	@Test
-	public void testCuandoUnUsuarioBasicoCalculaSuCategoriaYNoCumpleLosRequisitosNoCambiaDeEstado() {
-		usuario.calcularCategoria();
-		// falta hacer
+
+	public List<Muestra> listaDeMuestrasMockCreadas(int cantDeMuestras) {
+		List<Muestra> lista = new ArrayList<Muestra>();
+		for (int i = 0; i < cantDeMuestras; i++) {
+			lista.add(mock(Muestra.class));
+		}
+		return lista;
 	}
+	
+	public void setFechasAMuestrasMock(LocalDate fecha, List<Muestra> muestras) {
+		for (Muestra muestra : muestras) {
+			
+			when(muestra.getFechaCreacion()).thenReturn(fecha);
+		}
+	}
+	
+	public void agregarMuestrasMockEnviadasAUsuario(List<Muestra> muestras, Usuario usuario) {
+		for (Muestra muestra : muestras) {
+			usuario.agregarMuestra(muestra);
+		}
+	}
+
+	@Test
+	public void testCuandoUnUsuarioBasicoCalculaSuCategoriaYNoCumpleLosRequisitosDeMuestrasEnviadasNoCambiaDeEstado() {
+		
+		List<Opinion> opiniones = this.listaDeOpinionesMockCreadas(21);
+		this.setFechasAOpinionesMock(LocalDate.now(), opiniones);
+		this.agregarOpinionesMockEnviadasAUsuario(opiniones, usuario);
+		List<Muestra> muestras = this.listaDeMuestrasMockCreadas(5);
+		this.setFechasAMuestrasMock(LocalDate.now(), muestras);
+		this.agregarMuestrasMockEnviadasAUsuario(muestras,usuario);
+		
+		assertFalse(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias());
+		assertFalse(usuario.getEstado().esExperto());
+		assertTrue(usuario.tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias());
+		usuario.calcularCategoria();
+		assertFalse(usuario.getEstado().esExperto());
+		
+	}
+	@Test
+	public void testCuandoUnUsuarioBasicoCalculaSuCategoriaYNoCumpleLosRequisitosDeOpinionesEnviadasNoCambiaDeEstado() {
+		
+		List<Opinion> opiniones = this.listaDeOpinionesMockCreadas(19);
+		this.setFechasAOpinionesMock(LocalDate.now(), opiniones);
+		this.agregarOpinionesMockEnviadasAUsuario(opiniones, usuario);
+		List<Muestra> muestras = this.listaDeMuestrasMockCreadas(11);
+		this.setFechasAMuestrasMock(LocalDate.now(), muestras);
+		this.agregarMuestrasMockEnviadasAUsuario(muestras,usuario);
+		
+		assertFalse(usuario.tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias());
+		assertFalse(usuario.getEstado().esExperto());
+		assertTrue(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias());
+		usuario.calcularCategoria();
+		assertFalse(usuario.getEstado().esExperto());
+	}	
+
+	@Test
+	public void testCuandoUnUsuarioBasicoCalculaSuCategoriaYCumpleLosRequisitosCambiaDeEstado() {
+		
+		List<Opinion> opiniones = this.listaDeOpinionesMockCreadas(21);
+		this.setFechasAOpinionesMock(LocalDate.now(), opiniones);
+		this.agregarOpinionesMockEnviadasAUsuario(opiniones, usuario);
+		List<Muestra> muestras = this.listaDeMuestrasMockCreadas(11);
+		this.setFechasAMuestrasMock(LocalDate.now(), muestras);
+		this.agregarMuestrasMockEnviadasAUsuario(muestras,usuario);
+		
+		assertTrue(usuario.tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias());
+		assertFalse(usuario.getEstado().esExperto());
+		assertTrue(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias());
+		usuario.calcularCategoria();
+		assertTrue(usuario.getEstado().esExperto());
+	}	
 	
 	
 }
