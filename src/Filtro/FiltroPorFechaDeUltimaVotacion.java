@@ -14,7 +14,7 @@ public class FiltroPorFechaDeUltimaVotacion extends FiltroPorFecha {
 	public FiltroPorFechaDeUltimaVotacion(LocalDate fechaDeUltimaVotacion, Sistema sistema) {
 		super();
 		this.setFecha(fechaDeUltimaVotacion);
-		this.setSistema(sistema);
+		this.sistema = sistema;
 	}
 	
 	@Override

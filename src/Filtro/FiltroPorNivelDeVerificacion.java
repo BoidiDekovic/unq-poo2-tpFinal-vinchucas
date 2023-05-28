@@ -17,7 +17,7 @@ public class FiltroPorNivelDeVerificacion extends Filtro {
 	public FiltroPorNivelDeVerificacion(EstadoMuestra nivelVerificacion, Sistema sistema) {
 		super();
 		this.nivelVerificacion = nivelVerificacion;
-		this.setSistema(sistema);
+		this.sistema = sistema;
 	}
 
 

@@ -14,7 +14,7 @@ public class FiltroPorFechaDeCreacionDeMuestra extends FiltroPorFecha {
 	public FiltroPorFechaDeCreacionDeMuestra(LocalDate fechaDeCreacionDeMuestra, Sistema sistema) {
 		super();
 		this.setFecha(fechaDeCreacionDeMuestra);
-		this.setSistema(sistema);
+		this.sistema = sistema;
 	}
 	
 	@Override

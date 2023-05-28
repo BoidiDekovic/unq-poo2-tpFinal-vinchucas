@@ -18,15 +18,16 @@ public class FiltroPorTipoInsecto extends Filtro {
 	public FiltroPorTipoInsecto(TipoOpinion tipoInsecto, Sistema sistema) {
 		super();
 		this.tipoInsecto = tipoInsecto;
-		this.setSistema(sistema);
+		this.sistema = sistema;
 	}
 
 
 
 	@Override
 	public List<Muestra> buscar() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.sistema.getMuestras().stream()
+										 .filter(m -> m.resultadoActual().equals(this.tipoInsecto))
+										 .toList();
 	}
 
 
