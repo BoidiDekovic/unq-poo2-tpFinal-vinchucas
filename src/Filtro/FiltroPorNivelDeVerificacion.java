@@ -23,8 +23,9 @@ public class FiltroPorNivelDeVerificacion extends Filtro {
 
 	@Override
 	public List<Muestra> buscar() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.sistema.getMuestras().stream()
+				 .filter(m -> m.getEstadoMuestra().equals(this.getNivelVerificacion()))
+				 .toList();
 	}
 
 

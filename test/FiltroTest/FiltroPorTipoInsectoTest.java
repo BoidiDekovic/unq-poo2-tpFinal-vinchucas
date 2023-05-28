@@ -47,6 +47,15 @@ public class FiltroPorTipoInsectoTest {
 	}
 	
 	@Test
+	public void testCuandoUnFiltroPorTipoInsectoBuscaMuestrasConTipoInsectoYNoEncuentraNingunaPorListaVacia() {
+		when(sistema.getMuestras()).thenReturn(Arrays.asList());
+		
+		List<Muestra> resultado = filtro.buscar();
+		
+		assertTrue(resultado.isEmpty());
+	}
+	
+	@Test
 	public void testCuandoUnFiltroPorTipoInsectoBuscaMuestrasConTipoInsectoYNoEncuentraNinguna() {
 		when(muestra1.resultadoActual()).thenReturn(TipoOpinion.PHTIACHINCHE);
 		when(muestra2.resultadoActual()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
