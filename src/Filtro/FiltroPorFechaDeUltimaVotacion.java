@@ -19,8 +19,10 @@ public class FiltroPorFechaDeUltimaVotacion extends FiltroPorFecha {
 	
 	@Override
 	public List<Muestra> buscar() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.getSistema().getMuestras().stream()
+								.filter(m -> m.getFechaUltimaVotacion().equals(this.getFecha()))
+								.toList();
 	}
 	
 	
