@@ -33,6 +33,7 @@ class MuestaTest {
 	private Usuario usuarioAutor;
 	private MuestraNoVerificada estadoMuestraNoVerificada;
 	private Ubicacion ubicacion;
+	private Opinion opinion, opinion1, opinion2;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -46,20 +47,23 @@ class MuestaTest {
 		usuarioAutor = mock(Usuario.class);
 		estadoMuestraNoVerificada = mock(MuestraNoVerificada.class);
 		ubicacion = mock(Ubicacion.class);
+		opinion = mock(Opinion.class);
+		opinion1 = mock(Opinion.class);
+		opinion2 = mock(Opinion.class);
 		
 		// SUT
-		muestra = new Muestra(sistema, posibleVinchuca, foto, fechaCreacion, fechaUltimaVotacion, ubicacion, usuarioAutor, estadoMuestraNoVerificada);
+		muestra = new Muestra(sistema, posibleVinchuca, foto, ubicacion, usuarioAutor, estadoMuestraNoVerificada);
 
 	}
 	
 	@Test
-	public void testCuandoUnaMuestraTieneUnaFechaDeCreacion() {
-		assertEquals(fechaCreacion, muestra.getFechaCreacion());
+	public void testCuandoUnaMuestraSeCreaLaFechaDeCreacionEsCuandoSeCreo() {
+		assertEquals(LocalDate.now(), muestra.getFechaCreacion());
 	}
 	
 	@Test
-	public void testCuandoUnaMuestraTieneUnaFechaDeUltimaVotacion() {
-		assertEquals(fechaUltimaVotacion, muestra.getFechaUltimaVotacion());
+	public void testCuandoUnaMuestraSeCreaNoTieneUnaFechaDeUltimaVotacion() {
+		assertEquals(null, muestra.getFechaUltimaVotacion());
 	}
 	
 	@Test
@@ -87,13 +91,18 @@ class MuestaTest {
 		assertEquals(ubicacion, muestra.getUbicacion());
 	}
 	
+	@Test
+	public void testCuandoUnaMuestraAgregaUnaOpinionSeAgregaALaListaDeOpinionesYSeSeteaLaFechaDeUltimaVotacion() {
+		assertEquals(null, muestra.getFechaUltimaVotacion());
+		LocalDate fecha = LocalDate.of(2021, 4, 10);
+		when(opinion.getFechaDeEnvio()).thenReturn(fecha);
+		muestra.agregarOpinionAMuestra(opinion);
+		assertEquals(fecha, muestra.getFechaUltimaVotacion());
+	}
 	
 	@Test
-	public void testCuandoUnaMuestraRecibeUnaOpinion() {
-		Opinion opinion = mock(Opinion.class);
+	public void testCuandoUnaMuestraSeLePideAgregarUnaOpinionSeLeMandaASuEstado() {
 		muestra.agregarOpinion(opinion);
-//		assertEquals(1, muestra.getOpiniones().size());
-//		assertTrue(muestra.getOpiniones().contains(opinion));
 		verify(estadoMuestraNoVerificada, times(1)).agregarOpinion(opinion, muestra);
 	}
 	
@@ -102,7 +111,7 @@ class MuestaTest {
 		muestra.resultadoActual();
 		verify(estadoMuestraNoVerificada, times(1)).resultadoActual(muestra);
 	}
-	
+
 	@Test
 	public void testCuandoCalculoLaVerificacionYNoHayOpinionesLaMuestraNoEstaVerificada() {
 		
@@ -117,8 +126,7 @@ class MuestaTest {
 	@Test
 	public void testCuandoCalculoLaVerificacionYHayDosExpertosLaMuestraEstaVerificada() {
 		
-		Opinion opinion1 = mock(Opinion.class);
-		Opinion opinion2 = mock(Opinion.class);
+		
 		UsuarioExperto estado1 = mock(UsuarioExperto.class);
 		
 		when(opinion1.getEstadoAutor()).thenReturn(estado1);
@@ -131,8 +139,8 @@ class MuestaTest {
 		assertTrue(muestra.getOpiniones().isEmpty());
 		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
 		
-		muestra.agregarOpinionAMuestraNoVerificada(opinion1);
-		muestra.agregarOpinionAMuestraNoVerificada(opinion2);
+		muestra.agregarOpinionAMuestra(opinion1);
+		muestra.agregarOpinionAMuestra(opinion2);
 		
 		muestra.calcularVerificacion();
 		
@@ -142,8 +150,6 @@ class MuestaTest {
 	@Test
 	public void testCuandoCalculoLaVerificacionYNoHayUsuariosExpertosLaMuestraNoEstaVerificada() {
 		
-		Opinion opinion1 = mock(Opinion.class);
-		Opinion opinion2 = mock(Opinion.class);
 		UsuarioBasico estado1 = mock(UsuarioBasico.class);
 		
 		when(opinion1.getEstadoAutor()).thenReturn(estado1);
@@ -156,8 +162,8 @@ class MuestaTest {
 		assertTrue(muestra.getOpiniones().isEmpty());
 		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
 		
-		muestra.agregarOpinionAMuestraNoVerificada(opinion1);
-		muestra.agregarOpinionAMuestraNoVerificada(opinion2);
+		muestra.agregarOpinionAMuestra(opinion1);
+		muestra.agregarOpinionAMuestra(opinion2);
 		
 		muestra.calcularVerificacion();
 		
@@ -167,8 +173,6 @@ class MuestaTest {
 	@Test
 	public void testCuandoCalculoLaVerificacionYElResultadoEsEmpateLaMuestraNoEstaVerificada() {
 		
-		Opinion opinion1 = mock(Opinion.class);
-		Opinion opinion2 = mock(Opinion.class);
 		UsuarioExperto estado1 = mock(UsuarioExperto.class);
 		
 		when(opinion1.getEstadoAutor()).thenReturn(estado1);
@@ -181,8 +185,8 @@ class MuestaTest {
 		assertTrue(muestra.getOpiniones().isEmpty());
 		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
 		
-		muestra.agregarOpinionAMuestraNoVerificada(opinion1);
-		muestra.agregarOpinionAMuestraNoVerificada(opinion2);
+		muestra.agregarOpinionAMuestra(opinion1);
+		muestra.agregarOpinionAMuestra(opinion2);
 		
 		muestra.calcularVerificacion();
 		

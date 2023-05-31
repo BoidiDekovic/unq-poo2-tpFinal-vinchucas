@@ -37,7 +37,7 @@ public class UsuarioBasicoTest {
 	public void testCuandoUnUsuarioOpinaSobreUnaMuestraEsteLePidreAgregarseAsusOpiniones() {
 		estadoBasico.opinarSobreMuestra(muestra, TipoOpinion.CHINCHEFOLIADA, usuario);
 		verify(muestra,times(1)).agregarOpinion(any(Opinion.class));
-		verify(muestra,never()).agregarOpinionAMuestraNoVerificada(any());
+		verify(muestra,never()).agregarOpinionAMuestra(any());
 		verify(usuario, times(1)).agregarOpinionEnviada(any(Opinion.class));
 	}
 	

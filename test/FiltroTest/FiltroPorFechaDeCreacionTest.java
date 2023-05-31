@@ -13,13 +13,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Filtro.FiltroPorFecha;
+import Filtro.FiltroPorFechaDeCreacion;
 import Filtro.FiltroPorFechaDeUltimaVotacion;
 import Muestra.Muestra;
 import Muestra.TipoOpinion;
 import Sistema.Sistema;
 
-class FiltroPorFechaDeUltimaVotacionTest {
-	private FiltroPorFechaDeUltimaVotacion filtro;
+class FiltroPorFechaDeCreacionTest {
+	private FiltroPorFechaDeCreacion filtro;
 	private LocalDate fecha, fecha1;
 	private Sistema sistema;
 	private Muestra muestra1, muestra2, muestra3, muestra4;
@@ -32,12 +33,12 @@ class FiltroPorFechaDeUltimaVotacionTest {
 		muestra4 = mock(Muestra.class);
 		fecha = LocalDate.of(2023, 6, 12);
 		fecha1 = LocalDate.of(2023, 5, 23);
-		filtro = new FiltroPorFechaDeUltimaVotacion(fecha, sistema);
+		filtro = new FiltroPorFechaDeCreacion(fecha, sistema);
 		when(sistema.getMuestras()).thenReturn(Arrays.asList(muestra1, muestra2, muestra3, muestra4));
 	}
 	
 	@Test
-	public void testCuandoUnFiltroPorFechaDeUltimaVotacionBuscaPorUnaFechaYNoCoincideNingunaMuestraPorListaVacia() {
+	public void testCuandoUnFiltroPorFechaDeCreacionBuscaPorUnaFechaYNoCoincideNingunaMuestraPorListaVacia() {
 		when(sistema.getMuestras()).thenReturn(Arrays.asList());
 		
 		List<Muestra> resultado = filtro.buscar();
@@ -46,11 +47,11 @@ class FiltroPorFechaDeUltimaVotacionTest {
 	}
 	
 	@Test
-	public void testCuandoUnFiltroPorFechaDeUltimaVotacionBuscaMuestrasConUnaFechaYNoEncuentraNinguna() {
-		when(muestra1.getFechaUltimaVotacion()).thenReturn(fecha1);
-		when(muestra2.getFechaUltimaVotacion()).thenReturn(fecha1);
-		when(muestra3.getFechaUltimaVotacion()).thenReturn(fecha1);
-		when(muestra4.getFechaUltimaVotacion()).thenReturn(fecha1);
+	public void testCuandoUnFiltroPorFechaDeCreacionBuscaMuestrasConUnaFechaYNoEncuentraNinguna() {
+		when(muestra1.getFechaCreacion()).thenReturn(fecha1);
+		when(muestra2.getFechaCreacion()).thenReturn(fecha1);
+		when(muestra3.getFechaCreacion()).thenReturn(fecha1);
+		when(muestra4.getFechaCreacion()).thenReturn(fecha1);
 		
 		List<Muestra> resultado = filtro.buscar();
 		
@@ -58,11 +59,11 @@ class FiltroPorFechaDeUltimaVotacionTest {
 	}
 	
 	@Test
-	public void testCuandoUnFiltroPorFechaDeUltimaVotacionBuscaMuestrasConUnaFechaYEncuentraUna() {
-		when(muestra1.getFechaUltimaVotacion()).thenReturn(fecha1);
-		when(muestra2.getFechaUltimaVotacion()).thenReturn(fecha1);
-		when(muestra3.getFechaUltimaVotacion()).thenReturn(fecha1);
-		when(muestra4.getFechaUltimaVotacion()).thenReturn(fecha);
+	public void testCuandoUnFiltroPorFechaDeCreacionBuscaMuestrasConUnaFechaYEncuentraUna() {
+		when(muestra1.getFechaCreacion()).thenReturn(fecha1);
+		when(muestra2.getFechaCreacion()).thenReturn(fecha1);
+		when(muestra3.getFechaCreacion()).thenReturn(fecha1);
+		when(muestra4.getFechaCreacion()).thenReturn(fecha);
 		
 		List<Muestra> resultado = filtro.buscar();
 		
@@ -71,11 +72,11 @@ class FiltroPorFechaDeUltimaVotacionTest {
 	}
 	
 	@Test
-	public void testCuandoUnFiltroPorFechaDeUltimaVotacionBuscaMuestrasConUnaFechaYEncuentraTodas() {
-		when(muestra1.getFechaUltimaVotacion()).thenReturn(fecha);
-		when(muestra2.getFechaUltimaVotacion()).thenReturn(fecha);
-		when(muestra3.getFechaUltimaVotacion()).thenReturn(fecha);
-		when(muestra4.getFechaUltimaVotacion()).thenReturn(fecha);
+	public void testCuandoUnFiltroPorFechaDeCreacionBuscaMuestrasConUnaFechaYEncuentraTodas() {
+		when(muestra1.getFechaCreacion()).thenReturn(fecha);
+		when(muestra2.getFechaCreacion()).thenReturn(fecha);
+		when(muestra3.getFechaCreacion()).thenReturn(fecha);
+		when(muestra4.getFechaCreacion()).thenReturn(fecha);
 		
 		List<Muestra> resultado = filtro.buscar();
 		

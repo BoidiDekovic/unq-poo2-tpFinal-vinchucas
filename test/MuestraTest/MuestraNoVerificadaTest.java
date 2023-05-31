@@ -43,7 +43,7 @@ public class MuestraNoVerificadaTest {
 	@Test
 	public void testAgregarOpinion() {
 		estadoMuestraNoVerificada.agregarOpinion(opinion, muestra);
-		verify(muestra, times(1)).agregarOpinionAMuestraNoVerificada(opinion);
+		verify(muestra, times(1)).agregarOpinionAMuestra(opinion);
 		verify(muestra, times(1)).calcularVerificacion();
 	}
 	

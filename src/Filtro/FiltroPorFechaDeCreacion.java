@@ -6,12 +6,12 @@ import java.util.List;
 import Muestra.Muestra;
 import Sistema.Sistema;
 
-public class FiltroPorFechaDeCreacionDeMuestra extends FiltroPorFecha {
+public class FiltroPorFechaDeCreacion extends FiltroPorFecha {
 
 	/**
 	 * @param nivelVerificacion
 	 */
-	public FiltroPorFechaDeCreacionDeMuestra(LocalDate fechaDeCreacionDeMuestra, Sistema sistema) {
+	public FiltroPorFechaDeCreacion(LocalDate fechaDeCreacionDeMuestra, Sistema sistema) {
 		super();
 		this.setFecha(fechaDeCreacionDeMuestra);
 		this.sistema = sistema;
@@ -19,8 +19,9 @@ public class FiltroPorFechaDeCreacionDeMuestra extends FiltroPorFecha {
 	
 	@Override
 	public List<Muestra> buscar() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getSistema().getMuestras().stream()
+				.filter(m -> m.getFechaCreacion().equals(this.getFecha()))
+				.toList();
 	}
 
 }

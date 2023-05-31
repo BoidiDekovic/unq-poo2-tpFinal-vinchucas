@@ -26,14 +26,14 @@ public class Muestra {
 	
 	
 	
-	public Muestra(Sistema sistema, TipoOpinion vinchucaSegunAutor, String foto, LocalDate fechaCreacion,
-			LocalDate fechaUltimaVotacion, Ubicacion ubicacion, Usuario usuarioAutor, EstadoMuestra estadoMuestra) {
+	public Muestra(Sistema sistema, TipoOpinion vinchucaSegunAutor, String foto, Ubicacion ubicacion,
+			Usuario usuarioAutor, EstadoMuestra estadoMuestra) {
 		super();
 		this.sistema = sistema;
 		this.vinchucaSegunAutor = vinchucaSegunAutor;
 		this.foto = foto;
-		this.fechaCreacion = fechaCreacion;
-		this.fechaUltimaVotacion = fechaUltimaVotacion;
+		this.fechaCreacion = LocalDate.now();
+		this.fechaUltimaVotacion = null;
 		this.ubicacion = ubicacion;
 		this.usuarioAutor = usuarioAutor;
 		this.estadoMuestra = estadoMuestra;
@@ -49,7 +49,12 @@ public class Muestra {
 	}
 
 	public LocalDate getFechaUltimaVotacion() {
-		return fechaUltimaVotacion;
+		return this.fechaUltimaVotacion;
+	}
+	
+	
+	public void setFechaUltimaVotacion(LocalDate fechaUltimaVotacion) {
+		this.fechaUltimaVotacion = fechaUltimaVotacion;
 	}
 
 	public List<Opinion> getOpiniones() {
@@ -76,8 +81,9 @@ public class Muestra {
 		this.estadoMuestra.agregarOpinion(opinion, this);
 	}
 	
-	public void agregarOpinionAMuestraNoVerificada(Opinion opinion) {
+	public void agregarOpinionAMuestra(Opinion opinion) {
 		this.opiniones.add(opinion);
+		this.setFechaUltimaVotacion(opinion.getFechaDeEnvio());
 	}
 
 	public TipoOpinion resultadoActual() {
