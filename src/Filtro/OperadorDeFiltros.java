@@ -6,8 +6,10 @@ import java.util.List;
 import Muestra.Muestra;
 
 public abstract class OperadorDeFiltros extends Filtro {
-
-	private List<Filtro> filtros ;
+	
+	// PRECONDICION: solo se puede agregar dos filtros
+	protected List<Filtro> filtros;
+	
 	@Override
 	public abstract List<Muestra> buscar(List<Muestra> muestras);
 	
@@ -21,7 +23,7 @@ public abstract class OperadorDeFiltros extends Filtro {
 	}
 	@Override
 	public Filtro getFiltroHijo(int index) {
-		return this.getFiltroHijo(index);
+		return this.filtros.get(index);
 	}
 
 

@@ -4,7 +4,6 @@ import java.util.List;
 
 import Muestra.Muestra;
 import Muestra.TipoOpinion;
-import Sistema.Sistema;
 
 public class FiltroPorTipoInsecto extends Filtro {
 
@@ -15,19 +14,17 @@ public class FiltroPorTipoInsecto extends Filtro {
 	/**
 	 * @param tipoInsecto
 	 */
-	public FiltroPorTipoInsecto(TipoOpinion tipoInsecto, Sistema sistema) {
+	public FiltroPorTipoInsecto(TipoOpinion tipoInsecto) {
 		super();
 		this.tipoInsecto = tipoInsecto;
-		this.sistema = sistema;
 	}
 
 
 
 	@Override
-	public List<Muestra> buscar() {
-		return this.sistema.getMuestras().stream()
-										 .filter(m -> m.resultadoActual().equals(this.tipoInsecto))
-										 .toList();
+	public List<Muestra> buscar(List<Muestra> muestras) {
+		return muestras.stream().filter(m -> m.resultadoActual().equals(this.tipoInsecto))
+								.toList();
 	}
 
 

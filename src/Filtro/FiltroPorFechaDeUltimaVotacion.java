@@ -4,24 +4,21 @@ import java.time.LocalDate;
 import java.util.List;
 
 import Muestra.Muestra;
-import Sistema.Sistema;
 
 public class FiltroPorFechaDeUltimaVotacion extends FiltroPorFecha {
 
 	/**
 	 * @param nivelVerificacion
 	 */
-	public FiltroPorFechaDeUltimaVotacion(LocalDate fechaDeUltimaVotacion, Sistema sistema) {
+	public FiltroPorFechaDeUltimaVotacion(LocalDate fechaDeUltimaVotacion) {
 		super();
 		this.setFecha(fechaDeUltimaVotacion);
-		this.sistema = sistema;
 	}
 	
 	@Override
-	public List<Muestra> buscar() {
+	public List<Muestra> buscar(List<Muestra> muestras) {
 		
-		return this.getSistema().getMuestras().stream()
-								.filter(m -> m.getFechaUltimaVotacion().equals(this.getFecha()))
+		return muestras.stream().filter(m -> m.getFechaUltimaVotacion().equals(this.getFecha()))
 								.toList();
 	}
 	

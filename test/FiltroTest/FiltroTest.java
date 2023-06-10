@@ -1,32 +1,20 @@
 package FiltroTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
-import static org.mockito.Mockito.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Filtro.Filtro;
-import Filtro.FiltroPorFecha;
 import Filtro.FiltroPorTipoInsecto;
 import Muestra.TipoOpinion;
-import Sistema.Sistema;
 
 public class FiltroTest {
 	
 	private Filtro filtro;
-	private Sistema sistema;
 	
 	@BeforeEach
 	public void setUp() {
-		this.sistema = mock(Sistema.class);
-		this.filtro = new FiltroPorTipoInsecto(TipoOpinion.CHINCHEFOLIADA, sistema);
-	}
-	
-	@Test
-	public void testCuandoUnFiltroSeCreaTieneUnSistema() {
-		assertEquals(sistema, filtro.getSistema());
+		this.filtro = new FiltroPorTipoInsecto(TipoOpinion.CHINCHEFOLIADA);
 	}
 	
 	@Test
@@ -44,5 +32,4 @@ public class FiltroTest {
 		assertThrowsExactly(UnsupportedOperationException.class, () -> {filtro.getFiltroHijo(0);});
 	}
 	
-
 }

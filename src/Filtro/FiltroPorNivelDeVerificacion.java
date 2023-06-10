@@ -4,7 +4,6 @@ import java.util.List;
 
 import Muestra.EstadoMuestra;
 import Muestra.Muestra;
-import Sistema.Sistema;
 
 public class FiltroPorNivelDeVerificacion extends Filtro {
 
@@ -14,16 +13,15 @@ public class FiltroPorNivelDeVerificacion extends Filtro {
 	/**
 	 * @param nivelVerificacion
 	 */
-	public FiltroPorNivelDeVerificacion(EstadoMuestra nivelVerificacion, Sistema sistema) {
+	public FiltroPorNivelDeVerificacion(EstadoMuestra nivelVerificacion) {
 		super();
 		this.nivelVerificacion = nivelVerificacion;
-		this.sistema = sistema;
 	}
 
 
 	@Override
-	public List<Muestra> buscar() {
-		return this.sistema.getMuestras().stream()
+	public List<Muestra> buscar(List<Muestra> muestras) {
+		return muestras.stream()
 				 .filter(m -> m.getEstadoMuestra().equals(this.getNivelVerificacion()))
 				 .toList();
 	}

@@ -8,15 +8,10 @@ import Muestra.Muestra;
 
 
 public class DisyuncionDeFiltros extends OperadorDeFiltros{
-
-	private Filtro[] filtros;
-	
-	
-	
 	
 	public DisyuncionDeFiltros() {
 		super();
-		this.filtros = new Filtro[2];
+		this.filtros = new ArrayList<Filtro>();
 	}
 
 

@@ -1,13 +1,10 @@
 package Filtro;
 
 import java.util.List;
-
 import Muestra.Muestra;
-import Sistema.Sistema;
 
 public abstract class Filtro {
 
-	
 	public abstract List<Muestra> buscar(List<Muestra> muestras);
 	
 	public void agregarFiltro(Filtro filtro) {
@@ -21,7 +18,5 @@ public abstract class Filtro {
 	public Filtro getFiltroHijo(int index) {
 		throw new UnsupportedOperationException();
 	}
-	
-	
 	
 }

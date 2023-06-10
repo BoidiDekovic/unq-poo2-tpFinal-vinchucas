@@ -4,14 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 import Muestra.Muestra;
-import Sistema.Sistema;
 
 public abstract class FiltroPorFecha extends Filtro {
 
 	private LocalDate fecha;
 
 	@Override
-	public abstract List<Muestra> buscar();
+	public abstract List<Muestra> buscar(List<Muestra> muestras);
 
 
 	public LocalDate getFecha() {

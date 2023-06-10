@@ -18,22 +18,15 @@ class OperadorDeFiltrosTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 	
-		operador = new DisyuncionDeFiltros();
 		filtro = mock(Filtro.class);
+		operador = new DisyuncionDeFiltros();
 	
 	}
 
 	@Test
 	public void testCuandoUnOperadorDeFiltrosAgregaUnFiltroEsteSeAgregaALaLista() {
 		operador.agregarFiltro(filtro);
-	    assertEquals(filtro , operador.getFiltroHijo(0));
-		
+	    assertEquals(filtro, operador.getFiltroHijo(0));
 	}
-	@Test
-	public void testCuandoUnOperadorDeFiltrosEliminaUnFiltroEsteSeAgregaALaLista() {
-		operador.agregarFiltro(filtro);
-	    operador.quitarFiltro(filtro);
-		assertEquals(filtro , operador.getFiltroHijo(0));
-
-	}
+	
 }

@@ -12,35 +12,30 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Filtro.FiltroPorFecha;
 import Filtro.FiltroPorFechaDeUltimaVotacion;
 import Muestra.Muestra;
-import Muestra.TipoOpinion;
-import Sistema.Sistema;
 
 class FiltroPorFechaDeUltimaVotacionTest {
 	private FiltroPorFechaDeUltimaVotacion filtro;
 	private LocalDate fecha, fecha1;
-	private Sistema sistema;
 	private Muestra muestra1, muestra2, muestra3, muestra4;
+	private List<Muestra> muestras;
+	
 	@BeforeEach
 	void setUp() throws Exception {
-		sistema = mock(Sistema.class);
 		muestra1 = mock(Muestra.class);
 		muestra2 = mock(Muestra.class);
 		muestra3 = mock(Muestra.class);
 		muestra4 = mock(Muestra.class);
+		muestras = Arrays.asList(muestra1, muestra2, muestra3, muestra4);
 		fecha = LocalDate.of(2023, 6, 12);
 		fecha1 = LocalDate.of(2023, 5, 23);
-		filtro = new FiltroPorFechaDeUltimaVotacion(fecha, sistema);
-		when(sistema.getMuestras()).thenReturn(Arrays.asList(muestra1, muestra2, muestra3, muestra4));
+		filtro = new FiltroPorFechaDeUltimaVotacion(fecha);
 	}
 	
 	@Test
 	public void testCuandoUnFiltroPorFechaDeUltimaVotacionBuscaPorUnaFechaYNoCoincideNingunaMuestraPorListaVacia() {
-		when(sistema.getMuestras()).thenReturn(Arrays.asList());
-		
-		List<Muestra> resultado = filtro.buscar();
+		List<Muestra> resultado = filtro.buscar(Arrays.asList());
 		
 		assertTrue(resultado.isEmpty());
 	}
@@ -52,7 +47,7 @@ class FiltroPorFechaDeUltimaVotacionTest {
 		when(muestra3.getFechaUltimaVotacion()).thenReturn(fecha1);
 		when(muestra4.getFechaUltimaVotacion()).thenReturn(fecha1);
 		
-		List<Muestra> resultado = filtro.buscar();
+		List<Muestra> resultado = filtro.buscar(muestras);
 		
 		assertTrue(resultado.isEmpty());
 	}
@@ -64,7 +59,7 @@ class FiltroPorFechaDeUltimaVotacionTest {
 		when(muestra3.getFechaUltimaVotacion()).thenReturn(fecha1);
 		when(muestra4.getFechaUltimaVotacion()).thenReturn(fecha);
 		
-		List<Muestra> resultado = filtro.buscar();
+		List<Muestra> resultado = filtro.buscar(muestras);
 		
 		assertEquals(1, resultado.size());
 		assertTrue(resultado.contains(muestra4));
@@ -77,7 +72,7 @@ class FiltroPorFechaDeUltimaVotacionTest {
 		when(muestra3.getFechaUltimaVotacion()).thenReturn(fecha);
 		when(muestra4.getFechaUltimaVotacion()).thenReturn(fecha);
 		
-		List<Muestra> resultado = filtro.buscar();
+		List<Muestra> resultado = filtro.buscar(muestras);
 		
 		assertEquals(4, resultado.size());
 		assertTrue(resultado.contains(muestra1));
