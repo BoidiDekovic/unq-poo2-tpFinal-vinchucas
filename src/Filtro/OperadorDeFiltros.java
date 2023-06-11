@@ -10,6 +10,7 @@ public abstract class OperadorDeFiltros extends Filtro {
 	// PRECONDICION: solo se puede agregar dos filtros
 	protected List<Filtro> filtros;
 	
+	// PRECONDICION: se necesitan dos filtros
 	@Override
 	public abstract List<Muestra> buscar(List<Muestra> muestras);
 	

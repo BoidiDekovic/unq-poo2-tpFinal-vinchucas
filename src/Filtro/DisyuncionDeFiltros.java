@@ -17,8 +17,10 @@ public class DisyuncionDeFiltros extends OperadorDeFiltros{
 
 	@Override
 	public List<Muestra> buscar(List<Muestra> muestras) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Muestra> muestrasDeFiltro1 = filtros.get(0).buscar(muestras);
+		List<Muestra> muestrasDeFiltro2 = filtros.get(1).buscar(muestras);
+		muestrasDeFiltro1.addAll(muestrasDeFiltro2);
+		return muestrasDeFiltro1;
 	}
 	
 }

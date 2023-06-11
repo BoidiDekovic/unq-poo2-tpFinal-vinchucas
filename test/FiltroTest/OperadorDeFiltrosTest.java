@@ -27,6 +27,8 @@ class OperadorDeFiltrosTest {
 	public void testCuandoUnOperadorDeFiltrosAgregaUnFiltroEsteSeAgregaALaLista() {
 		operador.agregarFiltro(filtro);
 	    assertEquals(filtro, operador.getFiltroHijo(0));
+	    
+	    // Validar no más de dos muestras
 	}
 	
 }
