@@ -16,8 +16,17 @@ public abstract class OperadorDeFiltros extends Filtro {
 	
 	@Override
 	public void agregarFiltro(Filtro filtro) {
+		this.validarNoMasDeDosFiltros();
 		this.filtros.add(filtro);
 	}
+	
+	private void validarNoMasDeDosFiltros() {
+		if(this.filtros.size() == 2) {
+			throw new UnsupportedOperationException
+				("No se pueden agregar mas de dos filtros");
+		}
+	}
+	
 	@Override
 	public void quitarFiltro(Filtro filtro) {
 		this.filtros.remove(filtro);

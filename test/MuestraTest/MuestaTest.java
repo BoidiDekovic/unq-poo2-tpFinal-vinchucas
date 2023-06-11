@@ -62,6 +62,11 @@ class MuestaTest {
 	}
 	
 	@Test
+	public void testCuandoUnaMuestraSeCreaTieneUnUsuarioAutor() {
+		assertEquals(usuarioAutor, muestra.getUsuarioAutor());
+	}
+	
+	@Test
 	public void testCuandoUnaMuestraSeCreaNoTieneUnaFechaDeUltimaVotacion() {
 		assertEquals(null, muestra.getFechaUltimaVotacion());
 	}

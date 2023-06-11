@@ -81,11 +81,6 @@ public class Muestra {
 		this.estadoMuestra.agregarOpinion(opinion, this);
 	}
 	
-	private void validarOpinionDeDiferenteUsuario(Opinion opinion) {
-		if (this.usuarioAutor.getOpinionesEnviadas().contains(opinion)) {
-		}
-	}
-	
 	public void agregarOpinionAMuestra(Opinion opinion) {
 		this.opiniones.add(opinion);
 		this.setFechaUltimaVotacion(opinion.getFechaDeEnvio());

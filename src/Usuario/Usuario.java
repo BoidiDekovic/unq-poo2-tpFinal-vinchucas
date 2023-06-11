@@ -26,7 +26,14 @@ public class Usuario {
 	}
 	
 	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion) {
+		this.validarOpinarSobreUnaMuestra(muestra);
 		this.estado.opinarSobreMuestra(muestra, tipoOpinion, this);
+	}
+
+	private void validarOpinarSobreUnaMuestra(Muestra muestra) {
+		if(this.muestras.contains(muestra)) {
+			throw new UnsupportedOperationException("No se puede opinar sobre muestras propias");
+		}
 	}
 
 	public List<Muestra> getMuestras() {
