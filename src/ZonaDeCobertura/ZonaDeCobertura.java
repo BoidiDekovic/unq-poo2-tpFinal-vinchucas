@@ -9,17 +9,19 @@ public class ZonaDeCobertura {
 	
 	
 	private String nombre;
-	private Ubicacion epicentro ;
+	private Ubicacion epicentro;
 	private List<Muestra> muestras;
 	private List<ObservadorZona> observadores;
+	private Distancia radio;
 	
-	
-	public ZonaDeCobertura(String nombre, Ubicacion epicentro) {
+	//PRECONDICION:	El radio esta en kilometros.
+	public ZonaDeCobertura(String nombre, Ubicacion epicentro, Distancia radio) {
 		super();
 		this.nombre = nombre;
 		this.epicentro = epicentro;
 		this.muestras = new ArrayList<Muestra>();
 		this.observadores = new ArrayList <ObservadorZona>();
+		this.radio = radio;
 	}
 	
 	public void notificarNuevaMuestra(Muestra muestra) {
@@ -46,16 +48,30 @@ public class ZonaDeCobertura {
 		return epicentro;
 	}
 
+	public Distancia getRadio() {
+		return radio;
+	}
+
 	public List<Muestra> getMuestras() {
 		return muestras;
 	}
 
+	public boolean tieneALaUbicacionDentroDelRadio(Ubicacion ubicacion) {
+		return this.epicentro.calcularDistanciaKilometrosA(ubicacion).getCantidad()
+			 < this.radio.getCantidad();
+	}
+	
 	public List<ObservadorZona> getObservadores() {
 		return observadores;
 	}
 	
 	public List<ZonaDeCobertura> zonasSolapadas(Sistema sistema) {
 		return sistema.zonasSolapadasDe(this);
+	}
+	
+	public boolean esZonaSolapada(ZonaDeCobertura zonaAComparar) {
+		Distancia distancia = this.epicentro.calcularDistanciaKilometrosA(zonaAComparar.getEpicentro());
+		return zonaAComparar.radio.getCantidad() + this.radio.getCantidad() >= distancia.getCantidad();
 	}
 	
 }

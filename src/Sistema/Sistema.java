@@ -31,7 +31,9 @@ public class Sistema {
 
 	public void agregarMuestra(Muestra muestra) {
 		this.muestras.add(muestra);
-		// TERMINAR MANDAR MUESTRAS A SUS ZONAS DE COBERTURA
+		this.zonasDeCoberturas.stream()
+			.filter(z -> z.tieneALaUbicacionDentroDelRadio(muestra.getUbicacion()))
+			.forEach(z -> z.agregarMuestra(muestra));;
 	}
 	
 	public void agregarZonaDeCobertura(ZonaDeCobertura zonaDeCobertura) {
@@ -47,9 +49,8 @@ public class Sistema {
 	}
 
 	public List<ZonaDeCobertura> zonasSolapadasDe(ZonaDeCobertura zonaDeCobertura) {
-		// TODO Auto-generated method stub
-		// TERMINAR
-		return null;
+		return this.zonasDeCoberturas.stream()
+				.filter(z -> z.esZonaSolapada(zonaDeCobertura))
+				.toList();
 	}
-	
 }
