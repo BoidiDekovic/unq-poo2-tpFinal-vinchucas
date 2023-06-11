@@ -97,9 +97,9 @@ public void testCuandoSeNotificaLaVerificacionDeUnaMuestraSeLeNotificaALaZonaQue
 		
 		sistema.notificarVerificacionMuestraAZonas(muestra1);
 		
-		verify(zona1, times(1)).notificaVerificacionMuestra(muestra1);
-		verify(zona2, never()).notificaVerificacionMuestra(muestra1);
-		verify(zona3, never()).notificaVerificacionMuestra(muestra1);
+		verify(zona1, times(1)).notificarVerificacionMuestra(muestra1);
+		verify(zona2, never()).notificarVerificacionMuestra(muestra1);
+		verify(zona3, never()).notificarVerificacionMuestra(muestra1);
 	}
 	
 	@Test
@@ -112,9 +112,9 @@ public void testCuandoSeNotificaLaVerificacionDeUnaMuestraSeLeNotificaALaZonaQue
 		
 		sistema.notificarVerificacionMuestraAZonas(muestra1);
 		
-		verify(zona1, never()).notificaVerificacionMuestra(muestra1);
-		verify(zona2, never()).notificaVerificacionMuestra(muestra1);
-		verify(zona3, never()).notificaVerificacionMuestra(muestra1);
+		verify(zona1, never()).notificarVerificacionMuestra(muestra1);
+		verify(zona2, never()).notificarVerificacionMuestra(muestra1);
+		verify(zona3, never()).notificarVerificacionMuestra(muestra1);
 	}
 	
 	@Test
@@ -127,9 +127,9 @@ public void testCuandoSeNotificaLaVerificacionDeUnaMuestraSeLeNotificaALaZonaQue
 		
 		sistema.notificarVerificacionMuestraAZonas(muestra1);
 		
-		verify(zona1, times(1)).notificaVerificacionMuestra(muestra1);
-		verify(zona2, times(1)).notificaVerificacionMuestra(muestra1);
-		verify(zona3, times(1)).notificaVerificacionMuestra(muestra1);
+		verify(zona1, times(1)).notificarVerificacionMuestra(muestra1);
+		verify(zona2, times(1)).notificarVerificacionMuestra(muestra1);
+		verify(zona3, times(1)).notificarVerificacionMuestra(muestra1);
 	}
 	
 	@Test

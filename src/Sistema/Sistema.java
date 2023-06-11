@@ -5,7 +5,6 @@ import java.util.List;
 
 import Muestra.Muestra;
 import ZonaDeCobertura.Distancia;
-import ZonaDeCobertura.Ubicacion;
 import ZonaDeCobertura.ZonaDeCobertura;
 
 public class Sistema {
@@ -22,7 +21,7 @@ public class Sistema {
 	public void notificarVerificacionMuestraAZonas(Muestra muestra) {
 		this.zonasDeCoberturas.stream().
 					filter(z -> z.getMuestras().contains(muestra)).
-					forEach(z -> z.notificaVerificacionMuestra(muestra));
+					forEach(z -> z.notificarVerificacionMuestra(muestra));
 	}
 
 	public List<Muestra> muestrasAMenosDe(Distancia distancia, Muestra muestra){
@@ -32,6 +31,7 @@ public class Sistema {
 
 	public void agregarMuestra(Muestra muestra) {
 		this.muestras.add(muestra);
+		// TERMINAR MANDAR MUESTRAS A SUS ZONAS DE COBERTURA
 	}
 	
 	public void agregarZonaDeCobertura(ZonaDeCobertura zonaDeCobertura) {
@@ -44,6 +44,12 @@ public class Sistema {
 
 	public List<ZonaDeCobertura> getZonasDeCoberturas() {
 		return this.zonasDeCoberturas;
+	}
+
+	public List<ZonaDeCobertura> zonasSolapadasDe(ZonaDeCobertura zonaDeCobertura) {
+		// TODO Auto-generated method stub
+		// TERMINAR
+		return null;
 	}
 	
 }
