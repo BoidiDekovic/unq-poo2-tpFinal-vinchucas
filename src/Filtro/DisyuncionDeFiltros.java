@@ -20,7 +20,7 @@ public class DisyuncionDeFiltros extends OperadorDeFiltros{
 		List<Muestra> muestrasDeFiltro1 = filtros.get(0).buscar(muestras);
 		List<Muestra> muestrasDeFiltro2 = filtros.get(1).buscar(muestras);
 		for(Muestra muestra : muestrasDeFiltro2) {
-			if(muestrasDeFiltro1.contains(muestra)) {
+			if(!muestrasDeFiltro1.contains(muestra)) {
 				muestrasDeFiltro1.add(muestra);
 			}
 		}
