@@ -27,5 +27,8 @@ public abstract class OperadorDeFiltros extends Filtro {
 		return this.filtros.get(index);
 	}
 
-
+	public List<Filtro> getFiltrosHijos(){
+		return this.filtros;
+	}
+	
 }

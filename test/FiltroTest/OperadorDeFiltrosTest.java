@@ -28,7 +28,18 @@ class OperadorDeFiltrosTest {
 		operador.agregarFiltro(filtro);
 	    assertEquals(filtro, operador.getFiltroHijo(0));
 	    
-	    // Validar no más de dos muestras
+	}
+	@Test
+	public void testCuandoSeCreaUnOperadorDeFiltrosTieneUnaListaVaciaDeFiltrosHijos() {
+		assertTrue(operador.getFiltrosHijos().isEmpty());
 	}
 	
+	@Test
+	public void testCuandoUnOperadorDeFiltrosQuitaUnFiltroEsteSeSacaDeLaLista() {
+		operador.agregarFiltro(filtro);
+	    assertEquals(filtro, operador.getFiltroHijo(0));
+	    operador.quitarFiltro(filtro);
+	    assertTrue(operador.getFiltrosHijos().isEmpty());
+	    
+	}
 }

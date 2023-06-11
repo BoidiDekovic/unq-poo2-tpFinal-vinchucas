@@ -62,7 +62,7 @@ class UbicacionTest {
 	public void testCuandoUnaUbicacionEstaALaDistanciaDadaEnMetrosDaFalso() {
 		
 		when(distancia.getUnidad()).thenReturn(Unidad.METRO);
-		when(distancia.getCantidad()).thenReturn(10.0);
+		when(distancia.getCantidad()).thenReturn(120.0);
 		assertFalse(ubicacion.esUbicacionAMenosDe(ubicacion2, distancia));
 	}
 	
