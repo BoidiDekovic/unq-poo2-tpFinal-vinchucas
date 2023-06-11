@@ -45,11 +45,7 @@ public class MuestraVerificadaTest {
 	
 	@Test
 	public void testAgregarOpinion() {
-		try {
-			estadoMuestraVerificado.agregarOpinion(opinion, muestra);
-		} catch (Exception e) {
-			assertEquals("No se puede agregar opinion a una muestra verificada", e.getMessage());
-		}
+		assertThrowsExactly(UnsupportedOperationException.class, () -> {estadoMuestraVerificado.agregarOpinion(opinion, muestra);});
 	}
 	
 }
