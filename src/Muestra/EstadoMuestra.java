@@ -25,20 +25,29 @@ public abstract class EstadoMuestra {
 	}
 
 	public TipoOpinion resultadoEntre(List<Opinion> opiniones) {
-			   Map<Object, Long> mapOpiniones = opiniones.stream() //conteo de opiniones
-								  .map(o-> o.getTipoOpinion())
-			                      .collect(Collectors.groupingBy(
-			                       o -> o, Collectors.counting()));
-			   
-			   TipoOpinion primerTipo = opiniones.get(0).getTipoOpinion(); 
-			   
-			   if(opiniones.size() > 1 && //Caso empate
-					    mapOpiniones.entrySet().stream().allMatch(e -> e.getValue().equals(mapOpiniones.get(primerTipo)))) {
-					                   return TipoOpinion.NODEFINIDO;
-			   }
-			   
-			   return (TipoOpinion) mapOpiniones.entrySet().stream() //Agarra la opinion con maximo de votos
-					                                       .max(Comparator.comparing((Map.Entry::getValue)))
-					                                       .get().getKey();
+		Map<Object, Long> mapOpiniones = conteoPorTipoDeOpinion(opiniones);
+		return opinionConMaximoDeVotos(mapOpiniones);
+	}
+
+	private TipoOpinion opinionConMaximoDeVotos(Map<Object, Long> mapOpiniones) {
+		TipoOpinion maximo = (TipoOpinion) mapOpiniones.entrySet()
+								.stream()
+								.max(Comparator.comparing((Map.Entry::getValue)))
+								.get()
+								.getKey();
+		
+		//Caso empate
+		if(mapOpiniones.size() > 1 && mapOpiniones.entrySet()
+				.stream()
+				.allMatch(e -> e.getValue().equals(mapOpiniones.get(maximo)))) {
+			return TipoOpinion.NODEFINIDO;
+	   }
+		return maximo;
+	}
+
+	private Map<Object, Long> conteoPorTipoDeOpinion(List<Opinion> opiniones) {
+		return opiniones.stream()
+						.map(o-> o.getTipoOpinion())
+						.collect(Collectors.groupingBy(o -> o, Collectors.counting()));
 	}
 }
