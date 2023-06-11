@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public abstract class EstadoMuestra {
 
 	
-	public abstract void agregarOpinion(Opinion opinion, Muestra muestra);
+	public abstract void agregarOpinion(Opinion opinion, Muestra muestra) throws Exception;
 	
 	public TipoOpinion resultadoActual(Muestra muestra) {
 		List<Opinion> opiniones = muestra.getOpiniones();

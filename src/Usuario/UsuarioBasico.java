@@ -13,8 +13,8 @@ public class UsuarioBasico extends EstadoUsuario {
 	@Override
 	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion, Usuario usuario) {
 		Opinion nuevaOpinion = new Opinion(tipoOpinion,this , LocalDate.now());
-		muestra.agregarOpinion(nuevaOpinion);
 		usuario.agregarOpinionEnviada(nuevaOpinion);
+		muestra.agregarOpinion(nuevaOpinion);
 	}
 
 	@Override

@@ -81,6 +81,12 @@ public class Muestra {
 		this.estadoMuestra.agregarOpinion(opinion, this);
 	}
 	
+	private void validarOpinionDeDiferenteUsuario(Opinion opinion) throws Exception {
+		if (this.usuarioAutor.getOpinionesEnviadas().contains(opinion)) {
+			throw new Exception("No se puede opinar sobre la muestra que subiste");
+		}
+	}
+	
 	public void agregarOpinionAMuestra(Opinion opinion) {
 		this.opiniones.add(opinion);
 		this.setFechaUltimaVotacion(opinion.getFechaDeEnvio());
