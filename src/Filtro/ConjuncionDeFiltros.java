@@ -1,15 +1,13 @@
 package Filtro;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import Muestra.Muestra;
 
+public class ConjuncionDeFiltros extends OperadorDeFiltros {
 
-public class DisyuncionDeFiltros extends OperadorDeFiltros{
-	
-	public DisyuncionDeFiltros() {
+	public ConjuncionDeFiltros() {
 		super();
 		this.filtros = new ArrayList<Filtro>();
 	}
@@ -19,11 +17,7 @@ public class DisyuncionDeFiltros extends OperadorDeFiltros{
 	public List<Muestra> buscar(List<Muestra> muestras) {
 		List<Muestra> muestrasDeFiltro1 = filtros.get(0).buscar(muestras);
 		List<Muestra> muestrasDeFiltro2 = filtros.get(1).buscar(muestras);
-		for(Muestra muestra : muestrasDeFiltro2) {
-			if(muestrasDeFiltro1.contains(muestra)) {
-				muestrasDeFiltro1.add(muestra);
-			}
-		}
+		muestrasDeFiltro1.retainAll(muestrasDeFiltro2);
 		return muestrasDeFiltro1;
 	}
 	
