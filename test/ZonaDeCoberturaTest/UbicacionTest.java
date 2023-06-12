@@ -59,6 +59,7 @@ class UbicacionTest {
 		assertTrue(ubicacion.esUbicacionAMenosDe(ubicacion2, distancia));
 	}
 	
+	@Test
 	public void testCuandoUnaUbicacionEstaALaDistanciaDadaEnMetrosDaFalso() {
 		
 		when(distancia.getUnidad()).thenReturn(Unidad.METRO);
