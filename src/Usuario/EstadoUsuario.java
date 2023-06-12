@@ -2,6 +2,7 @@ package Usuario;
 
 import Muestra.Muestra;
 import Muestra.TipoOpinion;
+import Sistema.Sistema;
 
 public abstract class EstadoUsuario {
 	
@@ -10,9 +11,9 @@ public abstract class EstadoUsuario {
 
 	public abstract boolean esExperto();
 
-	public void agregarYEnviar(Muestra muestra, Usuario usuario) {
+	public void agregarYEnviar(Muestra muestra, Usuario usuario, Sistema sistema) {
 		usuario.agregarMuestra(muestra);
-		muestra.enviarseASistema();
+		muestra.enviarseASistema(sistema);
 		
 	
 	}

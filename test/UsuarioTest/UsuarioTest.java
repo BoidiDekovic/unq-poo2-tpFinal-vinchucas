@@ -95,8 +95,8 @@ class UsuarioTest {
 	
 	@Test
 	public void testCuandoUnUsuarioAgregaYEnviaUnaMuestraSeDelegaASuEstadoLaAccion() {
-		usuario.agregarYEnviar(muestra);
-		verify(estadoBasico, times(1)).agregarYEnviar(muestra, usuario);
+		usuario.agregarYEnviar(muestra, null);
+		verify(estadoBasico, times(1)).agregarYEnviar(muestra, usuario, null);
 	}
 	
 	@Test

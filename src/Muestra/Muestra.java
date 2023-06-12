@@ -26,17 +26,15 @@ public class Muestra {
 	
 	
 	
-	public Muestra(Sistema sistema, TipoOpinion vinchucaSegunAutor, String foto, Ubicacion ubicacion,
-			Usuario usuarioAutor, EstadoMuestra estadoMuestra) {
+	public Muestra(TipoOpinion vinchucaSegunAutor, String foto, Ubicacion ubicacion, Usuario usuarioAutor) {
 		super();
-		this.sistema = sistema;
 		this.vinchucaSegunAutor = vinchucaSegunAutor;
 		this.foto = foto;
 		this.fechaCreacion = LocalDate.now();
 		this.fechaUltimaVotacion = null;
 		this.ubicacion = ubicacion;
 		this.usuarioAutor = usuarioAutor;
-		this.estadoMuestra = estadoMuestra;
+		this.estadoMuestra = new MuestraNoVerificada();
 		this.opiniones = new ArrayList<Opinion>();
 	}
 
@@ -73,7 +71,7 @@ public class Muestra {
 		return estadoMuestra;
 	}
 
-	private void setEstadoMuestra(EstadoMuestra estadoMuestra) {
+	public void setEstadoMuestra(EstadoMuestra estadoMuestra) {
 		this.estadoMuestra = estadoMuestra;
 	}
 
@@ -108,9 +106,9 @@ public class Muestra {
 		}
 	}
 
-	public void enviarseASistema() {
-		this.sistema.agregarMuestra(this);
-		
+	public void enviarseASistema(Sistema sistema) {
+		sistema.agregarMuestra(this);
+		this.sistema = sistema;
 	}
 	
 	

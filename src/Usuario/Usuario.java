@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Muestra.Muestra;
 import Muestra.Opinion;
 import Muestra.TipoOpinion;
+import Sistema.Sistema;
 
 public class Usuario {
 	
@@ -21,8 +22,8 @@ public class Usuario {
 		this.opinionesEnviadas = new ArrayList<Opinion>();
 	}
 
-	public void agregarYEnviar(Muestra muestra){
-		this.estado.agregarYEnviar(muestra, this);
+	public void agregarYEnviar(Muestra muestra, Sistema sistema){
+		this.estado.agregarYEnviar(muestra, this, null);
 	}
 	
 	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion) {

@@ -52,8 +52,8 @@ class MuestaTest {
 		opinion2 = mock(Opinion.class);
 		
 		// SUT
-		muestra = new Muestra(sistema, posibleVinchuca, foto, ubicacion, usuarioAutor, estadoMuestraNoVerificada);
-
+		muestra = new Muestra(posibleVinchuca, foto, ubicacion, usuarioAutor);
+		muestra.setEstadoMuestra(estadoMuestraNoVerificada);
 	}
 	
 	@Test
@@ -89,6 +89,14 @@ class MuestaTest {
 	@Test
 	public void testCuandoUnaMuestraTieneUnEstadoMuestra() {
 		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+	}
+	
+	@Test
+	public void testCuandoUnaMuestraSeteaSuEstadoCambiaSuEstado() {
+		MuestraVerificada estadoVerificada = mock(MuestraVerificada.class);
+		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+		muestra.setEstadoMuestra(estadoVerificada);
+		assertEquals(estadoVerificada, muestra.getEstadoMuestra());
 	}
 	
 	@Test
@@ -147,6 +155,7 @@ class MuestaTest {
 		muestra.agregarOpinionAMuestra(opinion1);
 		muestra.agregarOpinionAMuestra(opinion2);
 		
+		muestra.enviarseASistema(sistema);
 		muestra.calcularVerificacion();
 		
 		assertTrue(muestra.getEstadoMuestra() instanceof MuestraVerificada);
@@ -200,7 +209,7 @@ class MuestaTest {
 	
 	@Test
 	public void testCuandoSeLeEnviaAlSistemaUnaMuestraLoAgregaASuListaDeMuestras() {
-		muestra.enviarseASistema();
+		muestra.enviarseASistema(sistema);
 		verify(sistema, times(1)).agregarMuestra(muestra);
 	}
 	
