@@ -12,8 +12,20 @@ public abstract class OperadorDeFiltros extends Filtro {
 	
 	// PRECONDICION: se necesitan dos filtros
 	@Override
-	public abstract List<Muestra> buscar(List<Muestra> muestras);
+	public List<Muestra> buscar(List<Muestra> muestras){
+		this.validarHayDosFiltros();
+		return this.operar(muestras);
+	};
 	
+	private void validarHayDosFiltros() {
+		if(this.filtros.size() != 2) {
+			throw new UnsupportedOperationException
+			("No se puede operar si no hay dos filtros");
+		}
+	}
+	
+	public abstract List<Muestra> operar(List<Muestra> muestras);
+
 	@Override
 	public void agregarFiltro(Filtro filtro) {
 		this.validarNoMasDeDosFiltros();

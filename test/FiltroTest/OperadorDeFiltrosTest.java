@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import org.mockito.Mock;
 import Filtro.DisyuncionDeFiltros;
 import Filtro.Filtro;
 import Filtro.OperadorDeFiltros;
+import Muestra.Muestra;
 
 class OperadorDeFiltrosTest {
 
@@ -41,6 +44,16 @@ class OperadorDeFiltrosTest {
 			operador.agregarFiltro(mock(Filtro.class));
 		} catch (Exception e) {
 			assertEquals("No se pueden agregar mas de dos filtros", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testCuandoUnOperadorDeFiltrosQuiereBuscarConMenosDeDosFiltrosLanzaExcepcion() {
+		operador.agregarFiltro(filtro);
+		try {
+			operador.buscar(new ArrayList<Muestra>());
+		} catch (Exception e) {
+			assertEquals("No se puede operar si no hay dos filtros", e.getMessage());
 		}
 	}
 	

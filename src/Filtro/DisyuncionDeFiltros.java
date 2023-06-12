@@ -15,8 +15,7 @@ public class DisyuncionDeFiltros extends OperadorDeFiltros{
 	}
 
 	@Override
-	public List<Muestra> buscar(List<Muestra> muestras) {
-		this.validarHayDosFiltros();
+	public List<Muestra> operar(List<Muestra> muestras) {
 		List<Muestra> muestrasDeFiltro1 = filtros.get(0).buscar(muestras);
 		List<Muestra> muestrasDeFiltro2 = filtros.get(1).buscar(muestras);
 		for(Muestra muestra : muestrasDeFiltro2) {
@@ -25,13 +24,6 @@ public class DisyuncionDeFiltros extends OperadorDeFiltros{
 			}
 		}
 		return muestrasDeFiltro1;
-	}
-	
-	private void validarHayDosFiltros() {
-		if(this.filtros.size() != 2) {
-			throw new UnsupportedOperationException
-			("No se puede operar si no hay dos filtros");
-		}
 	}
 	
 }

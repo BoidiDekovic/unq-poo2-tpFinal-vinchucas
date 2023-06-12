@@ -40,7 +40,7 @@ class ConjuncionDeFiltrosTest {
 	
 	@Test
 	void testCuandoLaConjuncionDeFiltrosLePasanUnaListaDeMuestrasVaciaDevuelveUnaListaVacia() {
-		assertTrue(conjucionDeFiltros.buscar(new ArrayList<Muestra>()).isEmpty());
+		assertTrue(conjucionDeFiltros.operar(new ArrayList<Muestra>()).isEmpty());
 	}
 	
 	@Test
@@ -49,7 +49,7 @@ class ConjuncionDeFiltrosTest {
 		lista1.add(muestra2);
 		when(filtro1.buscar(muestras)).thenReturn(lista1);
 		when(filtro2.buscar(muestras)).thenReturn(lista2);
-		List<Muestra> resultado = conjucionDeFiltros.buscar(muestras);
+		List<Muestra> resultado = conjucionDeFiltros.operar(muestras);
 		assertTrue(resultado.isEmpty());
 	}
 	
@@ -59,7 +59,7 @@ class ConjuncionDeFiltrosTest {
 		lista2.add(muestra2);
 		when(filtro1.buscar(muestras)).thenReturn(lista1);
 		when(filtro2.buscar(muestras)).thenReturn(lista2);
-		List<Muestra> resultado = conjucionDeFiltros.buscar(muestras);
+		List<Muestra> resultado = conjucionDeFiltros.operar(muestras);
 		assertTrue(resultado.isEmpty());
 	}
 	
@@ -67,7 +67,7 @@ class ConjuncionDeFiltrosTest {
 	void testCuandoLaBusquedaDelPrimerYSegundoFiltroDaUnaListaVaciaDevuelveUnaListaVacia() {
 		when(filtro1.buscar(muestras)).thenReturn(lista1);
 		when(filtro2.buscar(muestras)).thenReturn(lista2);
-		List<Muestra> resultado = conjucionDeFiltros.buscar(muestras);
+		List<Muestra> resultado = conjucionDeFiltros.operar(muestras);
 		assertTrue(resultado.isEmpty());
 	}
 	
@@ -79,7 +79,7 @@ class ConjuncionDeFiltrosTest {
 		lista2.add(muestra4);
 		when(filtro1.buscar(muestras)).thenReturn(lista1);
 		when(filtro2.buscar(muestras)).thenReturn(lista2);
-		List<Muestra> resultado = conjucionDeFiltros.buscar(muestras);
+		List<Muestra> resultado = conjucionDeFiltros.operar(muestras);
 		assertTrue(resultado.contains(muestra2));
 		assertEquals(1, resultado.size());
 	}
