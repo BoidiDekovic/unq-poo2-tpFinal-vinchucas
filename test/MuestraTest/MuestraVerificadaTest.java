@@ -1,8 +1,11 @@
 package MuestraTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,11 +39,9 @@ public class MuestraVerificadaTest {
 	
 	@Test
 	public void testAgregarOpinion() {
-		try {
-			estadoMuestraVerificado.agregarOpinion(opinion, muestra);
-		} catch (Exception e) {
-			assertEquals("No se pueden agregar opiniones a una muestra verificada", e.getMessage());
-		}
+		assertThrows(UnsupportedOperationException.class, 
+				() -> {estadoMuestraVerificado.agregarOpinion(opinion, muestra);}
+				, "No se pueden agregar opiniones a una muestra verificada");
 	}
 	
 }

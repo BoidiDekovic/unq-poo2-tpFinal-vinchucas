@@ -16,6 +16,7 @@ import Filtro.DisyuncionDeFiltros;
 import Filtro.Filtro;
 import Filtro.OperadorDeFiltros;
 import Muestra.Muestra;
+import Muestra.TipoOpinion;
 
 class OperadorDeFiltrosTest {
 
@@ -40,21 +41,17 @@ class OperadorDeFiltrosTest {
 	public void testCuandoUnOperadorDeFiltrosQuiereAgregarMasDeDosFiltrosSeLanzaExcepcion() {
 		operador.agregarFiltro(filtro);
 		operador.agregarFiltro(mock(Filtro.class));
-		try {
-			operador.agregarFiltro(mock(Filtro.class));
-		} catch (Exception e) {
-			assertEquals("No se pueden agregar mas de dos filtros", e.getMessage());
-		}
+		assertThrows(UnsupportedOperationException.class, 
+				() -> {operador.agregarFiltro(mock(Filtro.class));}
+				, "No se pueden agregar mas de dos filtros");
 	}
 	
 	@Test
 	public void testCuandoUnOperadorDeFiltrosQuiereBuscarConMenosDeDosFiltrosLanzaExcepcion() {
 		operador.agregarFiltro(filtro);
-		try {
-			operador.buscar(new ArrayList<Muestra>());
-		} catch (Exception e) {
-			assertEquals("No se puede operar si no hay dos filtros", e.getMessage());
-		}
+		assertThrows(UnsupportedOperationException.class, 
+				() -> {operador.buscar(new ArrayList<Muestra>());}
+				, "No se puede operar si no hay dos filtros");
 	}
 	
 	

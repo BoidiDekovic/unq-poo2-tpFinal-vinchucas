@@ -81,11 +81,9 @@ class UsuarioTest {
 	@Test
 	public void testCuandoUnUsuarioOpinaSobreUnaMuestraPropiaSeLanzaUnaExcepcion() {
 		usuario.agregarMuestra(muestra);
-		try {
-			usuario.opinarSobreMuestra(muestra, TipoOpinion.PHTIACHINCHE);
-		} catch (Exception e) {
-			assertEquals("No se puede opinar sobre muestras propias", e.getMessage());
-		}
+		assertThrows(UnsupportedOperationException.class, 
+				() -> {usuario.opinarSobreMuestra(muestra, TipoOpinion.PHTIACHINCHE);}
+				, "No se puede opinar sobre muestras propias");
 	}
 	
 	@Test
