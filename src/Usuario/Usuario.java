@@ -23,7 +23,7 @@ public class Usuario {
 	}
 
 	public void agregarYEnviar(Muestra muestra, Sistema sistema){
-		this.estado.agregarYEnviar(muestra, this, null);
+		this.estado.agregarYEnviar(muestra, this, sistema);
 	}
 	
 	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion) {
@@ -93,6 +93,5 @@ public class Usuario {
 	public void agregarOpinionEnviada(Opinion opinion) {
 		this.opinionesEnviadas.add(opinion);
 	}
-
 	
 }

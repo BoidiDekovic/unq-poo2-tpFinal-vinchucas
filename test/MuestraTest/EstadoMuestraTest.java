@@ -19,7 +19,7 @@ import Usuario.UsuarioExperto;
 
 public class EstadoMuestraTest {
 
-	private MuestraNoVerificada estadoMuestraNoVerificada;
+	private MuestraNoVerificada estadoMuestra;
 	private Muestra muestra;
 	private Opinion opinion , opinion2, opinion3;
 	private UsuarioExperto estadoUsuarioExperto;
@@ -37,21 +37,21 @@ public class EstadoMuestraTest {
 		when(estadoUsuarioBasico.esExperto()).thenReturn(false);
 		when(estadoUsuarioExperto.esExperto()).thenReturn(true);
 		//SUT
-		estadoMuestraNoVerificada = new MuestraNoVerificada();
+		estadoMuestra = new MuestraNoVerificada();
 	}
 	
 	@Test
 	public void testResultadoActualOpinionDelAutor() {
 		when(muestra.getVinchucaSegunAutor()).thenReturn(TipoOpinion.VINCHUCAINFESTANS);
-		assertEquals(TipoOpinion.VINCHUCAINFESTANS, estadoMuestraNoVerificada.resultadoActual(muestra));
+		assertEquals(TipoOpinion.VINCHUCAINFESTANS, estadoMuestra.resultadoActual(muestra));
 	}
 
 	@Test 
 	public void testElResultadoActualCambiaAlagregarPrimeraOpinion() {  
 		when(muestra.getOpiniones()).thenReturn(Arrays.asList(opinion));
 		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCASORDIDA);
-		when(opinion.getEstadoAutor()).thenReturn(estadoUsuarioBasico);
-		assertEquals( TipoOpinion.VINCHUCASORDIDA , estadoMuestraNoVerificada.resultadoActual(muestra));
+		when(opinion.esOpinionDeExperto()).thenReturn(false);
+		assertEquals( TipoOpinion.VINCHUCASORDIDA , estadoMuestra.resultadoActual(muestra));
 		verify(muestra, atLeast(1)).getOpiniones();
 	}
 	
@@ -60,11 +60,11 @@ public class EstadoMuestraTest {
 		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAINFESTANS);
 		when(opinion3.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
-		when(opinion.getEstadoAutor()).thenReturn(estadoUsuarioBasico);
-		when(opinion2.getEstadoAutor()).thenReturn(estadoUsuarioBasico);
-		when(opinion3.getEstadoAutor()).thenReturn(estadoUsuarioBasico);
+		when(opinion.esOpinionDeExperto()).thenReturn(false);
+		when(opinion2.esOpinionDeExperto()).thenReturn(false);
+		when(opinion3.esOpinionDeExperto()).thenReturn(false);
 		when(muestra.getOpiniones()).thenReturn(Arrays.asList(opinion,opinion2,opinion3));
-		assertEquals( TipoOpinion.CHINCHEFOLIADA , estadoMuestraNoVerificada.resultadoActual(muestra));
+		assertEquals( TipoOpinion.CHINCHEFOLIADA , estadoMuestra.resultadoActual(muestra));
 		verify(muestra, atLeast(1)).getOpiniones(); 
 	}
 	
@@ -72,10 +72,10 @@ public class EstadoMuestraTest {
 	public void testElResultadoActualEnCasoDeEmpateDeVotosEsNoDefinido(){
 		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
-		when(opinion.getEstadoAutor()).thenReturn(estadoUsuarioBasico);
-		when(opinion2.getEstadoAutor()).thenReturn(estadoUsuarioBasico);
+		when(opinion.esOpinionDeExperto()).thenReturn(true);
+		when(opinion2.esOpinionDeExperto()).thenReturn(true);
 		when(muestra.getOpiniones()).thenReturn(Arrays.asList(opinion,opinion2));
-		assertEquals( TipoOpinion.NODEFINIDO , estadoMuestraNoVerificada.resultadoActual(muestra));
+		assertEquals( TipoOpinion.NODEFINIDO , estadoMuestra.resultadoActual(muestra));
 		verify(muestra, atLeast(1)).getOpiniones();
 	}
 
@@ -84,11 +84,12 @@ public class EstadoMuestraTest {
 		
 		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
-		when(opinion.getEstadoAutor()).thenReturn(estadoUsuarioExperto);
-		when(opinion2.getEstadoAutor()).thenReturn(estadoUsuarioBasico);
+		when(opinion.esOpinionDeExperto()).thenReturn(true);
+		when(opinion2.esOpinionDeExperto()).thenReturn(false);
+		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
 		when(muestra.getOpiniones()).thenReturn(Arrays.asList(opinion,opinion2));
 		
-		assertEquals( TipoOpinion.CHINCHEFOLIADA , estadoMuestraNoVerificada.resultadoActual(muestra));
+		assertEquals( TipoOpinion.CHINCHEFOLIADA , estadoMuestra.resultadoActual(muestra));
 		verify(muestra, atLeast(1)).getOpiniones();
 	}
 	
@@ -98,12 +99,13 @@ public class EstadoMuestraTest {
 		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
 		when(opinion3.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
-		when(opinion.getEstadoAutor()).thenReturn(estadoUsuarioExperto);
-		when(opinion2.getEstadoAutor()).thenReturn(estadoUsuarioBasico);
-		when(opinion3.getEstadoAutor()).thenReturn(estadoUsuarioBasico);
+		when(opinion.esOpinionDeExperto()).thenReturn(true);
+		when(opinion2.esOpinionDeExperto()).thenReturn(false);
+		when(opinion3.esOpinionDeExperto()).thenReturn(false);
+		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
 		when(muestra.getOpiniones()).thenReturn(Arrays.asList(opinion,opinion2, opinion3));
 		
-		assertEquals( TipoOpinion.CHINCHEFOLIADA , estadoMuestraNoVerificada.resultadoActual(muestra));
+		assertEquals( TipoOpinion.CHINCHEFOLIADA , estadoMuestra.resultadoActual(muestra));
 		verify(muestra, atLeast(1)).getOpiniones();
 	}
 	
@@ -111,11 +113,12 @@ public class EstadoMuestraTest {
 	public void testCuandoOpinanDosExpertosDiferenteElResultadoEsNoDefinido(){
 		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
-		when(opinion.getEstadoAutor()).thenReturn(estadoUsuarioExperto);
-		when(opinion2.getEstadoAutor()).thenReturn(estadoUsuarioExperto);
+		when(opinion.esOpinionDeExperto()).thenReturn(true);
+		when(opinion2.esOpinionDeExperto()).thenReturn(true);
+		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
 		when(muestra.getOpiniones()).thenReturn(Arrays.asList(opinion,opinion2));
 		
-		assertEquals( TipoOpinion.NODEFINIDO , estadoMuestraNoVerificada.resultadoActual(muestra));
+		assertEquals( TipoOpinion.NODEFINIDO , estadoMuestra.resultadoActual(muestra));
 		verify(muestra, atLeast(1)).getOpiniones();
 	}
 	
@@ -124,12 +127,13 @@ public class EstadoMuestraTest {
 		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
 		when(opinion3.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
-		when(opinion.getEstadoAutor()).thenReturn(estadoUsuarioExperto);
-		when(opinion2.getEstadoAutor()).thenReturn(estadoUsuarioExperto);
-		when(opinion3.getEstadoAutor()).thenReturn(estadoUsuarioExperto);
+		when(opinion.esOpinionDeExperto()).thenReturn(true);
+		when(opinion2.esOpinionDeExperto()).thenReturn(true);
+		when(opinion3.esOpinionDeExperto()).thenReturn(true);
+		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
 		when(muestra.getOpiniones()).thenReturn(Arrays.asList(opinion,opinion2,opinion3));
 		
-		assertEquals( TipoOpinion.VINCHUCAGUASAYANA , estadoMuestraNoVerificada.resultadoActual(muestra));
+		assertEquals( TipoOpinion.VINCHUCAGUASAYANA , estadoMuestra.resultadoActual(muestra));
 		verify(muestra, atLeast(1)).getOpiniones();
 	}
 	

@@ -139,15 +139,11 @@ class MuestaTest {
 	@Test
 	public void testCuandoCalculoLaVerificacionYHayDosExpertosLaMuestraEstaVerificada() {
 		
-		
-		UsuarioExperto estado1 = mock(UsuarioExperto.class);
-		
-		when(opinion1.getEstadoAutor()).thenReturn(estado1);
-		when(opinion2.getEstadoAutor()).thenReturn(estado1);
+		when(opinion1.esOpinionDeExperto()).thenReturn(true);
+		when(opinion2.esOpinionDeExperto()).thenReturn(true);
 		when(opinion1.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(estadoMuestraNoVerificada.resultadoActual(muestra)).thenReturn(TipoOpinion.CHINCHEFOLIADA);
-		when(estado1.esExperto()).thenReturn(true);
 		
 		assertTrue(muestra.getOpiniones().isEmpty());
 		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
@@ -164,14 +160,11 @@ class MuestaTest {
 	@Test
 	public void testCuandoCalculoLaVerificacionYNoHayUsuariosExpertosLaMuestraNoEstaVerificada() {
 		
-		UsuarioBasico estado1 = mock(UsuarioBasico.class);
-		
-		when(opinion1.getEstadoAutor()).thenReturn(estado1);
-		when(opinion2.getEstadoAutor()).thenReturn(estado1);
+		when(opinion1.esOpinionDeExperto()).thenReturn(false);
+		when(opinion2.esOpinionDeExperto()).thenReturn(false);
 		when(opinion1.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(estadoMuestraNoVerificada.resultadoActual(muestra)).thenReturn(TipoOpinion.CHINCHEFOLIADA);
-		when(estado1.esExperto()).thenReturn(false);
 		
 		assertTrue(muestra.getOpiniones().isEmpty());
 		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
@@ -187,14 +180,11 @@ class MuestaTest {
 	@Test
 	public void testCuandoCalculoLaVerificacionYElResultadoEsEmpateLaMuestraNoEstaVerificada() {
 		
-		UsuarioExperto estado1 = mock(UsuarioExperto.class);
-		
-		when(opinion1.getEstadoAutor()).thenReturn(estado1);
-		when(opinion2.getEstadoAutor()).thenReturn(estado1);
+		when(opinion1.esOpinionDeExperto()).thenReturn(true);
+		when(opinion2.esOpinionDeExperto()).thenReturn(true);
 		when(opinion1.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
 		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
 		when(estadoMuestraNoVerificada.resultadoActual(muestra)).thenReturn(TipoOpinion.NODEFINIDO);
-		when(estado1.esExperto()).thenReturn(true);
 		
 		assertTrue(muestra.getOpiniones().isEmpty());
 		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
@@ -213,9 +203,32 @@ class MuestaTest {
 		verify(sistema, times(1)).agregarMuestra(muestra);
 	}
 	
+	@Test
+	public void testCuandoUnaMuestraTieneUnaOpinionDeExpertoEsVerdaderoQueLaTiene() {
+		when(opinion1.esOpinionDeExperto()).thenReturn(true);
+		muestra.agregarOpinionAMuestra(opinion1);
+		assertTrue(muestra.esMuestraConOpinionDeExperto());
+	}
 	
+	@Test
+	public void testCuandoUnaMuestraNoTieneUnaOpinionDeExpertoEsFalsoQueLaTiene() {
+		when(opinion1.esOpinionDeExperto()).thenReturn(false);
+		muestra.agregarOpinionAMuestra(opinion1);
+		assertFalse(muestra.esMuestraConOpinionDeExperto());
+	}
 	
+	@Test
+	public void testCuandoUnaMuestraTieneUnaOpinionDeUnUsuarioEsVerdaderoQueLoTiene() {
+		when(opinion1.getUsuarioAutor()).thenReturn(usuarioAutor);
+		muestra.agregarOpinionAMuestra(opinion1);
+		assertTrue(muestra.esMuestraConOpinionDe(usuarioAutor));
+	}	
 	
-	
+	@Test
+	public void testCuandoUnaMuestraNoTieneUnaOpinionDeUnUsuarioEsFalsoQueLoTiene() {
+		when(opinion1.getUsuarioAutor()).thenReturn(mock(Usuario.class));
+		muestra.agregarOpinionAMuestra(opinion1);
+		assertFalse(muestra.esMuestraConOpinionDe(usuarioAutor));
+	}	
 	
 }

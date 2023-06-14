@@ -100,7 +100,7 @@ public class Muestra {
 		if (this.opiniones.isEmpty()) {
 			return false;
 		} else {
-			return this.opiniones.stream().filter(o -> o.getEstadoAutor().esExperto())
+			return this.opiniones.stream().filter(o -> o.esOpinionDeExperto())
 					  					  .map(o -> o.getTipoOpinion()).collect(Collectors.groupingBy(o -> o, Collectors.counting()))
 					  					  .entrySet().stream().anyMatch(to -> to.getValue() == 2);
 		}
@@ -111,12 +111,13 @@ public class Muestra {
 		this.sistema = sistema;
 	}
 	
-	
-	
-	
-	
-	
-	
+	public boolean esMuestraConOpinionDeExperto() {
+		return opiniones.stream().anyMatch(o -> o.esOpinionDeExperto());
+	}
+
+	public boolean esMuestraConOpinionDe(Usuario usuario) {
+		return opiniones.stream().anyMatch(o -> o.getUsuarioAutor().equals(usuario));
+	}
 	
 	
 	

@@ -3,18 +3,21 @@ package Muestra;
 import java.time.LocalDate;
 
 import Usuario.EstadoUsuario;
+import Usuario.Usuario;
 
 public class Opinion {
 
 	private TipoOpinion tipoOpinion ;
-	private EstadoUsuario estadoAutor;
+	private EstadoUsuario estadoAutorAlOpinar;
+	private Usuario usuarioAutor;
 	private LocalDate fechaDeEnvio;
 	
 	
-	public Opinion(TipoOpinion tipoOpinion, EstadoUsuario estadoAutor, LocalDate fechaDeEnvio) {
+	public Opinion(TipoOpinion tipoOpinion, Usuario usuarioAutor, LocalDate fechaDeEnvio) {
 		super();
 		this.tipoOpinion = tipoOpinion;
-		this.estadoAutor = estadoAutor;
+		this.estadoAutorAlOpinar = usuarioAutor.getEstado();
+		this.usuarioAutor = usuarioAutor;
 		this.fechaDeEnvio = fechaDeEnvio;
 	}
 
@@ -23,16 +26,17 @@ public class Opinion {
 		return tipoOpinion;
 	}
 	
-	public EstadoUsuario getEstadoAutor() {
-		return estadoAutor;
-	}
-
 	public LocalDate getFechaDeEnvio() {
 		return fechaDeEnvio;
 	}
 	
-	
-	
+	public boolean esOpinionDeExperto() {
+		return this.estadoAutorAlOpinar.esExperto();
+	}
+
+	public Usuario getUsuarioAutor() {
+		return usuarioAutor;
+	}	
 	
 	
 }

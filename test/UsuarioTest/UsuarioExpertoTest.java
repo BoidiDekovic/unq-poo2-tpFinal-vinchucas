@@ -35,7 +35,7 @@ public class UsuarioExpertoTest {
 	}
 	
 	@Test 
-	public void testCuandoUnUsuarioOpinaSobreUnaMuestraEsteLePidreAgregarseAsusOpiniones() {
+	public void testCuandoUnUsuarioOpinaSobreUnaMuestraEsteLePideAgregarseAsusOpiniones() {
 		estadoExperto.opinarSobreMuestra(muestra, TipoOpinion.CHINCHEFOLIADA, usuario);
 		verify(muestra,times(1)).agregarOpinion(any(Opinion.class));
 		verify(muestra,never()).agregarOpinionAMuestra(any());

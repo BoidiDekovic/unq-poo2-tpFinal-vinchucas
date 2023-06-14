@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import Muestra.Muestra;
 import Muestra.Opinion;
 import Muestra.TipoOpinion;
+import Sistema.Sistema;
 import Usuario.Usuario;
 import Usuario.UsuarioBasico;
 import Usuario.UsuarioExperto;
@@ -30,7 +31,7 @@ class UsuarioTest {
 	private Opinion opinion;
 	private UsuarioBasico estadoBasico;
 	private UsuarioExperto estadoExperto;
-	
+	private Sistema sistema;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -41,6 +42,7 @@ class UsuarioTest {
 	estadoBasico = mock(UsuarioBasico.class);
 	estadoExperto = mock(UsuarioExperto.class);
 	usuario.setEstado(estadoBasico);
+	sistema = mock(Sistema.class);
 	
 	}
 	@Test
@@ -95,8 +97,8 @@ class UsuarioTest {
 	
 	@Test
 	public void testCuandoUnUsuarioAgregaYEnviaUnaMuestraSeDelegaASuEstadoLaAccion() {
-		usuario.agregarYEnviar(muestra, null);
-		verify(estadoBasico, times(1)).agregarYEnviar(muestra, usuario, null);
+		usuario.agregarYEnviar(muestra, sistema);
+		verify(estadoBasico, times(1)).agregarYEnviar(muestra, usuario, sistema);
 	}
 	
 	@Test

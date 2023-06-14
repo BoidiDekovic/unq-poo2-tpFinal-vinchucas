@@ -11,7 +11,7 @@ public class UsuarioExperto extends EstadoUsuario {
 
 	@Override
 	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion, Usuario usuario) {
-		Opinion nuevaOpinion = new Opinion(tipoOpinion,this , LocalDate.now());
+		Opinion nuevaOpinion = new Opinion(tipoOpinion, usuario, LocalDate.now());
 		usuario.agregarOpinionEnviada(nuevaOpinion);
 		muestra.agregarOpinion(nuevaOpinion);
 	}

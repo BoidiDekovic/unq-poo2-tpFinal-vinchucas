@@ -15,8 +15,8 @@ public abstract class EstadoMuestra {
 		if(opiniones.isEmpty()) { //Caso opiones vacias
 			return muestra.getVinchucaSegunAutor();
 		}
-		else if(opiniones.stream().anyMatch(o -> o.getEstadoAutor().esExperto())) { //filtra expertos y calcula resultado
-			return resultadoEntre(opiniones.stream().filter(o-> o.getEstadoAutor().esExperto()).toList());
+		else if(muestra.esMuestraConOpinionDeExperto()) { //filtra expertos y calcula resultado
+			return resultadoEntre(opiniones.stream().filter(o-> o.esOpinionDeExperto()).toList());
 		}
 		else {
 			return resultadoEntre(opiniones); //Calcula el resultado con basicos
