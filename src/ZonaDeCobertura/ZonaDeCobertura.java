@@ -42,6 +42,7 @@ public class ZonaDeCobertura {
 	
 	public void agregarMuestra(Muestra muestra) {
 		this.muestras.add(muestra);
+		this.notificarNuevaMuestra(muestra);
 	}
 
 	public Ubicacion getEpicentro() {

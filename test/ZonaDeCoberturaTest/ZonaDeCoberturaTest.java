@@ -81,7 +81,7 @@ class ZonaDeCoberturaTest {
 	@Test
 	public void testCuandoUnaZonaDeCoberturaNotificaUnaNuevaMuestraSeLesAvisaASusObservadores() {
 		zonaDeCobertura1.agregarObservador(observadorZona);
-		zonaDeCobertura1.notificarNuevaMuestra(muestra);
+		zonaDeCobertura1.agregarMuestra(muestra);
 		verify(observadorZona, times(1)).actualizarNuevaMuestra(zonaDeCobertura1, muestra);
 	}
 	
