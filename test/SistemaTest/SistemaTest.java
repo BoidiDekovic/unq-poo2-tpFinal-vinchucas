@@ -69,7 +69,7 @@ public class SistemaTest {
 	@Test
 	public void testCuandoSeCreaUnSistemaSuListaDeZonasEsVacia() {
 		sistema = new Sistema();
-		assertTrue(sistema.getZonasDeCoberturas().isEmpty());
+		assertTrue(sistema.getZonasDeCobertura().isEmpty());
 	}
 	
 	@Test
@@ -93,8 +93,8 @@ public class SistemaTest {
 	public void testCuandoSeAgregaUnaZonaAlSistemaSeAgregaALaListaDeZonas() {
 		sistema = new Sistema();
 		sistema.agregarZonaDeCobertura(zona1);
-		assertEquals(1, sistema.getZonasDeCoberturas().size());
-		assertTrue(sistema.getZonasDeCoberturas().contains(zona1));
+		assertEquals(1, sistema.getZonasDeCobertura().size());
+		assertTrue(sistema.getZonasDeCobertura().contains(zona1));
 	}
 	
 	@Test

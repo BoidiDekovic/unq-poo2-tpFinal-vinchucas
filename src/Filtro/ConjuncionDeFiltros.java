@@ -19,7 +19,5 @@ public class ConjuncionDeFiltros extends OperadorDeFiltros {
 		muestrasDeFiltro1.retainAll(muestrasDeFiltro2);
 		return muestrasDeFiltro1;
 	}
-
-
 	
 }

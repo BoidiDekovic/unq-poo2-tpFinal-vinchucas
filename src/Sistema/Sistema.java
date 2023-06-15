@@ -10,16 +10,16 @@ import ZonaDeCobertura.ZonaDeCobertura;
 public class Sistema {
 	
 	private List<Muestra>  muestras; 
-	private List<ZonaDeCobertura> zonasDeCoberturas;
+	private List<ZonaDeCobertura> zonasDeCobertura;
 	
 	public Sistema() {
 		super();
 		this.muestras = new ArrayList<Muestra>();
-		this.zonasDeCoberturas = new ArrayList<ZonaDeCobertura>();
+		this.zonasDeCobertura = new ArrayList<ZonaDeCobertura>();
 	}
 	
 	public void notificarVerificacionMuestraAZonas(Muestra muestra) {
-		this.zonasDeCoberturas.stream().
+		this.zonasDeCobertura.stream().
 					filter(z -> z.getMuestras().contains(muestra)).
 					forEach(z -> z.notificarVerificacionMuestra(muestra));
 	}
@@ -31,25 +31,25 @@ public class Sistema {
 
 	public void agregarMuestra(Muestra muestra) {
 		this.muestras.add(muestra);
-		this.zonasDeCoberturas.stream()
+		this.zonasDeCobertura.stream()
 			.filter(z -> z.tieneALaUbicacionDentroDelRadio(muestra.getUbicacion()))
 			.forEach(z -> z.agregarMuestra(muestra));;
 	}
 	
 	public void agregarZonaDeCobertura(ZonaDeCobertura zonaDeCobertura) {
-		this.zonasDeCoberturas.add(zonaDeCobertura);
+		this.zonasDeCobertura.add(zonaDeCobertura);
 	}
 	
 	public List<Muestra> getMuestras() {
 		return muestras;
 	}
 
-	public List<ZonaDeCobertura> getZonasDeCoberturas() {
-		return this.zonasDeCoberturas;
+	public List<ZonaDeCobertura> getZonasDeCobertura() {
+		return this.zonasDeCobertura;
 	}
 
 	public List<ZonaDeCobertura> zonasSolapadasDe(ZonaDeCobertura zonaDeCobertura) {
-		return this.zonasDeCoberturas.stream()
+		return this.zonasDeCobertura.stream()
 				.filter(z -> z.esZonaSolapada(zonaDeCobertura))
 				.toList();
 	}
