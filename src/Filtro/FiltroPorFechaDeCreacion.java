@@ -11,8 +11,7 @@ public class FiltroPorFechaDeCreacion extends FiltroPorFecha {
 	 * @param nivelVerificacion
 	 */
 	public FiltroPorFechaDeCreacion(LocalDate fechaDeCreacionDeMuestra) {
-		super();
-		this.setFecha(fechaDeCreacionDeMuestra);
+		super(fechaDeCreacionDeMuestra);
 	}
 	
 	@Override

@@ -11,8 +11,7 @@ public class FiltroPorFechaDeUltimaVotacion extends FiltroPorFecha {
 	 * @param nivelVerificacion
 	 */
 	public FiltroPorFechaDeUltimaVotacion(LocalDate fechaDeUltimaVotacion) {
-		super();
-		this.setFecha(fechaDeUltimaVotacion);
+		super(fechaDeUltimaVotacion);
 	}
 	
 	@Override

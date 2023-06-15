@@ -8,6 +8,11 @@ import Muestra.Muestra;
 public abstract class FiltroPorFecha extends Filtro {
 
 	private LocalDate fecha;
+	
+	public FiltroPorFecha(LocalDate fecha) {
+		super();
+		this.fecha = fecha;
+	}
 
 	@Override
 	public abstract List<Muestra> buscar(List<Muestra> muestras);
@@ -16,7 +21,6 @@ public abstract class FiltroPorFecha extends Filtro {
 	public LocalDate getFecha() {
 		return fecha;
 	}
-
 
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
