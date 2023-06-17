@@ -21,35 +21,37 @@ import Muestra.TipoOpinion;
 class OperadorDeFiltrosTest {
 
 	private OperadorDeFiltros operador;
-	private Filtro filtro ;
+	private Filtro filtro, filtro2, filtro3 ;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
 	
 		filtro = mock(Filtro.class);
-		operador = new DisyuncionDeFiltros();
+		filtro2 = mock(Filtro.class);
+		filtro3 = mock(Filtro.class);
+		operador = new DisyuncionDeFiltros(filtro, filtro2);
 	
 	}
 
-	@Test
-	public void testCuandoUnOperadorDeFiltrosAgregaUnFiltroEsteSeAgregaALaLista() {
-		operador.agregarFiltro(filtro);
-	    assertEquals(filtro, operador.getFiltroHijo(0));  
-	}
-	
-
 	
 	@Test
-	public void testCuandoSeCreaUnOperadorDeFiltrosTieneUnaListaVaciaDeFiltrosHijos() {
-		assertTrue(operador.getFiltrosHijos().isEmpty());
+	public void testCuandoSeCreaUnOperadorDeFiltrosTieneDosFiltros() {
+		assertEquals(filtro, operador.getFiltro1());
+		assertEquals(filtro2, operador.getFiltro2());
+		
 	}
 	
 	@Test
-	public void testCuandoUnOperadorDeFiltrosQuitaUnFiltroEsteSeSacaDeLaLista() {
-		operador.agregarFiltro(filtro);
-	    assertEquals(filtro, operador.getFiltroHijo(0));
-	    operador.quitarFiltro(filtro);
-	    assertTrue(operador.getFiltrosHijos().isEmpty());
-	    
+	public void testCuandoSeSeteaUnFiltro1EnElOperadorDeFiltrosEsteSeCambia() {
+		operador.setFiltro1(filtro3);
+		assertEquals(filtro3, operador.getFiltro1());
+		
 	}
+	@Test
+	public void testCuandoSeSeteaUnFiltro2EnElOperadorDeFiltrosEsteSeCambia() {
+		operador.setFiltro2(filtro3);
+		assertEquals(filtro3, operador.getFiltro2());
+		
+	}
+	
 }

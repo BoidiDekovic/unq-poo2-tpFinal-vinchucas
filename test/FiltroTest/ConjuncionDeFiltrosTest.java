@@ -24,16 +24,14 @@ class ConjuncionDeFiltrosTest {
 	
 	@BeforeEach
 	public void setUp() {
-		conjucionDeFiltros = new ConjuncionDeFiltros();
 		filtro1 = mock(Filtro.class);
 		filtro2 = mock(Filtro.class);
+		conjucionDeFiltros = new ConjuncionDeFiltros(filtro1, filtro2);
 		muestra1 = mock(Muestra.class);
 		muestra2 = mock(Muestra.class);
 		muestra3 = mock(Muestra.class);
 		muestra4 = mock(Muestra.class);
 		muestras = Arrays.asList(muestra1, muestra2, muestra3, muestra4);
-		conjucionDeFiltros.agregarFiltro(filtro1);
-		conjucionDeFiltros.agregarFiltro(filtro2);
 		lista1 = new ArrayList<Muestra>();
 		lista2 = new ArrayList<Muestra>();
 	}

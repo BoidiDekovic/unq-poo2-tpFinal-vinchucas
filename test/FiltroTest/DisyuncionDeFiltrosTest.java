@@ -16,22 +16,20 @@ import Muestra.Muestra;
 class DisyuncionDeFiltrosTest {
 	
 	DisyuncionDeFiltros disyuncionDeFiltros;
-	Filtro filtro1, filtro2;
+	Filtro filtro, filtro2;
 	Muestra muestra1, muestra2, muestra3, muestra4;
 	List<Muestra> muestras,lista1,lista2;
 	
 	@BeforeEach
 	public void setUp() {
-		disyuncionDeFiltros = new DisyuncionDeFiltros();
-		filtro1 = mock(Filtro.class);
+		filtro = mock(Filtro.class);
 		filtro2 = mock(Filtro.class);
+		disyuncionDeFiltros = new DisyuncionDeFiltros(filtro, filtro2);
 		muestra1 = mock(Muestra.class);
 		muestra2 = mock(Muestra.class);
 		muestra3 = mock(Muestra.class);
 		muestra4 = mock(Muestra.class);
 		muestras = Arrays.asList(muestra1, muestra2, muestra3, muestra4);
-		disyuncionDeFiltros.agregarFiltro(filtro1);
-		disyuncionDeFiltros.agregarFiltro(filtro2);
 		lista1 = new ArrayList<Muestra>();
 		lista2 = new ArrayList<Muestra>();
 	}
@@ -43,7 +41,7 @@ class DisyuncionDeFiltrosTest {
 	
 	@Test
 	void testCuandoLaBusquedaDelPrimerFiltroDaUnaListaConMuestrasYLaDelSegundoUnaListaVaciaDevuelveLaListaDelPrimerFiltro() {
-		when(filtro1.buscar(muestras)).thenReturn(Arrays.asList(muestra1, muestra2));
+		when(filtro.buscar(muestras)).thenReturn(Arrays.asList(muestra1, muestra2));
 		when(filtro2.buscar(muestras)).thenReturn(Arrays.asList());
 		List<Muestra> resultado = disyuncionDeFiltros.buscar(muestras);
 		assertTrue(resultado.contains(muestra1));
@@ -53,7 +51,7 @@ class DisyuncionDeFiltrosTest {
 	
 	@Test
 	void testCuandoLaBusquedaDelSegundoFiltroDaUnaListaConMuestrasYLaDeLaPrimeraUnaListaVaciaDevuelveLaListaDelSegundoFiltro() {
-		when(filtro1.buscar(muestras)).thenReturn(lista1);
+		when(filtro.buscar(muestras)).thenReturn(lista1);
 		when(filtro2.buscar(muestras)).thenReturn(Arrays.asList(muestra3, muestra4));
 		List<Muestra> resultado = disyuncionDeFiltros.buscar(muestras);
 		assertTrue(resultado.contains(muestra3));
@@ -63,7 +61,7 @@ class DisyuncionDeFiltrosTest {
 	
 	@Test
 	void testCuandoLaBusquedaDelPrimerYSegundoFiltroDaUnaListaVaciaDevuelveUnaListaVacia() {
-		when(filtro1.buscar(muestras)).thenReturn(lista1);
+		when(filtro.buscar(muestras)).thenReturn(lista1);
 		when(filtro2.buscar(muestras)).thenReturn(lista2);
 		List<Muestra> resultado = disyuncionDeFiltros.buscar(muestras);
 		assertTrue(resultado.isEmpty());
@@ -73,7 +71,7 @@ class DisyuncionDeFiltrosTest {
 	void testCuandoLaBusquedaDelPrimerYSegundoFiltroDaUnaListaConMuestrasDevuelveLasDosUnidas() {
 		lista1.add(muestra1);
 		lista2.add(muestra4);
-		when(filtro1.buscar(muestras)).thenReturn(lista1);
+		when(filtro.buscar(muestras)).thenReturn(lista1);
 		when(filtro2.buscar(muestras)).thenReturn(lista2);
 		List<Muestra> resultado = disyuncionDeFiltros.buscar(muestras);
 		assertTrue(resultado.contains(muestra1));
@@ -86,7 +84,7 @@ class DisyuncionDeFiltrosTest {
 		lista1.add(muestra1);
 		lista2.add(muestra4);
 		lista1.add(muestra4);
-		when(filtro1.buscar(muestras)).thenReturn(lista1);
+		when(filtro.buscar(muestras)).thenReturn(lista1);
 		when(filtro2.buscar(muestras)).thenReturn(lista2);
 		List<Muestra> resultado = disyuncionDeFiltros.buscar(muestras);
 		assertTrue(resultado.contains(muestra1));
