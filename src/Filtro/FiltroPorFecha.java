@@ -5,7 +5,7 @@ import java.util.List;
 
 import Muestra.Muestra;
 
-public abstract class FiltroPorFecha extends Filtro {
+public abstract class FiltroPorFecha implements Filtro {
 
 	private LocalDate fecha;
 	

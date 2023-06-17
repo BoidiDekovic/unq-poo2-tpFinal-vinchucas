@@ -5,7 +5,7 @@ import java.util.List;
 import Muestra.EstadoMuestra;
 import Muestra.Muestra;
 
-public class FiltroPorNivelDeVerificacion extends Filtro {
+public class FiltroPorNivelDeVerificacion implements Filtro {
 
 	private EstadoMuestra nivelVerificacion;
 	

@@ -7,10 +7,6 @@ import Muestra.Muestra;
 
 public class ConjuncionDeFiltros extends OperadorDeFiltros {
 
-	public ConjuncionDeFiltros(Filtro filtro1, Filtro filtro2) {
-		super( filtro1, filtro2);
-		this.filtros = new ArrayList<Filtro>();
-	}
 
 	@Override
 	public List<Muestra> buscar(List<Muestra> muestras) {

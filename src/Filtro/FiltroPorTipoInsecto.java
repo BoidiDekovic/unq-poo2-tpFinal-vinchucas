@@ -5,7 +5,7 @@ import java.util.List;
 import Muestra.Muestra;
 import Muestra.TipoOpinion;
 
-public class FiltroPorTipoInsecto extends Filtro {
+public class FiltroPorTipoInsecto implements Filtro {
 
 	private TipoOpinion tipoInsecto;
 	

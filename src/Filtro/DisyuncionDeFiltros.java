@@ -8,10 +8,6 @@ import Muestra.Muestra;
 
 public class DisyuncionDeFiltros extends OperadorDeFiltros{
 	
-	public DisyuncionDeFiltros(Filtro filtro1, Filtro filtro2) {
-		super(filtro1,filtro2);
-	}
-
 	@Override
 	public List<Muestra> buscar(List<Muestra> muestras) {
 		List<Muestra> muestrasDeFiltro1 = filtros.get(0).buscar(muestras);

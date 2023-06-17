@@ -37,23 +37,7 @@ class OperadorDeFiltrosTest {
 	    assertEquals(filtro, operador.getFiltroHijo(0));  
 	}
 	
-	@Test
-	public void testCuandoUnOperadorDeFiltrosQuiereAgregarMasDeDosFiltrosSeLanzaExcepcion() {
-		operador.agregarFiltro(filtro);
-		operador.agregarFiltro(mock(Filtro.class));
-		assertThrows(UnsupportedOperationException.class, 
-				() -> {operador.agregarFiltro(mock(Filtro.class));}
-				, "No se pueden agregar mas de dos filtros");
-	}
-	
-	@Test
-	public void testCuandoUnOperadorDeFiltrosQuiereBuscarConMenosDeDosFiltrosLanzaExcepcion() {
-		operador.agregarFiltro(filtro);
-		assertThrows(UnsupportedOperationException.class, 
-				() -> {operador.buscar(new ArrayList<Muestra>());}
-				, "No se puede operar si no hay dos filtros");
-	}
-	
+
 	
 	@Test
 	public void testCuandoSeCreaUnOperadorDeFiltrosTieneUnaListaVaciaDeFiltrosHijos() {
