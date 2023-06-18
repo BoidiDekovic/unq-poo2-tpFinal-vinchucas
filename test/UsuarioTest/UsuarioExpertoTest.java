@@ -1,19 +1,11 @@
 package UsuarioTest;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Muestra.Muestra;
-import Muestra.Opinion;
-import Muestra.TipoOpinion;
 import Usuario.Usuario;
 import Usuario.UsuarioBasico;
 import Usuario.UsuarioExperto;
@@ -21,30 +13,59 @@ import Usuario.UsuarioExperto;
 public class UsuarioExpertoTest {
 	
 	private Usuario usuario;
-	private Muestra muestra;
 	private UsuarioExperto estadoExperto;
 	
-
 	@BeforeEach
 	void setUp() throws Exception {
 	
 	usuario = mock(Usuario.class);
-	muestra = mock(Muestra.class);
 	estadoExperto = new UsuarioExperto();
 	
-	}
-	
-	@Test 
-	public void testCuandoUnUsuarioOpinaSobreUnaMuestraEsteLePideAgregarseAsusOpiniones() {
-		estadoExperto.opinarSobreMuestra(muestra, TipoOpinion.CHINCHEFOLIADA, usuario);
-		verify(muestra,times(1)).agregarOpinion(any(Opinion.class));
-		verify(muestra,never()).agregarOpinionAMuestra(any());
-		verify(usuario, times(1)).agregarOpinionEnviada(any(Opinion.class));
 	}
 	
 	@Test
 	public void testCuandoSeLePreguntaAUnUsuarioExpertoSiEsExpertoDaVerdadero() {
 		assertTrue(estadoExperto.esExperto());
+	}
+	
+	@Test
+	public void testCuandoUnUsuarioExpertoCalculaSuCategoriaYNoCumpleNingunoDeLosRequisitosCambiaDeEstado() {
+		when(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias()).thenReturn(false);
+		when(usuario.tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias()).thenReturn(false);
+		
+		estadoExperto.calcularCategoria(usuario);
+		
+		verify(usuario, times(1)).setEstado(any(UsuarioBasico.class));
+	}
+	
+	@Test
+	public void testCuandoUnUsuarioExpertoCalculaSuCategoriaYNoCumpleLosRequisitosDeMuestrasEnviadasCambiaDeEstado() {
+		when(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias()).thenReturn(false);
+		when(usuario.tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias()).thenReturn(true);
+		
+		estadoExperto.calcularCategoria(usuario);
+		
+		verify(usuario, times(1)).setEstado(any(UsuarioBasico.class));
+	}
+	
+	@Test
+	public void testCuandoUnUsuarioExpertoCalculaSuCategoriaYNoCumpleLosRequisitosDeOpinionesEnviadasCambiaDeEstado() {
+		when(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias()).thenReturn(true);
+		when(usuario.tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias()).thenReturn(false);
+		
+		estadoExperto.calcularCategoria(usuario);
+		
+		verify(usuario, times(1)).setEstado(any(UsuarioBasico.class));
+	}	
+
+	@Test
+	public void testCuandoUnUsuarioExpertoCalculaSuCategoriaYCumpleLosRequisitosNoCambiaDeEstado() {
+		when(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias()).thenReturn(true);
+		when(usuario.tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias()).thenReturn(true);
+		
+		estadoExperto.calcularCategoria(usuario);
+		
+		verify(usuario, never()).setEstado(any(UsuarioBasico.class));
 	}
 
 }

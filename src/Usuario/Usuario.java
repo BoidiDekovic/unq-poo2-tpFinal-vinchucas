@@ -21,13 +21,16 @@ public class Usuario {
 		this.muestras = new ArrayList<Muestra>();
 		this.opinionesEnviadas = new ArrayList<Opinion>();
 	}
-
-	public void agregarYEnviar(Muestra muestra, Sistema sistema){
-		this.estado.agregarYEnviar(muestra, this, sistema);
-	}
 	
 	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion) {
-		this.estado.opinarSobreMuestra(muestra, tipoOpinion, this);
+		Opinion nuevaOpinion = new Opinion(tipoOpinion, this, LocalDate.now());
+		muestra.agregarOpinion(nuevaOpinion);
+		this.agregarOpinionEnviada(nuevaOpinion);
+	}
+	
+	public void agregarYEnviar(Muestra muestra, Sistema sistema) {
+		sistema.agregarMuestra(muestra);
+		this.agregarMuestra(muestra);
 	}
 
 	public List<Muestra> getMuestras() {
@@ -67,12 +70,7 @@ public class Usuario {
 	}
 	
 	public void calcularCategoria() {
-		if(tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias() 
-			&& tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias()) {
-			this.setEstado(new UsuarioExperto());
-		}else {
-			this.setEstado(new UsuarioBasico());
-		}	
+		this.estado.calcularCategoria(this);
 	}
 
 	public boolean tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias() {
@@ -86,5 +84,5 @@ public class Usuario {
 	public void agregarOpinionEnviada(Opinion opinion) {
 		this.opinionesEnviadas.add(opinion);
 	}
-	
+
 }

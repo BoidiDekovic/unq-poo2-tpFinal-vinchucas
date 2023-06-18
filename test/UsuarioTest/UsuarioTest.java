@@ -4,7 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,7 +27,6 @@ class UsuarioTest {
 
 	private Usuario usuario;
 	private Muestra muestra;
-	private Opinion opinion;
 	private UsuarioBasico estadoBasico;
 	private UsuarioExperto estadoExperto;
 	private Sistema sistema;
@@ -38,13 +36,13 @@ class UsuarioTest {
 	
 	usuario = new Usuario();
 	muestra = mock(Muestra.class);
-	opinion = mock(Opinion.class);
 	estadoBasico = mock(UsuarioBasico.class);
 	estadoExperto = mock(UsuarioExperto.class);
 	usuario.setEstado(estadoBasico);
 	sistema = mock(Sistema.class);
 	
 	}
+	
 	@Test
 	public void testCuandoSeCreaUnUsuarioNoTieneMuestras() {
 		assertTrue(usuario.getMuestras().isEmpty());
@@ -65,7 +63,7 @@ class UsuarioTest {
 	@Test
 	public void testCuandoUnUsuarioAgregaUnaMuestraEstaSeAgregaEnSuListaDeMuestra() {
 		usuario.agregarMuestra(muestra);
-		assertEquals(1 , usuario.getMuestras().size());
+		assertEquals(1, usuario.getMuestras().size());
 		assertTrue(usuario.getMuestras().contains(muestra));
 	}
 	
@@ -75,22 +73,23 @@ class UsuarioTest {
 	}
 	
 	@Test
-	public void testCuandoUnUsuarioOpinaSobreUnaMuestraSeLeDelegaAlEstado() {
+	public void testCuandoUnUsuarioOpinaSobreUnaMuestraSeLePideAgregarLaOpinionALaMuestraYSeAgregaALasOpinionesEnviadas() {
+		assertEquals(0, usuario.getOpinionesEnviadas().size());
+		
 		usuario.opinarSobreMuestra(muestra,TipoOpinion.CHINCHEFOLIADA);
-		verify(estadoBasico, times(1)).opinarSobreMuestra(muestra, TipoOpinion.CHINCHEFOLIADA, usuario);
-	}
-	
-	@Test
-	public void testCuandoUnUsuarioAgregaUnaOpinionSeAgregaASuListaDeOpinionesEnviadas() {
-		usuario.agregarOpinionEnviada(opinion);
+		
 		assertEquals(1, usuario.getOpinionesEnviadas().size());
-		assertTrue(usuario.getOpinionesEnviadas().contains(opinion));
+		verify(muestra, times(1)).agregarOpinion(any(Opinion.class));
 	}
 	
 	@Test
-	public void testCuandoUnUsuarioAgregaYEnviaUnaMuestraSeDelegaASuEstadoLaAccion() {
+	public void testCuandoUnUsuarioAgregaYEnviaUnaMuestraEstaSeEnviaAlSistemaYSeAgregaASuListaDeMuestras() {
+		assertEquals(0, usuario.getMuestras().size());
+		
 		usuario.agregarYEnviar(muestra, sistema);
-		verify(estadoBasico, times(1)).agregarYEnviar(muestra, usuario, sistema);
+		
+		assertEquals(1, usuario.getMuestras().size());
+		verify(sistema, times(1)).agregarMuestra(muestra);
 	}
 	
 	@Test
@@ -189,57 +188,12 @@ class UsuarioTest {
 			usuario.agregarMuestra(muestra);
 		}
 	}
-
+	
 	@Test
-	public void testCuandoUnUsuarioBasicoCalculaSuCategoriaYNoCumpleLosRequisitosDeMuestrasEnviadasNoCambiaDeEstado() {
-		
-		List<Opinion> opiniones = this.listaDeOpinionesMockCreadas(21);
-		this.setFechasAOpinionesMock(LocalDate.now(), opiniones);
-		this.agregarOpinionesMockEnviadasAUsuario(opiniones, usuario);
-		List<Muestra> muestras = this.listaDeMuestrasMockCreadas(5);
-		this.setFechasAMuestrasMock(LocalDate.now(), muestras);
-		this.agregarMuestrasMockEnviadasAUsuario(muestras,usuario);
-		
-		assertFalse(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias());
-		assertFalse(usuario.getEstado().esExperto());
-		assertTrue(usuario.tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias());
+	public void testCuandoAUnUsuarioSeLePideCalcularSuCategoriaEsteSeLoDelegaASuEstado() {
 		usuario.calcularCategoria();
-		assertFalse(usuario.getEstado().esExperto());
 		
+		verify(estadoBasico, times(1)).calcularCategoria(usuario);
 	}
-	@Test
-	public void testCuandoUnUsuarioBasicoCalculaSuCategoriaYNoCumpleLosRequisitosDeOpinionesEnviadasNoCambiaDeEstado() {
-		
-		List<Opinion> opiniones = this.listaDeOpinionesMockCreadas(19);
-		this.setFechasAOpinionesMock(LocalDate.now(), opiniones);
-		this.agregarOpinionesMockEnviadasAUsuario(opiniones, usuario);
-		List<Muestra> muestras = this.listaDeMuestrasMockCreadas(11);
-		this.setFechasAMuestrasMock(LocalDate.now(), muestras);
-		this.agregarMuestrasMockEnviadasAUsuario(muestras,usuario);
-		
-		assertFalse(usuario.tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias());
-		assertFalse(usuario.getEstado().esExperto());
-		assertTrue(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias());
-		usuario.calcularCategoria();
-		assertFalse(usuario.getEstado().esExperto());
-	}	
 
-	@Test
-	public void testCuandoUnUsuarioBasicoCalculaSuCategoriaYCumpleLosRequisitosCambiaDeEstado() {
-		
-		List<Opinion> opiniones = this.listaDeOpinionesMockCreadas(21);
-		this.setFechasAOpinionesMock(LocalDate.now(), opiniones);
-		this.agregarOpinionesMockEnviadasAUsuario(opiniones, usuario);
-		List<Muestra> muestras = this.listaDeMuestrasMockCreadas(11);
-		this.setFechasAMuestrasMock(LocalDate.now(), muestras);
-		this.agregarMuestrasMockEnviadasAUsuario(muestras,usuario);
-		
-		assertTrue(usuario.tieneMasDeVeinteOpinionesEnviadasEnLosUltimosTreintaDias());
-		assertFalse(usuario.getEstado().esExperto());
-		assertTrue(usuario.tieneMasDeDiezMuestrasEnviadasEnLosUltimosTreintaDias());
-		usuario.calcularCategoria();
-		assertTrue(usuario.getEstado().esExperto());
-	}	
-	
-	
 }

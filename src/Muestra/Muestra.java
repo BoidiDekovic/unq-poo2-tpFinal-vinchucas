@@ -87,7 +87,8 @@ public class Muestra {
 	public TipoOpinion resultadoActual() {
 		return this.estadoMuestra.resultadoActual(this);
 	}
-
+	
+	// ¿ES NECESARIO EL CASO EMPATE?
 	public void calcularVerificacion() {
 		if (this.resultadoActual() != TipoOpinion.NODEFINIDO && this.esMuestraQueCoincidenDosExpertosEnOpinion()) {
 			this.setEstadoMuestra(new MuestraVerificada());
@@ -105,7 +106,8 @@ public class Muestra {
 					  					  .entrySet().stream().anyMatch(to -> to.getValue() == 2);
 		}
 	}
-
+	
+	// ARREGLAR ESTE METODO
 	public void enviarseASistema(Sistema sistema) {
 		sistema.agregarMuestra(this);
 		this.sistema = sistema;
