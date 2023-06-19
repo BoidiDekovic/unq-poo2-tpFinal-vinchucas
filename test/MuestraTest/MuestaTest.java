@@ -31,7 +31,7 @@ class MuestaTest {
 	private LocalDate fechaUltimaVotacion;
 	private Sistema sistema;
 	private TipoOpinion posibleVinchuca;
-	private Usuario usuarioAutor;
+	private Usuario usuarioAutor, autorOpinion;
 	private MuestraBasicos estadoMuestra;
 	private Ubicacion ubicacion;
 	private Opinion opinion, opinion1, opinion2;
@@ -46,11 +46,13 @@ class MuestaTest {
 		sistema = mock(Sistema.class);
 		posibleVinchuca = TipoOpinion.VINCHUCAGUASAYANA;
 		usuarioAutor = mock(Usuario.class);
+		autorOpinion = mock(Usuario.class);
 		estadoMuestra = mock(MuestraBasicos.class);
 		ubicacion = mock(Ubicacion.class);
 		opinion = mock(Opinion.class);
 		opinion1 = mock(Opinion.class);
 		opinion2 = mock(Opinion.class);
+		when(opinion.getUsuarioAutor()).thenReturn(autorOpinion);
 		
 		// SUT
 		muestra = new Muestra(posibleVinchuca, foto, ubicacion, usuarioAutor);
@@ -167,24 +169,19 @@ class MuestaTest {
 	}	
 	
 	@Test
-	public void testSeAgregaOpinionDeUsuarioQueTieneLaMismaMuestraQueOpina(){
-		when(opinion.esOpinionDeExperto()).thenReturn(false);
-		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(false);
-		when(usuarioAutor.getMuestras()).thenReturn(Arrays.asList(muestra));
-		
+	public void testCuandoSeAgregaOpinionDeUsuarioQueTieneLaMismaMuestraQueOpinaSeLanzaExepcion(){
+		when(autorOpinion.tieneMuestra(muestra)).thenReturn(true);
 		assertThrows(UnsupportedOperationException.class, 
-				() -> {estadoMuestraBasicos.agregarOpinion(opinion, muestra);}
+				() -> {muestra.agregarOpinion(opinion);}
 				, "Un usuario no puede opinar sobre sus propias muestras");
 	}
 	
 	@Test
-	public void testSeAgregaOpinionDeUsuarioQueYaOpinoLaMuestra(){
-		when(opinion.esOpinionDeExperto()).thenReturn(false);
-		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(false);
-		when(muestra.esMuestraConOpinionDe(usuarioAutor)).thenReturn(true);
-		
+	public void testCuandoSeAgregaOpinionDeUsuarioQueYaOpinoLaMuestraSeLanzaExepcion(){
+		when(autorOpinion.tieneMuestra(muestra)).thenReturn(false);
+		muestra.agregarOpinionAMuestra(opinion);;
 		assertThrows(UnsupportedOperationException.class, 
-				() -> {estadoMuestraBasicos.agregarOpinion(opinion, muestra);}
+				() -> {muestra.agregarOpinion(opinion);}
 				, "Un usuario no puede opinar dos veces la misma muestra");
 	}
 	

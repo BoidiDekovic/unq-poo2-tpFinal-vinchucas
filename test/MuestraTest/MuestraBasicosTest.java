@@ -15,6 +15,7 @@ import org.mockito.BDDMockito.Then;
 
 import Muestra.Muestra;
 import Muestra.MuestraBasicos;
+import Muestra.MuestraExpertos;
 import Muestra.Opinion;
 import Muestra.TipoOpinion;
 import Usuario.Usuario;
@@ -44,6 +45,22 @@ public class MuestraBasicosTest {
 	}
 	
 	@Test
+	public void testCuandoUnaMuestraNoTieneOpinionDeExpertosSuEstadoNoCambia() {
+		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(false);
+		estadoMuestraBasicos.calcularEstadoMuestra(muestra);
+		verify(muestra, never()).setEstadoMuestra(any());
+	}
+	@Test
+	public void testCuandoUnaMuestraTieneOpinionDeExpertosSuEstadoCambiaAEstadoExperto() {
+		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
+		estadoMuestraBasicos.calcularEstadoMuestra(muestra);
+		verify(muestra, times(1)).setEstadoMuestra(any(MuestraExpertos.class));
+	}
+	
+	
+	
+	
+	@Test
 	public void testSeAgregaOpinionDeUsuarioBasicoEnUnaMuestraSinOpinionesDeExperto() {
 		when(opinion.esOpinionDeExperto()).thenReturn(false);
 		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(false);
@@ -51,28 +68,5 @@ public class MuestraBasicosTest {
 		verify(muestra, times(1)).agregarOpinionAMuestra(opinion);
 		verify(muestra, times(1)).calcularEstadoMuestra();
 	}
-	
-	@Test
-	public void testSeAgregaOpinionDeUsuarioBasicoEnUnaMuestraConOpinionesDeExperto() {
-		when(opinion.esOpinionDeExperto()).thenReturn(false);
-		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
-		
-		assertThrows(UnsupportedOperationException.class, 
-				() -> {estadoMuestraBasicos.agregarOpinion(opinion, muestra);}
-				, "Un usuario basico no puede opinar una muestra que fue opinada por un experto");
-	}
-	
-	@Test
-	public void testSeAgregaOpinionDeUsuarioExpertoEnUnaMuestraConOpinionesDeExperto(){
-		when(opinion.esOpinionDeExperto()).thenReturn(true);
-		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
-		estadoMuestraBasicos.agregarOpinion(opinion, muestra);
-		verify(muestra, times(1)).agregarOpinionAMuestra(opinion);
-		verify(muestra, times(1)).calcularEstadoMuestra();
-	}
-	
-	
-	
-	
-	
+
 }
