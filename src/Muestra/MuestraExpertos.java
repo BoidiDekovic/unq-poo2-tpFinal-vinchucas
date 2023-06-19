@@ -1,5 +1,7 @@
 package Muestra;
 
+import java.util.List;
+
 public class MuestraExpertos extends EstadoMuestra {
 
 	@Override
@@ -19,8 +21,15 @@ public class MuestraExpertos extends EstadoMuestra {
 	@Override
 	public void calcularEstadoMuestra(Muestra muestra) {
 		if (muestra.esMuestraQueCoincidenDosExpertosEnOpinion()) {
-			muestra.setEstadoMuestra(new MuestraVerificada());
+			muestra.setEstadoMuestra(new MuestraVerificada(muestra.resultadoActual()));
 		}
 	}
+
+	@Override
+	public TipoOpinion resultadoActual(Muestra muestra) {
+		List<Opinion> opiniones = muestra.getOpiniones();
+		return resultadoEntre(opiniones.stream().filter(o-> o.esOpinionDeExperto()).toList());
+			
+		}
 
 }

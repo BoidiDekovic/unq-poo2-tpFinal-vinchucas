@@ -44,7 +44,7 @@ class MuestaTest {
 		fechaCreacion = LocalDate.of(2023, 02, 10);
 		fechaUltimaVotacion = LocalDate.of(2023, 03, 10);
 		sistema = mock(Sistema.class);
-		posibleVinchuca = TipoOpinion.VINCHUCAGUASAYANA;
+		posibleVinchuca = TipoOpinion.VINCHUCAINFESTANS;
 		usuarioAutor = mock(Usuario.class);
 		autorOpinion = mock(Usuario.class);
 		estadoMuestra = mock(MuestraBasicos.class);
@@ -124,6 +124,7 @@ class MuestaTest {
 	
 	@Test
 	public void testUnaMuestraTieneSuResultadoActual() {
+		muestra.agregarOpinionAMuestra(opinion1);
 		muestra.resultadoActual();
 		verify(estadoMuestra, times(1)).resultadoActual(muestra);
 	}
@@ -184,5 +185,30 @@ class MuestaTest {
 				() -> {muestra.agregarOpinion(opinion);}
 				, "Un usuario no puede opinar dos veces la misma muestra");
 	}
+	@Test
+	public void testCuandoUnaMuestraNoTieneOpinionesElResultadoActualEsLaOpinionDelAutor() {
+		assertTrue(muestra.getOpiniones().isEmpty());
+		assertEquals(TipoOpinion.VINCHUCAINFESTANS, muestra.resultadoActual());
+	}
 	
+	@Test
+	public void testCuandoUnaMuestraNoTieneDosOpinionesDeExpertosQueCoincidenEsFalsoQueLasTiene() {
+		muestra.agregarOpinionAMuestra(opinion);
+		muestra.agregarOpinionAMuestra(opinion1);
+		when(opinion.esOpinionDeExperto()).thenReturn(false);
+		when(opinion1.esOpinionDeExperto()).thenReturn(false);
+		assertFalse(muestra.esMuestraQueCoincidenDosExpertosEnOpinion());
+	}
+	@Test
+	public void testCuandoUnaMuestraTieneDosOpinionesDeExpertosQueCoincidenEsVerdaderoQueLasTiene() {
+		muestra.agregarOpinionAMuestra(opinion);
+		muestra.agregarOpinionAMuestra(opinion);
+		when(opinion.esOpinionDeExperto()).thenReturn(true);
+		when(opinion1.esOpinionDeExperto()).thenReturn(true);
+		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		when(opinion1.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		assertTrue(muestra.esMuestraQueCoincidenDosExpertosEnOpinion());
+	}
+	
+
 }

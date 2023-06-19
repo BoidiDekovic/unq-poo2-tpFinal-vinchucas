@@ -12,21 +12,9 @@ public abstract class EstadoMuestra {
 	
 	public abstract void calcularEstadoMuestra(Muestra muestra);
 	
-	public TipoOpinion resultadoActual(Muestra muestra) {
-		List<Opinion> opiniones = muestra.getOpiniones();
-		if(opiniones.isEmpty()) { //Caso opiones vacias
-			return muestra.getVinchucaSegunAutor();
-		}
-		else if(muestra.esMuestraConOpinionDeExperto()) { //filtra expertos y calcula resultado
-			return resultadoEntre(opiniones.stream().filter(o-> o.esOpinionDeExperto()).toList());
-		}
-		else {
-			return resultadoEntre(opiniones); //Calcula el resultado con basicos
-		}
+	public abstract  TipoOpinion resultadoActual(Muestra muestra) ;
 
-	}
-
-	public TipoOpinion resultadoEntre(List<Opinion> opiniones) {
+	protected TipoOpinion resultadoEntre(List<Opinion> opiniones) {
 		Map<Object, Long> mapOpiniones = conteoPorTipoDeOpinion(opiniones);
 		return opinionConMaximoDeVotos(mapOpiniones);
 	}

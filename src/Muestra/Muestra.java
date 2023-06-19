@@ -98,6 +98,9 @@ public class Muestra {
 	}
 
 	public TipoOpinion resultadoActual() {
+		if(opiniones.isEmpty()) { 
+			return this.getVinchucaSegunAutor();
+		}
 		return this.estadoMuestra.resultadoActual(this);
 	}
 	
@@ -106,13 +109,11 @@ public class Muestra {
 	}
 	
 	public boolean esMuestraQueCoincidenDosExpertosEnOpinion() {
-		if (this.opiniones.isEmpty()) {
-			return false;
-		} else {
+		
 			return this.opiniones.stream().filter(o -> o.esOpinionDeExperto())
 					  					  .map(o -> o.getTipoOpinion()).collect(Collectors.groupingBy(o -> o, Collectors.counting()))
 					  					  .entrySet().stream().anyMatch(to -> to.getValue() == 2);
-		}
+		
 	}
 	
 	// ARREGLAR ESTE METODO

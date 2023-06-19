@@ -1,8 +1,12 @@
 package MuestraTest;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -13,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import Muestra.Muestra;
 import Muestra.MuestraVerificada;
 import Muestra.Opinion;
+import Muestra.TipoOpinion;
 import Usuario.UsuarioBasico;
 import Usuario.UsuarioExperto;
 
@@ -23,6 +28,7 @@ public class MuestraVerificadaTest {
 	private Opinion opinion;
 	private UsuarioExperto estadoUsuarioExperto;
 	private UsuarioBasico estadoUsuarioBasico;
+	private TipoOpinion tipoOpinion;
 	
 	@BeforeEach
 	public void setUp() {
@@ -34,7 +40,7 @@ public class MuestraVerificadaTest {
 		when(estadoUsuarioBasico.esExperto()).thenReturn(false);
 		when(estadoUsuarioExperto.esExperto()).thenReturn(true);
 		//SUT
-		estadoMuestraVerificado = new MuestraVerificada();
+		estadoMuestraVerificado = new MuestraVerificada(tipoOpinion);
 	}
 	
 	@Test
@@ -42,6 +48,15 @@ public class MuestraVerificadaTest {
 		assertThrows(UnsupportedOperationException.class, 
 				() -> {estadoMuestraVerificado.agregarOpinion(opinion, muestra);}
 				, "No se pueden agregar opiniones a una muestra verificada");
+	}
+	@Test
+	public void testCuandoUnaMuestraVerificadaSeLePideCambiarDeEstadoNoCambia() {
+		estadoMuestraVerificado.calcularEstadoMuestra(muestra);
+		verify(muestra, never()).setEstadoMuestra(any());
+	}
+	@Test
+	public void testCuandoUnaMuestraVerificadaSeLePideSuResultadoActualEstaDevuelveElResultado() {
+		assertEquals(tipoOpinion ,estadoMuestraVerificado.resultadoActual(muestra));
 	}
 	
 }

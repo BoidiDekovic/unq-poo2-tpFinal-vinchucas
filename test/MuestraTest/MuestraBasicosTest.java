@@ -1,8 +1,6 @@
 package MuestraTest;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -11,7 +9,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito.Then;
 
 import Muestra.Muestra;
 import Muestra.MuestraBasicos;
@@ -19,23 +16,22 @@ import Muestra.MuestraExpertos;
 import Muestra.Opinion;
 import Muestra.TipoOpinion;
 import Usuario.Usuario;
-import Usuario.UsuarioBasico;
-import Usuario.UsuarioExperto;
 
 public class MuestraBasicosTest {
 
 	private MuestraBasicos estadoMuestraBasicos;
 	private Muestra muestra;
-	private Opinion opinion;
+	private Opinion opinion , opinion2,opinion3;
 	private List<Muestra> muestras;
 	private Usuario usuario;
-	private List<Opinion> opiniones;
 	
 	@BeforeEach
 	public void setUp() {
 		//DOC
 		muestra = mock(Muestra.class);
 		opinion = mock(Opinion.class);
+		opinion2 = mock(Opinion.class);
+		opinion3 = mock(Opinion.class);
 		usuario = mock(Usuario.class);
 		muestras = new ArrayList<>();
 		when(usuario.getMuestras()).thenReturn(muestras);
@@ -69,4 +65,37 @@ public class MuestraBasicosTest {
 		verify(muestra, times(1)).calcularEstadoMuestra();
 	}
 
+	@Test 
+	public void testElResultadoActualCambiaAlagregarPrimeraOpinion() {  
+		when(muestra.getOpiniones()).thenReturn(Arrays.asList(opinion));
+		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCASORDIDA);
+		when(opinion.esOpinionDeExperto()).thenReturn(false);
+		assertEquals( TipoOpinion.VINCHUCASORDIDA , estadoMuestraBasicos.resultadoActual(muestra));
+		verify(muestra, atLeast(1)).getOpiniones();
+	}
+	@Test 
+	public void testElResultadoActualEsElQueTieneMasVotos() {
+		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAINFESTANS);
+		when(opinion3.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		when(opinion.esOpinionDeExperto()).thenReturn(false);
+		when(opinion2.esOpinionDeExperto()).thenReturn(false);
+		when(opinion3.esOpinionDeExperto()).thenReturn(false);
+		when(muestra.getOpiniones()).thenReturn(Arrays.asList(opinion,opinion2,opinion3));
+		assertEquals( TipoOpinion.CHINCHEFOLIADA , estadoMuestraBasicos.resultadoActual(muestra));
+		verify(muestra, atLeast(1)).getOpiniones(); 
+	}
+	
+	@Test
+	public void testElResultadoActualEnCasoDeEmpateDeVotosEsNoDefinido(){
+		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
+		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
+		when(opinion.esOpinionDeExperto()).thenReturn(true);
+		when(opinion2.esOpinionDeExperto()).thenReturn(true);
+		when(muestra.getOpiniones()).thenReturn(Arrays.asList(opinion,opinion2));
+		assertEquals( TipoOpinion.NODEFINIDO , estadoMuestraBasicos.resultadoActual(muestra));
+		verify(muestra, atLeast(1)).getOpiniones();
+	}
+
+	
 }
