@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import Filtro.FiltroPorNivelDeVerificacion;
 import Muestra.EstadoMuestra;
 import Muestra.Muestra;
-import Muestra.MuestraNoVerificada;
+import Muestra.MuestraBasicos;
 import Muestra.MuestraVerificada;
 
 class FiltroPorNivelDeVerificacionTest {
@@ -32,7 +32,7 @@ class FiltroPorNivelDeVerificacionTest {
 		muestra4 = mock(Muestra.class);
 		muestras = Arrays.asList(muestra1, muestra2, muestra3, muestra4);
 		nivelVerificado = mock(MuestraVerificada.class);
-		nivelNoVerificado = mock(MuestraNoVerificada.class);
+		nivelNoVerificado = mock(MuestraBasicos.class);
 		filtro = new FiltroPorNivelDeVerificacion(nivelVerificado);
 	}
 	

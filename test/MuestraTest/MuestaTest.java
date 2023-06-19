@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import Muestra.EstadoMuestra;
 import Muestra.Muestra;
-import Muestra.MuestraNoVerificada;
+import Muestra.MuestraBasicos;
 import Muestra.MuestraVerificada;
 import Muestra.Opinion;
 import Muestra.TipoOpinion;
@@ -31,7 +32,7 @@ class MuestaTest {
 	private Sistema sistema;
 	private TipoOpinion posibleVinchuca;
 	private Usuario usuarioAutor;
-	private MuestraNoVerificada estadoMuestraNoVerificada;
+	private MuestraBasicos estadoMuestra;
 	private Ubicacion ubicacion;
 	private Opinion opinion, opinion1, opinion2;
 
@@ -45,7 +46,7 @@ class MuestaTest {
 		sistema = mock(Sistema.class);
 		posibleVinchuca = TipoOpinion.VINCHUCAGUASAYANA;
 		usuarioAutor = mock(Usuario.class);
-		estadoMuestraNoVerificada = mock(MuestraNoVerificada.class);
+		estadoMuestra = mock(MuestraBasicos.class);
 		ubicacion = mock(Ubicacion.class);
 		opinion = mock(Opinion.class);
 		opinion1 = mock(Opinion.class);
@@ -53,7 +54,7 @@ class MuestaTest {
 		
 		// SUT
 		muestra = new Muestra(posibleVinchuca, foto, ubicacion, usuarioAutor);
-		muestra.setEstadoMuestra(estadoMuestraNoVerificada);
+		muestra.setEstadoMuestra(estadoMuestra);
 	}
 	
 	@Test
@@ -88,13 +89,13 @@ class MuestaTest {
 	
 	@Test
 	public void testCuandoUnaMuestraTieneUnEstadoMuestra() {
-		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+		assertEquals(estadoMuestra, muestra.getEstadoMuestra());
 	}
 	
 	@Test
 	public void testCuandoUnaMuestraSeteaSuEstadoCambiaSuEstado() {
 		MuestraVerificada estadoVerificada = mock(MuestraVerificada.class);
-		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+		assertEquals(estadoMuestra, muestra.getEstadoMuestra());
 		muestra.setEstadoMuestra(estadoVerificada);
 		assertEquals(estadoVerificada, muestra.getEstadoMuestra());
 	}
@@ -116,85 +117,19 @@ class MuestaTest {
 	@Test
 	public void testCuandoUnaMuestraSeLePideAgregarUnaOpinionSeLeMandaASuEstado() {
 		muestra.agregarOpinion(opinion);
-		verify(estadoMuestraNoVerificada, times(1)).agregarOpinion(opinion, muestra);
+		verify(estadoMuestra, times(1)).agregarOpinion(opinion, muestra);
 	}
 	
 	@Test
 	public void testUnaMuestraTieneSuResultadoActual() {
 		muestra.resultadoActual();
-		verify(estadoMuestraNoVerificada, times(1)).resultadoActual(muestra);
-	}
-
-	@Test
-	public void testCuandoCalculoLaVerificacionYNoHayOpinionesLaMuestraNoEstaVerificada() {
-		
-		assertTrue(muestra.getOpiniones().isEmpty());
-		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
-		
-		muestra.calcularVerificacion();
-		
-		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
+		verify(estadoMuestra, times(1)).resultadoActual(muestra);
 	}
 	
 	@Test
-	public void testCuandoCalculoLaVerificacionYHayDosExpertosLaMuestraEstaVerificada() {
-		
-		when(opinion1.esOpinionDeExperto()).thenReturn(true);
-		when(opinion2.esOpinionDeExperto()).thenReturn(true);
-		when(opinion1.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
-		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
-		when(estadoMuestraNoVerificada.resultadoActual(muestra)).thenReturn(TipoOpinion.CHINCHEFOLIADA);
-		
-		assertTrue(muestra.getOpiniones().isEmpty());
-		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
-		
-		muestra.agregarOpinionAMuestra(opinion1);
-		muestra.agregarOpinionAMuestra(opinion2);
-		
-		muestra.enviarseASistema(sistema);
-		muestra.calcularVerificacion();
-		
-		assertTrue(muestra.getEstadoMuestra() instanceof MuestraVerificada);
-	}
-	
-	@Test
-	public void testCuandoCalculoLaVerificacionYNoHayUsuariosExpertosLaMuestraNoEstaVerificada() {
-		
-		when(opinion1.esOpinionDeExperto()).thenReturn(false);
-		when(opinion2.esOpinionDeExperto()).thenReturn(false);
-		when(opinion1.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
-		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
-		when(estadoMuestraNoVerificada.resultadoActual(muestra)).thenReturn(TipoOpinion.CHINCHEFOLIADA);
-		
-		assertTrue(muestra.getOpiniones().isEmpty());
-		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
-		
-		muestra.agregarOpinionAMuestra(opinion1);
-		muestra.agregarOpinionAMuestra(opinion2);
-		
-		muestra.calcularVerificacion();
-		
-		assertTrue(muestra.getEstadoMuestra() instanceof MuestraNoVerificada);
-	}
-	
-	@Test
-	public void testCuandoCalculoLaVerificacionYElResultadoEsEmpateLaMuestraNoEstaVerificada() {
-		
-		when(opinion1.esOpinionDeExperto()).thenReturn(true);
-		when(opinion2.esOpinionDeExperto()).thenReturn(true);
-		when(opinion1.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCAGUASAYANA);
-		when(opinion2.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
-		when(estadoMuestraNoVerificada.resultadoActual(muestra)).thenReturn(TipoOpinion.NODEFINIDO);
-		
-		assertTrue(muestra.getOpiniones().isEmpty());
-		assertEquals(estadoMuestraNoVerificada, muestra.getEstadoMuestra());
-		
-		muestra.agregarOpinionAMuestra(opinion1);
-		muestra.agregarOpinionAMuestra(opinion2);
-		
-		muestra.calcularVerificacion();
-		
-		assertTrue(muestra.getEstadoMuestra() instanceof MuestraNoVerificada);
+	public void testCuandoUnaMuestraCalculaSuEstadoSeLeDelegaAlEstado() {
+		muestra.calcularEstadoMuestra();
+		verify(estadoMuestra, times(1)).calcularEstadoMuestra(muestra);
 	}
 	
 	@Test
@@ -230,5 +165,27 @@ class MuestaTest {
 		muestra.agregarOpinionAMuestra(opinion1);
 		assertFalse(muestra.esMuestraConOpinionDe(usuarioAutor));
 	}	
+	
+	@Test
+	public void testSeAgregaOpinionDeUsuarioQueTieneLaMismaMuestraQueOpina(){
+		when(opinion.esOpinionDeExperto()).thenReturn(false);
+		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(false);
+		when(usuarioAutor.getMuestras()).thenReturn(Arrays.asList(muestra));
+		
+		assertThrows(UnsupportedOperationException.class, 
+				() -> {estadoMuestraBasicos.agregarOpinion(opinion, muestra);}
+				, "Un usuario no puede opinar sobre sus propias muestras");
+	}
+	
+	@Test
+	public void testSeAgregaOpinionDeUsuarioQueYaOpinoLaMuestra(){
+		when(opinion.esOpinionDeExperto()).thenReturn(false);
+		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(false);
+		when(muestra.esMuestraConOpinionDe(usuarioAutor)).thenReturn(true);
+		
+		assertThrows(UnsupportedOperationException.class, 
+				() -> {estadoMuestraBasicos.agregarOpinion(opinion, muestra);}
+				, "Un usuario no puede opinar dos veces la misma muestra");
+	}
 	
 }

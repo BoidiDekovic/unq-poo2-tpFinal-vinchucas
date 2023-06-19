@@ -85,4 +85,8 @@ public class Usuario {
 		this.opinionesEnviadas.add(opinion);
 	}
 
+	public boolean tieneMuestra(Muestra muestra) {
+		return this.getMuestras().contains(muestra);
+	}
+
 }

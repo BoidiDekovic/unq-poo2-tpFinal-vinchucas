@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito.Then;
 
 import Muestra.Muestra;
-import Muestra.MuestraNoVerificada;
+import Muestra.MuestraBasicos;
 import Muestra.Opinion;
 import Muestra.TipoOpinion;
 import Usuario.UsuarioBasico;
@@ -19,7 +19,7 @@ import Usuario.UsuarioExperto;
 
 public class EstadoMuestraTest {
 
-	private MuestraNoVerificada estadoMuestra;
+	private MuestraBasicos estadoMuestra;
 	private Muestra muestra;
 	private Opinion opinion , opinion2, opinion3;
 	private UsuarioExperto estadoUsuarioExperto;
@@ -37,7 +37,7 @@ public class EstadoMuestraTest {
 		when(estadoUsuarioBasico.esExperto()).thenReturn(false);
 		when(estadoUsuarioExperto.esExperto()).thenReturn(true);
 		//SUT
-		estadoMuestra = new MuestraNoVerificada();
+		estadoMuestra = new MuestraBasicos();
 	}
 	
 	@Test

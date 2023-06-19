@@ -34,7 +34,7 @@ public class Muestra {
 		this.fechaUltimaVotacion = null;
 		this.ubicacion = ubicacion;
 		this.usuarioAutor = usuarioAutor;
-		this.estadoMuestra = new MuestraNoVerificada();
+		this.estadoMuestra = new MuestraBasicos();
 		this.opiniones = new ArrayList<Opinion>();
 	}
 
@@ -76,9 +76,22 @@ public class Muestra {
 	}
 
 	public void agregarOpinion(Opinion opinion) {
+		this.validarOpinion(opinion);
 		this.estadoMuestra.agregarOpinion(opinion, this);
 	}
 	
+	private void validarOpinion(Opinion opinion) {
+		if (opinion.getUsuarioAutor().tieneMuestra(this)) {
+			throw new UnsupportedOperationException
+			("Un usuario no puede opinar sobre sus propias muestras");
+		}
+		
+		if (this.esMuestraConOpinionDe(opinion.getUsuarioAutor())) {
+			throw new UnsupportedOperationException
+			("Un usuario no puede opinar dos veces la misma muestra");
+		}
+	}
+
 	public void agregarOpinionAMuestra(Opinion opinion) {
 		this.opiniones.add(opinion);
 		this.setFechaUltimaVotacion(opinion.getFechaDeEnvio());
@@ -88,16 +101,11 @@ public class Muestra {
 		return this.estadoMuestra.resultadoActual(this);
 	}
 	
-	// ¿ES NECESARIO EL CASO EMPATE?
-	public void calcularVerificacion() {
-		if (this.resultadoActual() != TipoOpinion.NODEFINIDO && this.esMuestraQueCoincidenDosExpertosEnOpinion()) {
-			this.setEstadoMuestra(new MuestraVerificada());
-			this.sistema.notificarVerificacionMuestraAZonas(this);
-		}
-	
+	public void calcularEstadoMuestra() {
+		this.estadoMuestra.calcularEstadoMuestra(this);
 	}
 	
-	private boolean esMuestraQueCoincidenDosExpertosEnOpinion() {
+	public boolean esMuestraQueCoincidenDosExpertosEnOpinion() {
 		if (this.opiniones.isEmpty()) {
 			return false;
 		} else {

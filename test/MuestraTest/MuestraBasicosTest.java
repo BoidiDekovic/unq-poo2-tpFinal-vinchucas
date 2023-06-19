@@ -14,16 +14,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito.Then;
 
 import Muestra.Muestra;
-import Muestra.MuestraNoVerificada;
+import Muestra.MuestraBasicos;
 import Muestra.Opinion;
 import Muestra.TipoOpinion;
 import Usuario.Usuario;
 import Usuario.UsuarioBasico;
 import Usuario.UsuarioExperto;
 
-public class MuestraNoVerificadaTest {
+public class MuestraBasicosTest {
 
-	private MuestraNoVerificada estadoMuestraNoVerificada;
+	private MuestraBasicos estadoMuestraBasicos;
 	private Muestra muestra;
 	private Opinion opinion;
 	private List<Muestra> muestras;
@@ -40,16 +40,16 @@ public class MuestraNoVerificadaTest {
 		when(usuario.getMuestras()).thenReturn(muestras);
 		when(opinion.getUsuarioAutor()).thenReturn(usuario);
 		//SUT
-		estadoMuestraNoVerificada = new MuestraNoVerificada();
+		estadoMuestraBasicos = new MuestraBasicos();
 	}
 	
 	@Test
 	public void testSeAgregaOpinionDeUsuarioBasicoEnUnaMuestraSinOpinionesDeExperto() {
 		when(opinion.esOpinionDeExperto()).thenReturn(false);
 		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(false);
-		estadoMuestraNoVerificada.agregarOpinion(opinion, muestra);
+		estadoMuestraBasicos.agregarOpinion(opinion, muestra);
 		verify(muestra, times(1)).agregarOpinionAMuestra(opinion);
-		verify(muestra, times(1)).calcularVerificacion();
+		verify(muestra, times(1)).calcularEstadoMuestra();
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ public class MuestraNoVerificadaTest {
 		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
 		
 		assertThrows(UnsupportedOperationException.class, 
-				() -> {estadoMuestraNoVerificada.agregarOpinion(opinion, muestra);}
+				() -> {estadoMuestraBasicos.agregarOpinion(opinion, muestra);}
 				, "Un usuario basico no puede opinar una muestra que fue opinada por un experto");
 	}
 	
@@ -66,32 +66,12 @@ public class MuestraNoVerificadaTest {
 	public void testSeAgregaOpinionDeUsuarioExpertoEnUnaMuestraConOpinionesDeExperto(){
 		when(opinion.esOpinionDeExperto()).thenReturn(true);
 		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
-		estadoMuestraNoVerificada.agregarOpinion(opinion, muestra);
+		estadoMuestraBasicos.agregarOpinion(opinion, muestra);
 		verify(muestra, times(1)).agregarOpinionAMuestra(opinion);
-		verify(muestra, times(1)).calcularVerificacion();
+		verify(muestra, times(1)).calcularEstadoMuestra();
 	}
 	
-	@Test
-	public void testSeAgregaOpinionDeUsuarioQueTieneLaMismaMuestraQueOpina(){
-		when(opinion.esOpinionDeExperto()).thenReturn(false);
-		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(false);
-		when(usuario.getMuestras()).thenReturn(Arrays.asList(muestra));
-		
-		assertThrows(UnsupportedOperationException.class, 
-				() -> {estadoMuestraNoVerificada.agregarOpinion(opinion, muestra);}
-				, "Un usuario no puede opinar sobre sus propias muestras");
-	}
 	
-	@Test
-	public void testSeAgregaOpinionDeUsuarioQueYaOpinoLaMuestra(){
-		when(opinion.esOpinionDeExperto()).thenReturn(false);
-		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(false);
-		when(muestra.esMuestraConOpinionDe(usuario)).thenReturn(true);
-		
-		assertThrows(UnsupportedOperationException.class, 
-				() -> {estadoMuestraNoVerificada.agregarOpinion(opinion, muestra);}
-				, "Un usuario no puede opinar dos veces la misma muestra");
-	}
 	
 	
 	

@@ -195,5 +195,16 @@ class UsuarioTest {
 		
 		verify(estadoBasico, times(1)).calcularCategoria(usuario);
 	}
+	
+	@Test
+	public void testCuandoUnUsuarioTieneUnaMuestraEsVerdaderoQueLaTiene() {
+		usuario.agregarMuestra(muestra);
+		assertTrue(usuario.tieneMuestra(muestra));
+	}
+	
+	@Test
+	public void testCuandoUnUsuarioNoTieneUnaMuestraEsFalsoQueLaTiene() {
+		assertFalse(usuario.tieneMuestra(muestra));
+	}
 
 }

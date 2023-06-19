@@ -10,6 +10,8 @@ public abstract class EstadoMuestra {
 	
 	public abstract void agregarOpinion(Opinion opinion, Muestra muestra);
 	
+	public abstract void calcularEstadoMuestra(Muestra muestra);
+	
 	public TipoOpinion resultadoActual(Muestra muestra) {
 		List<Opinion> opiniones = muestra.getOpiniones();
 		if(opiniones.isEmpty()) { //Caso opiones vacias
@@ -50,4 +52,5 @@ public abstract class EstadoMuestra {
 						.map(o-> o.getTipoOpinion())
 						.collect(Collectors.groupingBy(o -> o, Collectors.counting()));
 	}
+
 }
