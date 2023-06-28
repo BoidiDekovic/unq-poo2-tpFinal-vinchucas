@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import Sistema.Sistema;
+
 public abstract class EstadoMuestra {
 
 	
-	public abstract void agregarOpinion(Opinion opinion, Muestra muestra);
+	public abstract void agregarOpinion(Opinion opinion, Muestra muestra, Sistema sistema);
 	
-	public abstract void calcularEstadoMuestra(Muestra muestra);
+	public abstract void calcularEstadoMuestra(Muestra muestra, Sistema sistema);
 	
 	public abstract  TipoOpinion resultadoActual(Muestra muestra) ;
 

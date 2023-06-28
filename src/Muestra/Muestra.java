@@ -2,38 +2,32 @@
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import Sistema.Sistema;
 import Usuario.Usuario;
-import Usuario.UsuarioExperto;
 import ZonaDeCobertura.Ubicacion;
 
 public class Muestra {
 
-	private Sistema sistema;
 	private TipoOpinion vinchucaSegunAutor ;
 	private String foto;
 	private LocalDate fechaCreacion;
 	private LocalDate fechaUltimaVotacion ;
 	private Ubicacion ubicacion;
 	private List<Opinion> opiniones;
-	private Usuario usuarioAutor;
 	private EstadoMuestra estadoMuestra;
 	
 	
 	
-	public Muestra(TipoOpinion vinchucaSegunAutor, String foto, Ubicacion ubicacion, Usuario usuarioAutor) {
+	public Muestra(TipoOpinion vinchucaSegunAutor, String foto, Ubicacion ubicacion) {
 		super();
 		this.vinchucaSegunAutor = vinchucaSegunAutor;
 		this.foto = foto;
 		this.fechaCreacion = LocalDate.now();
 		this.fechaUltimaVotacion = null;
 		this.ubicacion = ubicacion;
-		this.usuarioAutor = usuarioAutor;
 		this.estadoMuestra = new MuestraBasicos();
 		this.opiniones = new ArrayList<Opinion>();
 	}
@@ -63,10 +57,6 @@ public class Muestra {
 		return ubicacion;
 	}
 
-	public Usuario getUsuarioAutor() {
-		return usuarioAutor;
-	}
-
 	public EstadoMuestra getEstadoMuestra() {
 		return estadoMuestra;
 	}
@@ -75,9 +65,9 @@ public class Muestra {
 		this.estadoMuestra = estadoMuestra;
 	}
 
-	public void agregarOpinion(Opinion opinion) {
+	public void agregarOpinion(Opinion opinion, Sistema sistema) {
 		this.validarOpinion(opinion);
-		this.estadoMuestra.agregarOpinion(opinion, this);
+		this.estadoMuestra.agregarOpinion(opinion, this, sistema);
 	}
 	
 	private void validarOpinion(Opinion opinion) {
@@ -104,8 +94,8 @@ public class Muestra {
 		return this.estadoMuestra.resultadoActual(this);
 	}
 	
-	public void calcularEstadoMuestra() {
-		this.estadoMuestra.calcularEstadoMuestra(this);
+	public void calcularEstadoMuestra(Sistema sistema) {
+		this.estadoMuestra.calcularEstadoMuestra(this, sistema);
 	}
 	
 	public boolean esMuestraQueCoincidenDosExpertosEnOpinion() {
@@ -114,12 +104,6 @@ public class Muestra {
 					  					  .map(o -> o.getTipoOpinion()).collect(Collectors.groupingBy(o -> o, Collectors.counting()))
 					  					  .entrySet().stream().anyMatch(to -> to.getValue() == 2);
 		
-	}
-	
-	// ARREGLAR ESTE METODO
-	public void enviarseASistema(Sistema sistema) {
-		sistema.agregarMuestra(this);
-		this.sistema = sistema;
 	}
 	
 	public boolean esMuestraConOpinionDeExperto() {

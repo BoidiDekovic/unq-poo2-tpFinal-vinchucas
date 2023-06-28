@@ -1,5 +1,7 @@
 package Muestra;
 
+import Sistema.Sistema;
+
 public class MuestraVerificada extends EstadoMuestra {
 	
 	
@@ -12,12 +14,12 @@ public class MuestraVerificada extends EstadoMuestra {
 	}
 
 	@Override
-	public void agregarOpinion(Opinion opinion, Muestra muestra){
+	public void agregarOpinion(Opinion opinion, Muestra muestra, Sistema sistema){
 		throw new UnsupportedOperationException("No se pueden agregar opiniones a una muestra verificada");
 	}
 
 	@Override
-	public void calcularEstadoMuestra(Muestra muestra) {
+	public void calcularEstadoMuestra(Muestra muestra, Sistema sistema) {
 		// El estado no cambia porque la muestra ya esta verificada
 	}
 

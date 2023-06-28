@@ -1,26 +1,20 @@
 package Muestra;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-
-import org.junit.jupiter.api.Test;
+import Sistema.Sistema;
 
 public class MuestraBasicos extends EstadoMuestra {
 	
 	@Override
-	public void agregarOpinion(Opinion opinion, Muestra muestra) {
+	public void agregarOpinion(Opinion opinion, Muestra muestra, Sistema sistema) {
 		muestra.agregarOpinionAMuestra(opinion);
-		muestra.calcularEstadoMuestra();
+		muestra.calcularEstadoMuestra(sistema);
 	}
 	
 	@Override
-	public void calcularEstadoMuestra(Muestra muestra) {
+	public void calcularEstadoMuestra(Muestra muestra, Sistema sistema) {
 		if (muestra.esMuestraConOpinionDeExperto()) {
 			muestra.setEstadoMuestra(new MuestraExpertos());
+			sistema.notificarVerificacionMuestraAZonas(muestra);
 		}
 	}
 

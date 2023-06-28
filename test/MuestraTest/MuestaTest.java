@@ -5,13 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Muestra.EstadoMuestra;
 import Muestra.Muestra;
 import Muestra.MuestraBasicos;
 import Muestra.MuestraVerificada;
@@ -19,54 +16,41 @@ import Muestra.Opinion;
 import Muestra.TipoOpinion;
 import Sistema.Sistema;
 import Usuario.Usuario;
-import Usuario.UsuarioBasico;
-import Usuario.UsuarioExperto;
 import ZonaDeCobertura.Ubicacion;
 
 class MuestaTest {	
 	
 	private Muestra muestra;
 	private String foto;
-	private LocalDate fechaCreacion;
-	private LocalDate fechaUltimaVotacion;
 	private Sistema sistema;
 	private TipoOpinion posibleVinchuca;
-	private Usuario usuarioAutor, autorOpinion;
+	private Usuario autorOpinion;
 	private MuestraBasicos estadoMuestra;
 	private Ubicacion ubicacion;
-	private Opinion opinion, opinion1, opinion2;
+	private Opinion opinion, opinion1;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		
 		// DOC
 		foto = "URL: 123";
-		fechaCreacion = LocalDate.of(2023, 02, 10);
-		fechaUltimaVotacion = LocalDate.of(2023, 03, 10);
 		sistema = mock(Sistema.class);
 		posibleVinchuca = TipoOpinion.VINCHUCAINFESTANS;
-		usuarioAutor = mock(Usuario.class);
 		autorOpinion = mock(Usuario.class);
 		estadoMuestra = mock(MuestraBasicos.class);
 		ubicacion = mock(Ubicacion.class);
 		opinion = mock(Opinion.class);
 		opinion1 = mock(Opinion.class);
-		opinion2 = mock(Opinion.class);
 		when(opinion.getUsuarioAutor()).thenReturn(autorOpinion);
 		
 		// SUT
-		muestra = new Muestra(posibleVinchuca, foto, ubicacion, usuarioAutor);
+		muestra = new Muestra(posibleVinchuca, foto, ubicacion);
 		muestra.setEstadoMuestra(estadoMuestra);
 	}
 	
 	@Test
 	public void testCuandoUnaMuestraSeCreaLaFechaDeCreacionEsCuandoSeCreo() {
 		assertEquals(LocalDate.now(), muestra.getFechaCreacion());
-	}
-	
-	@Test
-	public void testCuandoUnaMuestraSeCreaTieneUnUsuarioAutor() {
-		assertEquals(usuarioAutor, muestra.getUsuarioAutor());
 	}
 	
 	@Test
@@ -118,8 +102,8 @@ class MuestaTest {
 	
 	@Test
 	public void testCuandoUnaMuestraSeLePideAgregarUnaOpinionSeLeMandaASuEstado() {
-		muestra.agregarOpinion(opinion);
-		verify(estadoMuestra, times(1)).agregarOpinion(opinion, muestra);
+		muestra.agregarOpinion(opinion, sistema);
+		verify(estadoMuestra, times(1)).agregarOpinion(opinion, muestra, sistema);
 	}
 	
 	@Test
@@ -131,14 +115,8 @@ class MuestaTest {
 	
 	@Test
 	public void testCuandoUnaMuestraCalculaSuEstadoSeLeDelegaAlEstado() {
-		muestra.calcularEstadoMuestra();
-		verify(estadoMuestra, times(1)).calcularEstadoMuestra(muestra);
-	}
-	
-	@Test
-	public void testCuandoSeLeEnviaAlSistemaUnaMuestraLoAgregaASuListaDeMuestras() {
-		muestra.enviarseASistema(sistema);
-		verify(sistema, times(1)).agregarMuestra(muestra);
+		muestra.calcularEstadoMuestra(sistema);
+		verify(estadoMuestra, times(1)).calcularEstadoMuestra(muestra, sistema);
 	}
 	
 	@Test
@@ -157,23 +135,23 @@ class MuestaTest {
 	
 	@Test
 	public void testCuandoUnaMuestraTieneUnaOpinionDeUnUsuarioEsVerdaderoQueLoTiene() {
-		when(opinion1.getUsuarioAutor()).thenReturn(usuarioAutor);
+		when(opinion1.getUsuarioAutor()).thenReturn(autorOpinion);
 		muestra.agregarOpinionAMuestra(opinion1);
-		assertTrue(muestra.esMuestraConOpinionDe(usuarioAutor));
+		assertTrue(muestra.esMuestraConOpinionDe(autorOpinion));
 	}	
 	
 	@Test
 	public void testCuandoUnaMuestraNoTieneUnaOpinionDeUnUsuarioEsFalsoQueLoTiene() {
 		when(opinion1.getUsuarioAutor()).thenReturn(mock(Usuario.class));
 		muestra.agregarOpinionAMuestra(opinion1);
-		assertFalse(muestra.esMuestraConOpinionDe(usuarioAutor));
+		assertFalse(muestra.esMuestraConOpinionDe(autorOpinion));
 	}	
 	
 	@Test
 	public void testCuandoSeAgregaOpinionDeUsuarioQueTieneLaMismaMuestraQueOpinaSeLanzaExepcion(){
 		when(autorOpinion.tieneMuestra(muestra)).thenReturn(true);
 		assertThrows(UnsupportedOperationException.class, 
-				() -> {muestra.agregarOpinion(opinion);}
+				() -> {muestra.agregarOpinion(opinion, sistema);}
 				, "Un usuario no puede opinar sobre sus propias muestras");
 	}
 	
@@ -182,7 +160,7 @@ class MuestaTest {
 		when(autorOpinion.tieneMuestra(muestra)).thenReturn(false);
 		muestra.agregarOpinionAMuestra(opinion);;
 		assertThrows(UnsupportedOperationException.class, 
-				() -> {muestra.agregarOpinion(opinion);}
+				() -> {muestra.agregarOpinion(opinion, sistema);}
 				, "Un usuario no puede opinar dos veces la misma muestra");
 	}
 	@Test

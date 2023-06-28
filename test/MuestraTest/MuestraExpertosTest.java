@@ -1,13 +1,7 @@
 package MuestraTest;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,15 +11,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Muestra.Muestra;
-import Muestra.MuestraBasicos;
 import Muestra.MuestraExpertos;
 import Muestra.MuestraVerificada;
 import Muestra.Opinion;
 import Muestra.TipoOpinion;
+import Sistema.Sistema;
 import Usuario.Usuario;
 
 class MuestraExpertosTest {
-
+	
+	private Sistema sistema;
 	private MuestraExpertos estadoMuestraExpertos;
 	private Muestra muestra;
 	private Opinion opinion,opinion2,opinion3;
@@ -35,6 +30,7 @@ class MuestraExpertosTest {
 	@BeforeEach
 	public void setUp() {
 		//DOC
+		sistema = mock(Sistema.class);
 		muestra = mock(Muestra.class);
 		opinion = mock(Opinion.class);
 		opinion2 = mock(Opinion.class);
@@ -48,15 +44,17 @@ class MuestraExpertosTest {
 	}
 	
 	@Test 
-	public void testCuandoUnaMuestraTieneDosOpinionesDeExpertosQueCoincidenSuEstadoCambiaAMuestraVerificada() {
+	public void testCuandoUnaMuestraTieneDosOpinionesDeExpertosQueCoincidenSuEstadoCambiaAMuestraVerificadaYSeLeMandaAlSistema() {
 		when(muestra.esMuestraQueCoincidenDosExpertosEnOpinion()).thenReturn(true);
-		estadoMuestraExpertos.calcularEstadoMuestra(muestra);
+		estadoMuestraExpertos.calcularEstadoMuestra(muestra, sistema);
 		verify(muestra,times(1)).setEstadoMuestra(any(MuestraVerificada.class));
+		verify(sistema, times(1)).notificarVerificacionMuestraAZonas(muestra);
 	}
+	
 	@Test 
 	public void testCuandoUnaMuestraNoTieneDosOpinionesDeExpertosQueCoincidenSuEstadoNoCambia() {
 		when(muestra.esMuestraQueCoincidenDosExpertosEnOpinion()).thenReturn(false);
-		estadoMuestraExpertos.calcularEstadoMuestra(muestra);
+		estadoMuestraExpertos.calcularEstadoMuestra(muestra, sistema);
 		verify(muestra,never()).setEstadoMuestra(any());
 	}
 	
@@ -66,18 +64,23 @@ class MuestraExpertosTest {
 		when(opinion.esOpinionDeExperto()).thenReturn(false);
 		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
 		
+		Throwable excepcion = new UnsupportedOperationException("Un usuario basico no puede opinar una muestra que fue opinada por un experto");
+		doThrow(excepcion).when(opinion).validarExpertoVotandoMuestraExpertos();
+		
 		assertThrows(UnsupportedOperationException.class, 
-				() -> {estadoMuestraExpertos.agregarOpinion(opinion, muestra);}
+				() -> {estadoMuestraExpertos.agregarOpinion(opinion, muestra, sistema);}
 				, "Un usuario basico no puede opinar una muestra que fue opinada por un experto");
+		
+		verify(opinion, times(1)).validarExpertoVotandoMuestraExpertos();
 	}
 	
 	@Test
 	public void testSeAgregaOpinionDeUsuarioExpertoEnUnaMuestraConOpinionesDeExperto(){
 		when(opinion.esOpinionDeExperto()).thenReturn(true);
 		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
-		estadoMuestraExpertos.agregarOpinion(opinion, muestra);
+		estadoMuestraExpertos.agregarOpinion(opinion, muestra, sistema);
 		verify(muestra, times(1)).agregarOpinionAMuestra(opinion);
-		verify(muestra, times(1)).calcularEstadoMuestra();
+		verify(muestra, times(1)).calcularEstadoMuestra(sistema);
 	}
 	@Test
 	public void testCuandoOpinaUnExpertoYUnBasicoElResultadoActualEsElDelExperto(){
@@ -136,6 +139,5 @@ class MuestraExpertosTest {
 		assertEquals( TipoOpinion.VINCHUCAGUASAYANA , estadoMuestraExpertos.resultadoActual(muestra));
 		verify(muestra, atLeast(1)).getOpiniones();
 	}
-	
 
 }

@@ -15,4 +15,10 @@ public class UsuarioBasico implements EstadoUsuario {
 		}
 	}
 
+	@Override
+	public void validarExpertoVotandoMuestraExpertos() {
+		throw new UnsupportedOperationException
+        ("Un usuario basico no puede opinar una muestra que fue opinada por un experto");
+	}
+
 }

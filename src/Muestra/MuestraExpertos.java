@@ -2,26 +2,22 @@ package Muestra;
 
 import java.util.List;
 
+import Sistema.Sistema;
+
 public class MuestraExpertos extends EstadoMuestra {
 
 	@Override
-	public void agregarOpinion(Opinion opinion, Muestra muestra) {
-		this.validarUsuario(opinion, muestra);
+	public void agregarOpinion(Opinion opinion, Muestra muestra, Sistema sistema) {
+		opinion.validarExpertoVotandoMuestraExpertos();
 		muestra.agregarOpinionAMuestra(opinion);
-		muestra.calcularEstadoMuestra();
-	}
-	
-	private void validarUsuario(Opinion opinion, Muestra muestra) {
-		if (!opinion.esOpinionDeExperto()) {
-			throw new UnsupportedOperationException
-			("Un usuario basico no puede opinar una muestra que fue opinada por un experto");
-		}
+		muestra.calcularEstadoMuestra(sistema);
 	}
 
 	@Override
-	public void calcularEstadoMuestra(Muestra muestra) {
+	public void calcularEstadoMuestra(Muestra muestra, Sistema sistema) {
 		if (muestra.esMuestraQueCoincidenDosExpertosEnOpinion()) {
 			muestra.setEstadoMuestra(new MuestraVerificada(muestra.resultadoActual()));
+			sistema.notificarVerificacionMuestraAZonas(muestra);
 		}
 	}
 

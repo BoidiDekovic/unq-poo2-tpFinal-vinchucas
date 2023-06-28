@@ -36,7 +36,11 @@ public class Opinion {
 
 	public Usuario getUsuarioAutor() {
 		return usuarioAutor;
-	}	
-	
+	}
+
+
+	public void validarExpertoVotandoMuestraExpertos() {
+		this.estadoAutorAlOpinar.validarExpertoVotandoMuestraExpertos();
+	}
 	
 }

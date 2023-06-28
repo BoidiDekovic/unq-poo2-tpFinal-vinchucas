@@ -15,10 +15,12 @@ import Muestra.MuestraBasicos;
 import Muestra.MuestraExpertos;
 import Muestra.Opinion;
 import Muestra.TipoOpinion;
+import Sistema.Sistema;
 import Usuario.Usuario;
 
 public class MuestraBasicosTest {
-
+	
+	private Sistema sistema;
 	private MuestraBasicos estadoMuestraBasicos;
 	private Muestra muestra;
 	private Opinion opinion , opinion2,opinion3;
@@ -28,6 +30,7 @@ public class MuestraBasicosTest {
 	@BeforeEach
 	public void setUp() {
 		//DOC
+		sistema = mock(Sistema.class);
 		muestra = mock(Muestra.class);
 		opinion = mock(Opinion.class);
 		opinion2 = mock(Opinion.class);
@@ -43,26 +46,27 @@ public class MuestraBasicosTest {
 	@Test
 	public void testCuandoUnaMuestraNoTieneOpinionDeExpertosSuEstadoNoCambia() {
 		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(false);
-		estadoMuestraBasicos.calcularEstadoMuestra(muestra);
+		estadoMuestraBasicos.calcularEstadoMuestra(muestra, sistema);
 		verify(muestra, never()).setEstadoMuestra(any());
 	}
+	
 	@Test
 	public void testCuandoUnaMuestraTieneOpinionDeExpertosSuEstadoCambiaAEstadoExperto() {
 		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(true);
-		estadoMuestraBasicos.calcularEstadoMuestra(muestra);
+		estadoMuestraBasicos.calcularEstadoMuestra(muestra, sistema);
 		verify(muestra, times(1)).setEstadoMuestra(any(MuestraExpertos.class));
 	}
 	
-	
-	
-	
 	@Test
 	public void testSeAgregaOpinionDeUsuarioBasicoEnUnaMuestraSinOpinionesDeExperto() {
+		Sistema sistema = mock(Sistema.class);
 		when(opinion.esOpinionDeExperto()).thenReturn(false);
 		when(muestra.esMuestraConOpinionDeExperto()).thenReturn(false);
-		estadoMuestraBasicos.agregarOpinion(opinion, muestra);
+		
+		estadoMuestraBasicos.agregarOpinion(opinion, muestra, sistema);
+		
 		verify(muestra, times(1)).agregarOpinionAMuestra(opinion);
-		verify(muestra, times(1)).calcularEstadoMuestra();
+		verify(muestra, times(1)).calcularEstadoMuestra(sistema);
 	}
 
 	@Test 
@@ -73,6 +77,7 @@ public class MuestraBasicosTest {
 		assertEquals( TipoOpinion.VINCHUCASORDIDA , estadoMuestraBasicos.resultadoActual(muestra));
 		verify(muestra, atLeast(1)).getOpiniones();
 	}
+	
 	@Test 
 	public void testElResultadoActualEsElQueTieneMasVotos() {
 		when(opinion.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHEFOLIADA);
@@ -96,6 +101,5 @@ public class MuestraBasicosTest {
 		assertEquals( TipoOpinion.NODEFINIDO , estadoMuestraBasicos.resultadoActual(muestra));
 		verify(muestra, atLeast(1)).getOpiniones();
 	}
-
 	
 }

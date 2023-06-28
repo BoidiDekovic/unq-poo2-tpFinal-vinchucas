@@ -22,9 +22,9 @@ public class Usuario {
 		this.opinionesEnviadas = new ArrayList<Opinion>();
 	}
 	
-	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion) {
+	public void opinarSobreMuestra(Muestra muestra, TipoOpinion tipoOpinion, Sistema sistema) {
 		Opinion nuevaOpinion = new Opinion(tipoOpinion, this, LocalDate.now());
-		muestra.agregarOpinion(nuevaOpinion);
+		muestra.agregarOpinion(nuevaOpinion, sistema);
 		this.agregarOpinionEnviada(nuevaOpinion);
 	}
 	

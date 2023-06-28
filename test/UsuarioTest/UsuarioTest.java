@@ -3,6 +3,7 @@ package UsuarioTest;
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -76,10 +77,10 @@ class UsuarioTest {
 	public void testCuandoUnUsuarioOpinaSobreUnaMuestraSeLePideAgregarLaOpinionALaMuestraYSeAgregaALasOpinionesEnviadas() {
 		assertEquals(0, usuario.getOpinionesEnviadas().size());
 		
-		usuario.opinarSobreMuestra(muestra,TipoOpinion.CHINCHEFOLIADA);
+		usuario.opinarSobreMuestra(muestra,TipoOpinion.CHINCHEFOLIADA, sistema);
 		
 		assertEquals(1, usuario.getOpinionesEnviadas().size());
-		verify(muestra, times(1)).agregarOpinion(any(Opinion.class));
+		verify(muestra, times(1)).agregarOpinion(any(Opinion.class), eq(sistema));
 	}
 	
 	@Test

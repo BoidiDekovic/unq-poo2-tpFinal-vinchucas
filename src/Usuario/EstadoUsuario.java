@@ -6,4 +6,6 @@ public interface EstadoUsuario {
 	
 	public void calcularCategoria(Usuario usuario);
 
+	public void validarExpertoVotandoMuestraExpertos();
+
 }

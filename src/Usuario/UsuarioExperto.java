@@ -15,4 +15,9 @@ public class UsuarioExperto implements EstadoUsuario {
 		}
 	}
 
+	@Override
+	public void validarExpertoVotandoMuestraExpertos() {
+		// Este usuario es experto
+	}
+
 }

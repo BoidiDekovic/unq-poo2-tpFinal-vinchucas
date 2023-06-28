@@ -15,15 +15,25 @@ class FiltroPorFechaTest {
 	LocalDate fecha;
 	
 	@BeforeEach
-	void setUp() throws Exception {
+	public void setUp() throws Exception {
 		fecha = LocalDate.of(2023, 6, 12);
 		filtro = new FiltroPorFechaDeUltimaVotacion(fecha);
 		
 	}
 	
 	@Test
-	void testCuandoSeCreaUnFiltroPorFechaEsteTieneUnaFecha() {
+	public void testCuandoSeCreaUnFiltroPorFechaEsteTieneUnaFecha() {
 		assertEquals(fecha, filtro.getFecha());
+	}
+	
+	@Test
+	public void testCuandoSeSeteaUnaFechaEnElFiltroCambia() {
+		assertEquals(fecha, filtro.getFecha());
+		
+		LocalDate fecha1 = LocalDate.of(2023, 7, 12);
+		filtro.setFecha(fecha1);
+		
+		assertEquals(fecha1, filtro.getFecha());
 	}
 	
 }
