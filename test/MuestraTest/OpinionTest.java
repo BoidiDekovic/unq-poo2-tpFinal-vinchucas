@@ -54,5 +54,11 @@ public class OpinionTest {
 		
 		verify(estadoUsuario, times(1)).esExperto();
 	}
+	
+	@Test
+	public void testCuandoSeValidaExpertoVotandoMuestraExpertosSeLeDelegaAlEstadoDelAutor() {
+		opinion.validarExpertoVotandoMuestraExpertos();
+		verify(estadoUsuario, times(1)).validarExpertoVotandoMuestraExpertos();
+	}
 
 }

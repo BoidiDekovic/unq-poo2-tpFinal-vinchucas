@@ -1,6 +1,7 @@
 package UsuarioTest;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -69,4 +70,11 @@ public class UsuarioBasicoTest {
 		verify(usuario, times(1)).setEstado(any(UsuarioExperto.class));
 	}
 
+	@Test
+	public void testCuandoSeValidaExpertoVotandoMuestraExpertosSeLanzaExcepcion() {
+		assertThrows(UnsupportedOperationException.class, 
+				() -> {estadoBasico.validarExpertoVotandoMuestraExpertos();}
+				, "Un usuario basico no puede opinar una muestra que fue opinada por un experto");
+	}
+	
 }

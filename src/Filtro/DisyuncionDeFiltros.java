@@ -10,7 +10,6 @@ public class DisyuncionDeFiltros extends OperadorDeFiltros{
 	
 	public DisyuncionDeFiltros(Filtro filtro1, Filtro filtro2) {
 		super(filtro1, filtro2);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

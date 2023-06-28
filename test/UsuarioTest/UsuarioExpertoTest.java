@@ -1,6 +1,7 @@
 package UsuarioTest;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -68,4 +69,9 @@ public class UsuarioExpertoTest {
 		verify(usuario, never()).setEstado(any(UsuarioBasico.class));
 	}
 
+	@Test
+	public void testCuandoSeValidaExpertoVotandoMuestraExpertosNoSeLanzaExcepcion() {
+		estadoExperto.validarExpertoVotandoMuestraExpertos();
+	}
+	
 }
