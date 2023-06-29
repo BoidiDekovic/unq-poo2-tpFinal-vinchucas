@@ -14,7 +14,6 @@ public class MuestraBasicos extends EstadoMuestra {
 	public void calcularEstadoMuestra(Muestra muestra, Sistema sistema) {
 		if (muestra.esMuestraConOpinionDeExperto()) {
 			muestra.setEstadoMuestra(new MuestraExpertos());
-			sistema.notificarVerificacionMuestraAZonas(muestra);
 		}
 	}
 
